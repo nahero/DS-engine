@@ -1,4 +1,4 @@
-# Handoff: review-desk
+# Handoff: DS-Engine
 
 ## Purpose
 Portfolio project for a Product Design Engineer interview (next round: design lead).
@@ -33,7 +33,7 @@ States everywhere: loading, empty, error, agent failed, low confidence, missing 
 
 ## Structure
 ```
-review-desk/
+DS-engine/
 ├─ tokens/                  # DTCG JSON (source)
 ├─ sd.config.js
 ├─ src/
