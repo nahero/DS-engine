@@ -12,7 +12,7 @@ Project context and build order: `docs/HANDOFF.md`. Read it at the start of a ne
 - `npm run build`: typecheck + app build to `dist/`
 - `npm run lint`: oxlint
 - `npm run storybook` / `npm run build-storybook`: CI builds Storybook into `dist/storybook`
-- `npm run build:tokens`: (step 2, not yet added)
+- `npm run build:tokens`: `tokens/*.json` → `src/styles/tokens.css` (commit the result; CI fails if it drifts)
 - Add shadcn components: `npx shadcn@latest add <name>`
 
 ## Hard rules
