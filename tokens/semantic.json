@@ -1,0 +1,82 @@
+{
+  "radius": {
+    "$type": "dimension",
+    "inner": {
+      "$value": "{radius.sm}"
+    },
+    "control": {
+      "$value": "{radius.md}"
+    },
+    "surface": {
+      "$value": "{radius.lg}"
+    },
+    "overlay": {
+      "$value": "{radius.xl}"
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "raised": {
+      "$value": "{shadow.sm}"
+    },
+    "overlay": {
+      "$value": "{shadow.lg}"
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "body": {
+        "$value": "{font.family.sans}"
+      },
+      "code": {
+        "$value": "{font.family.mono}"
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "caption": {
+        "$value": "{font.size.100}"
+      },
+      "body-lg": {
+        "$value": "{font.size.400}"
+      },
+      "heading-sm": {
+        "$value": "{font.size.500}"
+      },
+      "heading-md": {
+        "$value": "{font.size.600}"
+      },
+      "heading-lg": {
+        "$value": "{font.size.700}"
+      },
+      "display": {
+        "$value": "{font.size.800}"
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "body": {
+        "$value": "{font.weight.regular}"
+      },
+      "label": {
+        "$value": "{font.weight.medium}"
+      },
+      "strong": {
+        "$value": "{font.weight.semibold}"
+      },
+      "heading": {
+        "$value": "{font.weight.bold}"
+      }
+    },
+    "line-height": {
+      "$type": "number",
+      "heading": {
+        "$value": "{font.line-height.tight}"
+      },
+      "body": {
+        "$value": "{font.line-height.normal}"
+      }
+    }
+  }
+}

@@ -1,124 +1,215 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./tokens.css";
 
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --color-card: var(--card);
-    --color-card-foreground: var(--card-foreground);
-    --color-popover: var(--popover);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-primary: var(--primary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-secondary: var(--secondary);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-muted: var(--muted);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-accent: var(--accent);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-destructive: var(--destructive);
-    --color-border: var(--border);
-    --color-input: var(--input);
-    --color-ring: var(--ring);
-    --color-chart-1: var(--chart-1);
-    --color-chart-2: var(--chart-2);
-    --color-chart-3: var(--chart-3);
-    --color-chart-4: var(--chart-4);
-    --color-chart-5: var(--chart-5);
-    --color-sidebar: var(--sidebar);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-ring: var(--sidebar-ring);
+/* Drop Tailwind's default scales: only token-backed utilities exist (no bg-blue-500, no text-[13px] palette drift). */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --font-weight-*: initial;
+  --text-*: initial;
+  --leading-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
 }
 
+@theme inline {
+  /* shadcn color names (used by shadcn components) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Semantic colors (used by project components) */
+  --color-canvas: var(--ds-color-bg-canvas);
+  --color-surface: var(--ds-color-bg-surface);
+  --color-surface-raised: var(--ds-color-bg-surface-raised);
+  --color-subtle: var(--ds-color-bg-subtle);
+  --color-inverse: var(--ds-color-bg-inverse);
+  --color-fg: var(--ds-color-fg-default);
+  --color-fg-muted: var(--ds-color-fg-muted);
+  --color-fg-subtle: var(--ds-color-fg-subtle);
+  --color-fg-inverse: var(--ds-color-fg-inverse);
+  --color-fg-on-action: var(--ds-color-fg-on-action);
+  --color-border-strong: var(--ds-color-border-strong);
+  --color-border-focus: var(--ds-color-border-focus);
+  --color-action-primary: var(--ds-color-action-primary-base);
+  --color-action-primary-hover: var(--ds-color-action-primary-hover);
+  --color-action-primary-fg: var(--ds-color-action-primary-fg);
+  --color-action-secondary: var(--ds-color-action-secondary-base);
+  --color-action-secondary-hover: var(--ds-color-action-secondary-hover);
+  --color-action-secondary-fg: var(--ds-color-action-secondary-fg);
+  --color-action-danger: var(--ds-color-action-danger-base);
+  --color-action-danger-hover: var(--ds-color-action-danger-hover);
+  --color-action-danger-fg: var(--ds-color-action-danger-fg);
+  --color-status-info-bg: var(--ds-color-status-info-bg);
+  --color-status-info-fg: var(--ds-color-status-info-fg);
+  --color-status-info-border: var(--ds-color-status-info-border);
+  --color-status-success-bg: var(--ds-color-status-success-bg);
+  --color-status-success-fg: var(--ds-color-status-success-fg);
+  --color-status-success-border: var(--ds-color-status-success-border);
+  --color-status-warning-bg: var(--ds-color-status-warning-bg);
+  --color-status-warning-fg: var(--ds-color-status-warning-fg);
+  --color-status-warning-border: var(--ds-color-status-warning-border);
+  --color-status-danger-bg: var(--ds-color-status-danger-bg);
+  --color-status-danger-fg: var(--ds-color-status-danger-fg);
+  --color-status-danger-border: var(--ds-color-status-danger-border);
+  --color-status-neutral-bg: var(--ds-color-status-neutral-bg);
+  --color-status-neutral-fg: var(--ds-color-status-neutral-fg);
+  --color-status-neutral-border: var(--ds-color-status-neutral-border);
+  --color-confidence-high: var(--ds-color-confidence-high);
+  --color-confidence-medium: var(--ds-color-confidence-medium);
+  --color-confidence-low: var(--ds-color-confidence-low);
+  --color-citation-bg: var(--ds-color-highlight-citation-bg);
+  --color-citation-border: var(--ds-color-highlight-citation-border);
+
+  /* Typography: shadcn scale names + semantic role names */
+  --font-sans: var(--ds-font-family-body);
+  --font-mono: var(--ds-font-family-code);
+  --font-weight-normal: var(--ds-font-weight-body);
+  --font-weight-medium: var(--ds-font-weight-label);
+  --font-weight-semibold: var(--ds-font-weight-strong);
+  --font-weight-bold: var(--ds-font-weight-heading);
+  --leading-tight: var(--ds-font-line-height-heading);
+  --leading-normal: var(--ds-font-line-height-body);
+  --text-xs: var(--ds-font-size-caption);
+  --text-xs--line-height: var(--ds-font-line-height-body);
+  --text-sm: var(--ds-font-size-body);
+  --text-sm--line-height: var(--ds-font-line-height-body);
+  --text-base: var(--ds-font-size-body-lg);
+  --text-base--line-height: var(--ds-font-line-height-body);
+  --text-lg: var(--ds-font-size-heading-sm);
+  --text-lg--line-height: var(--ds-font-line-height-heading);
+  --text-xl: var(--ds-font-size-heading-md);
+  --text-xl--line-height: var(--ds-font-line-height-heading);
+  --text-2xl: var(--ds-font-size-heading-lg);
+  --text-2xl--line-height: var(--ds-font-line-height-heading);
+  --text-3xl: var(--ds-font-size-display);
+  --text-3xl--line-height: var(--ds-font-line-height-heading);
+  --text-caption: var(--ds-font-size-caption);
+  --text-caption--line-height: var(--ds-font-line-height-body);
+  --text-body: var(--ds-font-size-body);
+  --text-body--line-height: var(--ds-font-line-height-body);
+  --text-body-lg: var(--ds-font-size-body-lg);
+  --text-body-lg--line-height: var(--ds-font-line-height-body);
+  --text-heading-sm: var(--ds-font-size-heading-sm);
+  --text-heading-sm--line-height: var(--ds-font-line-height-heading);
+  --text-heading-md: var(--ds-font-size-heading-md);
+  --text-heading-md--line-height: var(--ds-font-line-height-heading);
+  --text-heading-lg: var(--ds-font-size-heading-lg);
+  --text-heading-lg--line-height: var(--ds-font-line-height-heading);
+  --text-display: var(--ds-font-size-display);
+  --text-display--line-height: var(--ds-font-line-height-heading);
+
+  /* Radius and shadow: shadcn scale names + semantic role names */
+  --radius-xs: var(--ds-radius-inner);
+  --radius-sm: var(--ds-radius-inner);
+  --radius-md: var(--ds-radius-control);
+  --radius-lg: var(--ds-radius-surface);
+  --radius-xl: var(--ds-radius-overlay);
+  --radius-2xl: var(--ds-radius-overlay);
+  --radius-inner: var(--ds-radius-inner);
+  --radius-control: var(--ds-radius-control);
+  --radius-surface: var(--ds-radius-surface);
+  --radius-overlay: var(--ds-radius-overlay);
+  --shadow-xs: var(--ds-shadow-raised);
+  --shadow-sm: var(--ds-shadow-raised);
+  --shadow-md: var(--ds-shadow-overlay);
+  --shadow-lg: var(--ds-shadow-overlay);
+  --shadow-xl: var(--ds-shadow-overlay);
+  --shadow-raised: var(--ds-shadow-raised);
+  --shadow-overlay: var(--ds-shadow-overlay);
+
+  /* Spacing: 4px base scale + density-aware named sizes (h-control, h-row, px-inset, gap-stack, px-cell) */
+  --spacing: var(--ds-space-1);
+  --spacing-control: var(--ds-control-height);
+  --spacing-row: var(--ds-row-height);
+  --spacing-inset: var(--ds-space-inset);
+  --spacing-stack: var(--ds-space-stack);
+  --spacing-cell: var(--ds-space-cell);
+}
+
+/* shadcn variables → semantic tokens. Light/dark and density come from tokens.css. */
 :root {
-    --radius: 0.625rem;
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+  --radius: var(--ds-radius-control);
+  --background: var(--ds-color-bg-canvas);
+  --foreground: var(--ds-color-fg-default);
+  --card: var(--ds-color-bg-surface);
+  --card-foreground: var(--ds-color-fg-default);
+  --popover: var(--ds-color-bg-surface-raised);
+  --popover-foreground: var(--ds-color-fg-default);
+  --primary: var(--ds-color-action-primary-base);
+  --primary-foreground: var(--ds-color-action-primary-fg);
+  --secondary: var(--ds-color-action-secondary-base);
+  --secondary-foreground: var(--ds-color-action-secondary-fg);
+  --muted: var(--ds-color-bg-subtle);
+  --muted-foreground: var(--ds-color-fg-muted);
+  --accent: var(--ds-color-bg-subtle);
+  --accent-foreground: var(--ds-color-fg-default);
+  --destructive: var(--ds-color-action-danger-base);
+  --destructive-foreground: var(--ds-color-action-danger-fg);
+  --border: var(--ds-color-border-default);
+  --input: var(--ds-color-border-strong);
+  --ring: var(--ds-color-border-focus);
+  --chart-1: var(--ds-color-action-primary-base);
+  --chart-2: var(--ds-color-confidence-high);
+  --chart-3: var(--ds-color-confidence-medium);
+  --chart-4: var(--ds-color-confidence-low);
+  --chart-5: var(--ds-color-highlight-citation-border);
+  --sidebar: var(--ds-color-bg-surface);
+  --sidebar-foreground: var(--ds-color-fg-default);
+  --sidebar-primary: var(--ds-color-action-primary-base);
+  --sidebar-primary-foreground: var(--ds-color-action-primary-fg);
+  --sidebar-accent: var(--ds-color-bg-subtle);
+  --sidebar-accent-foreground: var(--ds-color-fg-default);
+  --sidebar-border: var(--ds-color-border-default);
+  --sidebar-ring: var(--ds-color-border-focus);
+  color-scheme: light;
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+  color-scheme: dark;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
+  }
   body {
-    @apply bg-background text-foreground;
-    }
+    @apply bg-background font-sans text-foreground;
+  }
 }

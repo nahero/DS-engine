@@ -1,0 +1,34 @@
+{
+  "control": {
+    "$type": "dimension",
+    "height": {
+      "$value": "{space.8}"
+    }
+  },
+  "row": {
+    "$type": "dimension",
+    "height": {
+      "$value": "{space.8}"
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "inset": {
+      "$value": "{space.3}"
+    },
+    "stack": {
+      "$value": "{space.2}"
+    },
+    "cell": {
+      "$value": "{space.2}"
+    }
+  },
+  "font": {
+    "size": {
+      "$type": "dimension",
+      "body": {
+        "$value": "{font.size.200}"
+      }
+    }
+  }
+}
