@@ -8,11 +8,12 @@ Project context and build order: `docs/HANDOFF.md`. Read it at the start of a ne
 - Ask before adding dependencies not listed in HANDOFF.md.
 
 ## Commands
-(fill in once scaffolded)
-- `npm run dev`
-- `npm run build:tokens`
-- `npm run build`
-- `npm run storybook` / `npm run build-storybook`
+- `npm run dev`: app dev server (base `/DS-engine/`)
+- `npm run build`: typecheck + app build to `dist/`
+- `npm run lint`: oxlint
+- `npm run storybook` / `npm run build-storybook`: CI builds Storybook into `dist/storybook`
+- `npm run build:tokens`: (step 2, not yet added)
+- Add shadcn components: `npx shadcn@latest add <name>`
 
 ## Hard rules
 - **Tokens only.** No hardcoded colors, spacing, radii, font sizes or shadows. Use semantic tokens; never primitives in components.
