@@ -73,8 +73,8 @@ Build on shadcn/Radix; never from scratch when a primitive exists.
 
 ## Deploy
 One workflow on push to `main`: build tokens → build app → build Storybook → deploy to Pages.
-- App: `/review-desk/` (Vite `base: '/review-desk/'`)
-- Storybook: `/review-desk/storybook/`
+- App: `/DS-engine/` (Vite `base: '/DS-engine/'`)
+- Storybook: `/DS-engine/storybook/`
 
 ## Build order
 1. Scaffold Vite/React/TS, Tailwind, shadcn, Storybook. Get the Pages deploy working with a placeholder page.
