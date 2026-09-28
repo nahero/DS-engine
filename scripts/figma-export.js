@@ -82,11 +82,11 @@ for (const v of inCol('spacing')) {
   set(primitive, `space.${String(value / 4).replace('.', '-')}`, { $value: px(value) })
 }
 
-// Radius: the named scale only (out-of-scale/* skipped)
+// Radius: named scale (radius-lg → radius.lg) plus off-scale values by px (out-of-scale/2 → radius.px-2)
 set(primitive, 'radius.$type', 'dimension')
 for (const v of inCol('border radii')) {
-  const m = v.name.match(/^radius-([a-z0-9]+)/)
-  if (m) set(primitive, `radius.${m[1]}`, { $value: px(defaultValue(v)) })
+  const m = v.name.match(/^radius-([a-z0-9]+)/) ?? v.name.match(/^out-of-scale\/(\d+)$/)
+  if (m) set(primitive, `radius.${m[0].startsWith('out') ? 'px-' : ''}${m[1]}`, { $value: px(defaultValue(v)) })
 }
 
 // Shadow: kit stores each layer as separate x/y/blur/spread floats plus one colour per size

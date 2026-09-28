@@ -109,6 +109,10 @@
   --ds-radius-3xl: 1.375rem;
   --ds-radius-4xl: 1.625rem;
   --ds-radius-full: 62.4375rem;
+  --ds-radius-px-12: 0.75rem;
+  --ds-radius-px-2: 0.125rem;
+  --ds-radius-px-4: 0.25rem;
+  --ds-radius-px-24: 1.5rem;
   --ds-shadow-2xs: 0px 1px 0px 0px #0000000d;
   --ds-shadow-xs: 0px 1px 2px 0px #0000000d;
   --ds-shadow-sm: 0px 1px 3px 0px #0000001a, 0px 1px 2px -1px #0000001a;
@@ -177,10 +181,10 @@
   --ds-space-inset: var(--ds-space-4);
   --ds-space-stack: var(--ds-space-4);
   --ds-space-cell: var(--ds-space-3);
-  --ds-radius-inner: var(--ds-radius-sm);
-  --ds-radius-control: var(--ds-radius-md);
-  --ds-radius-surface: var(--ds-radius-lg);
-  --ds-radius-overlay: var(--ds-radius-xl);
+  --ds-radius-inner: var(--ds-radius-px-2);
+  --ds-radius-control: var(--ds-radius-lg);
+  --ds-radius-surface: var(--ds-radius-xl);
+  --ds-radius-overlay: var(--ds-radius-2xl);
   --ds-shadow-raised: var(--ds-shadow-sm);
   --ds-shadow-overlay: var(--ds-shadow-lg);
   --ds-font-family-body: var(--ds-font-family-sans);

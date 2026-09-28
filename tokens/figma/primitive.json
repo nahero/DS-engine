@@ -445,6 +445,30 @@
         "value": 999,
         "unit": "px"
       }
+    },
+    "px-12": {
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "px-2": {
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    },
+    "px-4": {
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "px-24": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
     }
   },
   "shadow": {

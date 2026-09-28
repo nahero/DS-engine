@@ -2,16 +2,16 @@
   "radius": {
     "$type": "dimension",
     "inner": {
-      "$value": "{radius.sm}"
+      "$value": "{radius.px-2}"
     },
     "control": {
-      "$value": "{radius.md}"
-    },
-    "surface": {
       "$value": "{radius.lg}"
     },
-    "overlay": {
+    "surface": {
       "$value": "{radius.xl}"
+    },
+    "overlay": {
+      "$value": "{radius.2xl}"
     }
   },
   "shadow": {
