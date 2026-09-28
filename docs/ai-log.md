@@ -37,3 +37,9 @@ Notable things AI got wrong, how they were caught, and the fix.
 - **How it was caught:** A DOM dump of the rendered story showed the class missing from the button.
 - **Fix:** `src/lib/utils.ts` configures `cn` with our token names (text, radius, shadow, spacing), all components import from there, and the `new-component` and `ui-review` skills flag `from "cn"`.
 - **Lesson:** Custom Tailwind theme names need registering with the class merger too.
+
+## Button `asChild` crashed after adding `loading`
+- **What went wrong:** The `loading` prop put `{loading && <Spinner />}` next to `children` for every render, including `asChild`. Radix Slot needs exactly one child element, so the Button-as-link crashed ("Slot failed to slot onto its children"). That broke the AsLink story and the app's home page. The AI's axe run still reported "no violations": the crashed story rendered nothing, and axe found nothing to flag.
+- **How it was caught:** The human opened the AsLink story in the deployed Storybook.
+- **Fix:** `asChild` now renders `<Slot.Root>{children}</Slot.Root>` with no extra nodes; `loading` only applies to the native button. The story check now counts a render error or empty root as a failure (verified: it flags AsLink on the old build).
+- **Lesson:** "No violations" from an empty page means nothing. Automated checks must first assert that the thing rendered.

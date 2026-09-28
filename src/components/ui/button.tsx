@@ -53,22 +53,27 @@ function Button({
     /** Shows a spinner before the label and disables the button. Ignored with asChild. */
     loading?: boolean
   }) {
-  const Comp = asChild ? Slot.Root : "button"
-  const isLoading = loading && !asChild
+  const shared = {
+    "data-slot": "button",
+    "data-variant": variant,
+    "data-size": size,
+    className: cn(buttonVariants({ variant, size, className })),
+  }
+
+  // Slot needs exactly one child element, so asChild passes children through untouched.
+  if (asChild) {
+    return (
+      <Slot.Root {...shared} {...props}>
+        {children}
+      </Slot.Root>
+    )
+  }
 
   return (
-    <Comp
-      data-slot="button"
-      data-variant={variant}
-      data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
-      disabled={disabled || isLoading}
-      aria-busy={isLoading || undefined}
-      {...props}
-    >
-      {isLoading && <Spinner />}
+    <button {...shared} disabled={disabled || loading} aria-busy={loading || undefined} {...props}>
+      {loading && <Spinner />}
       {children}
-    </Comp>
+    </button>
   )
 }
 
