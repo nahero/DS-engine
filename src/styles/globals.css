@@ -79,6 +79,9 @@
   --color-action-danger: var(--ds-color-action-danger-base);
   --color-action-danger-hover: var(--ds-color-action-danger-hover);
   --color-action-danger-fg: var(--ds-color-action-danger-fg);
+  --color-action-danger-soft: var(--ds-color-action-danger-soft-base);
+  --color-action-danger-soft-hover: var(--ds-color-action-danger-soft-hover);
+  --color-action-danger-soft-fg: var(--ds-color-action-danger-soft-fg);
   --color-status-info-bg: var(--ds-color-status-info-bg);
   --color-status-info-fg: var(--ds-color-status-info-fg);
   --color-status-info-border: var(--ds-color-status-info-border);
@@ -123,6 +126,8 @@
   --text-2xl--line-height: var(--ds-font-line-height-heading);
   --text-3xl: var(--ds-font-size-display);
   --text-3xl--line-height: var(--ds-font-line-height-heading);
+  --text-label: var(--ds-font-size-label);
+  --text-label--line-height: var(--ds-font-line-height-label);
   --text-caption: var(--ds-font-size-caption);
   --text-caption--line-height: var(--ds-font-line-height-body);
   --text-body: var(--ds-font-size-body);
@@ -247,7 +252,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring;
   }
   body {
     @apply bg-background font-sans text-foreground;

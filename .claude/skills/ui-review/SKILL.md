@@ -16,6 +16,7 @@ Search changed `src/**/*.{tsx,ts,css}` (excluding generated files):
 - Primitive tokens in components: `--ds-color-(neutral|red|blue|green|amber|violet|white|black)`, `--ds-kit-`, `--ds-space-[0-9]`, `--ds-radius-(sm|md|lg|xl|px-)`
 - Numeric motion: `duration-[0-9]`, `delay-[0-9]`, raw `ms` in `transition`
 - Inline `style={{` with literal sizes or colours
+- `import { cn } from "cn"` instead of `@/lib/utils` (custom utilities get dropped or not merged)
 - shadcn opacity modifiers on tokens (`bg-primary/90`) are acceptable in shadcn files but prefer the `*-hover` token in project components.
 - Opacity modifiers on focus or text colours (`ring-ring/50`, `text-fg/70`): the contrast check validated the solid colour, so a modifier can silently drop it below 3:1 / 4.5:1. Flag as a11y.
 

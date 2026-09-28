@@ -2,7 +2,11 @@
   "control": {
     "$type": "dimension",
     "height": {
-      "$value": "{space.10}"
+      "$value": {
+        "value": 36,
+        "unit": "px"
+      },
+      "$description": "Kit Button Large (36px). Compact uses kit Default (32px). Kit heights come from padding, so there is no spacing primitive for 36."
     }
   },
   "row": {

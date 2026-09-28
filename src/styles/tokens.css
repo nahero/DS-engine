@@ -148,6 +148,7 @@
   --ds-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1); /** Elements moving or changing on screen */
   --ds-motion-easing-enter: cubic-bezier(0, 0, 0, 1); /** Elements appearing (decelerate) */
   --ds-motion-easing-exit: cubic-bezier(0.3, 0, 1, 1); /** Elements leaving (accelerate) */
+  --ds-control-height: 2.25rem; /** Kit Button Large (36px). Compact uses kit Default (32px). Kit heights come from padding, so there is no spacing primitive for 36. */
   --ds-color-bg-inverse: var(--ds-color-neutral-900);
   --ds-color-fg-muted: var(--ds-color-neutral-700);
   --ds-color-fg-subtle: var(--ds-color-neutral-600);
@@ -158,6 +159,9 @@
   --ds-color-action-secondary-hover: var(--ds-color-neutral-200);
   --ds-color-action-danger-hover: var(--ds-color-red-700);
   --ds-color-action-danger-fg: var(--ds-color-white);
+  --ds-color-action-danger-soft-base: var(--ds-color-red-100);
+  --ds-color-action-danger-soft-hover: var(--ds-color-red-200);
+  --ds-color-action-danger-soft-fg: var(--ds-color-red-800);
   --ds-color-status-info-bg: var(--ds-color-blue-50);
   --ds-color-status-info-fg: var(--ds-color-blue-800);
   --ds-color-status-info-border: var(--ds-color-blue-200);
@@ -199,9 +203,11 @@
   --ds-font-size-heading-md: var(--ds-font-size-22);
   --ds-font-size-heading-lg: var(--ds-font-size-26);
   --ds-font-size-display: var(--ds-font-size-40);
+  --ds-font-size-label: var(--ds-font-size-14); /** Controls (buttons, inputs): fixed 14px like the kit, not density-aware */
   --ds-font-size-body: var(--ds-font-size-14);
   --ds-font-line-height-heading: var(--ds-font-line-height-heading-4);
   --ds-font-line-height-body: var(--ds-font-line-height-paragraph-regular);
+  --ds-font-line-height-label: var(--ds-font-line-height-paragraph-small);
   --ds-kit-background: var(--ds-color-white);
   --ds-kit-foreground: var(--ds-color-black);
   --ds-kit-primary: var(--ds-color-neutral-900);
@@ -233,7 +239,6 @@
   --ds-kit-chart-3: var(--ds-color-blue-600);
   --ds-kit-chart-4: var(--ds-color-blue-700);
   --ds-kit-chart-5: var(--ds-color-blue-800);
-  --ds-control-height: var(--ds-space-10);
   --ds-row-height: var(--ds-space-12);
   --ds-color-bg-canvas: var(--ds-kit-background);
   --ds-color-bg-surface: var(--ds-kit-card);
@@ -259,6 +264,9 @@
   --ds-color-action-secondary-hover: var(--ds-color-neutral-600);
   --ds-color-action-danger-hover: var(--ds-color-red-500);
   --ds-color-action-danger-fg: var(--ds-color-neutral-950);
+  --ds-color-action-danger-soft-base: var(--ds-color-red-950);
+  --ds-color-action-danger-soft-hover: var(--ds-color-red-900);
+  --ds-color-action-danger-soft-fg: var(--ds-color-red-300);
   --ds-color-status-info-bg: var(--ds-color-blue-950);
   --ds-color-status-info-fg: var(--ds-color-blue-200);
   --ds-color-status-info-border: var(--ds-color-blue-800);

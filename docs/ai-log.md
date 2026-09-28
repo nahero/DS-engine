@@ -25,3 +25,15 @@ Notable things AI got wrong, how they were caught, and the fix.
 - **How it was caught:** `scripts/check-contrast.js`, now part of `npm run build:tokens`, failed the build with each pair and ratio.
 - **Fix:** Overrides in `tokens/semantic.*.json` only (Figma export stays untouched): `fg.muted`/`fg.subtle` neutral-700/600, focus neutral-500 (light) / neutral-400 (dark), dark danger text neutral-950.
 - **Lesson:** A popular UI kit is not an accessibility baseline. Keep the export faithful and fix in the layer we own, with the check in CI.
+
+## Accessibility pass on an unstyled page
+- **What went wrong:** The AI ran axe on every Button story in headless Chrome and reported "no violations". The local Chrome is version 96, which doesn't support CSS `@layer` (needs 99) or Tailwind v4 (needs 111), so every story rendered with browser-default styles. The pass only covered names and roles, not how the buttons actually look.
+- **How it was caught:** The AI took screenshots to compare against the kit, and they showed native grey buttons.
+- **Fix:** Reported the axe result as limited to structure; colour contrast is covered by the token check; visual review happens in a current browser. Checking the page as rendered also exposed the next bug.
+- **Lesson:** Check the render before trusting an automated pass on it. Check the tool's browser version.
+
+## `cn()` silently dropped a custom text size
+- **What went wrong:** shadcn's `cn` package (tailwind-merge engine) treated `text-label` as a text colour and removed it next to `text-primary-foreground`. It also didn't resolve `rounded-control` against `rounded-md`. Nothing errored; the class just vanished.
+- **How it was caught:** A DOM dump of the rendered story showed the class missing from the button.
+- **Fix:** `src/lib/utils.ts` configures `cn` with our token names (text, radius, shadow, spacing), all components import from there, and the `new-component` and `ui-review` skills flag `from "cn"`.
+- **Lesson:** Custom Tailwind theme names need registering with the class merger too.

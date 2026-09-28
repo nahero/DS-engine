@@ -20,6 +20,7 @@ Follow in order. Stop and ask if a step reveals a decision that is the user's (A
 
 ## 3. Build on a primitive
 - If shadcn has it: `npx shadcn@latest add <name>`. Otherwise compose Radix primitives. Never from scratch when a primitive exists.
+- The CLI writes `import { cn } from "cn"`. Change it to `import { cn } from "@/lib/utils"`: that instance knows our token utility names; the bare package drops `text-label` and doesn't merge `rounded-control`. New utility names (text size, radius, shadow, spacing) must be added to `src/lib/utils.ts`.
 - Project composites go in `src/components/review/`, generic ones in `src/components/ui/`.
 - New npm dependency not in HANDOFF.md → ask first.
 

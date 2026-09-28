@@ -17,7 +17,8 @@ Source of truth: DTCG JSON in `tokens/`. `npm run build:tokens` turns it into `s
 ## Naming
 - Semantic names describe a **role**, never a scale step: `font.weight.heading`, not `font.weight.medium`. Reusing a primitive's path overwrites it (see `docs/ai-log.md`, font weight collision).
 - Colour roles: `bg.*` (canvas, surface, surface-raised, subtle, inverse), `fg.*` (default, muted, subtle, inverse, on-action), `border.*` (default, strong, focus), `action.{primary,secondary,danger}.{base,hover,fg}`, `status.{info,success,warning,danger,neutral}.{bg,fg,border}`, `confidence.{high,medium,low}`, `highlight.citation.{bg,border}`.
-- Size roles: `radius.{inner,control,surface,overlay}`, `shadow.{raised,overlay}`, `font.size.{caption,body,body-lg,heading-sm,heading-md,heading-lg,display}`, `control.height`, `row.height`, `space.{inset,stack,cell}`.
+- Size roles: `radius.{inner,control,surface,overlay}`, `shadow.{raised,overlay}`, `font.size.{label,caption,body,body-lg,heading-sm,heading-md,heading-lg,display}`, `control.height` (36px comfortable = kit Large, 32px compact = kit Default), `row.height`, `space.{inset,stack,cell}`.
+- New utility names for text size, radius, shadow or spacing must also be registered in `src/lib/utils.ts`, or `cn()` mis-merges them.
 
 ## Modes
 | Mode | Selector | Source |
@@ -37,11 +38,11 @@ Tailwind's default palette, type scale, radii, shadows and easings are removed (
 | Surfaces | `bg-canvas`, `bg-surface`, `bg-surface-raised`, `bg-subtle`, `bg-inverse` |
 | Text | `text-fg`, `text-fg-muted`, `text-fg-subtle`, `text-fg-inverse`, `text-fg-on-action` |
 | Borders | `border-border`, `border-border-strong`, `ring-border-focus` |
-| Actions | `bg-action-primary`, `hover:bg-action-primary-hover`, `text-action-primary-fg` (same for `secondary`, `danger`) |
+| Actions | `bg-action-primary`, `hover:bg-action-primary-hover`, `text-action-primary-fg` (same for `secondary`, `danger`, `danger-soft`) |
 | Status | `bg-status-warning-bg`, `text-status-warning-fg`, `border-status-warning-border` (info, success, warning, danger, neutral) |
 | Confidence, citation | `bg-confidence-high/medium/low`, `bg-citation-bg`, `border-citation-border` |
 | Density-aware sizes | `h-control`, `h-row`, `p-inset`, `gap-stack`, `px-cell`, `text-body` |
-| Type | `text-caption`, `text-body`, `text-body-lg`, `text-heading-sm/md/lg`, `text-display`; `font-normal/medium/semibold/bold` (role weights) |
+| Type | `text-label` (controls, fixed 14px), `text-caption`, `text-body`, `text-body-lg`, `text-heading-sm/md/lg`, `text-display`; `font-normal/medium/semibold/bold` (role weights) |
 | Radius, shadow | `rounded-inner`, `rounded-control`, `rounded-surface`, `rounded-overlay`; `shadow-raised`, `shadow-overlay` |
 | Spacing scale | `p-4` etc. still work: `--spacing` is `space.1` (4px) |
 

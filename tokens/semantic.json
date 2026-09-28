@@ -52,6 +52,10 @@
       },
       "display": {
         "$value": "{font.size.40}"
+      },
+      "label": {
+        "$value": "{font.size.14}",
+        "$description": "Controls (buttons, inputs): fixed 14px like the kit, not density-aware"
       }
     },
     "weight": {
@@ -76,6 +80,9 @@
       },
       "body": {
         "$value": "{font.line-height.paragraph-regular}"
+      },
+      "label": {
+        "$value": "{font.line-height.paragraph-small}"
       }
     }
   }

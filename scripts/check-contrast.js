@@ -15,7 +15,7 @@ const pairs = [
     ['canvas', 'surface', 'surface-raised', 'subtle'].map((bg) => [`fg.${fg}`, `bg.${bg}`, TEXT]),
   ),
   ['fg.inverse', 'bg.inverse', TEXT],
-  ...['primary', 'secondary', 'danger'].flatMap((a) => [
+  ...['primary', 'secondary', 'danger', 'danger-soft'].flatMap((a) => [
     [`action.${a}.fg`, `action.${a}.base`, TEXT],
     [`action.${a}.fg`, `action.${a}.hover`, TEXT],
   ]),

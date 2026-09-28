@@ -79,6 +79,17 @@
         "fg": {
           "$value": "{color.neutral.950}"
         }
+      },
+      "danger-soft": {
+        "base": {
+          "$value": "{color.red.950}"
+        },
+        "hover": {
+          "$value": "{color.red.900}"
+        },
+        "fg": {
+          "$value": "{color.red.300}"
+        }
       }
     },
     "status": {
