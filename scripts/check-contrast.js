@@ -1,12 +1,20 @@
-// WCAG contrast check for semantic colour pairs in light and dark. Exits 1 on any failure.
+// WCAG contrast check for semantic colour pairs in every brand theme × light/dark. Exits 1 on any failure.
 // Text pairs need 4.5:1, non-text (focus, strong borders, confidence marks) need 3:1.
 import fs from 'node:fs'
 
 const read = (file) => JSON.parse(fs.readFileSync(file, 'utf8'))
-const MODES = {
-  light: ['tokens/figma/primitive.json', 'tokens/figma/kit.light.json', 'tokens/semantic.light.json'],
-  dark: ['tokens/figma/primitive.json', 'tokens/figma/kit.dark.json', 'tokens/semantic.dark.json'],
-}
+const THEMES = fs
+  .readdirSync('tokens')
+  .map((f) => f.match(/^brand\.([a-z0-9-]+)\.json$/)?.[1])
+  .filter(Boolean)
+const MODES = Object.fromEntries(
+  THEMES.flatMap((theme) =>
+    ['light', 'dark'].map((mode) => [
+      `${theme}/${mode}`,
+      ['tokens/figma/primitive.json', `tokens/figma/kit.${mode}.json`, `tokens/brand.${theme}.json`, `tokens/semantic.${mode}.json`],
+    ]),
+  ),
+)
 
 const TEXT = 4.5
 const NON_TEXT = 3

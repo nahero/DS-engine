@@ -32,7 +32,7 @@
         "$value": "{color.neutral.50}"
       },
       "on-action": {
-        "$value": "{kit.primary-foreground}"
+        "$value": "{brand.light.primary-fg}"
       }
     },
     "border": {
@@ -43,19 +43,19 @@
         "$value": "{color.neutral.500}"
       },
       "focus": {
-        "$value": "{color.neutral.500}"
+        "$value": "{brand.light.focus}"
       }
     },
     "action": {
       "primary": {
         "base": {
-          "$value": "{kit.primary}"
+          "$value": "{brand.light.primary}"
         },
         "hover": {
-          "$value": "{color.neutral.800}"
+          "$value": "{brand.light.primary-hover}"
         },
         "fg": {
-          "$value": "{kit.primary-foreground}"
+          "$value": "{brand.light.primary-fg}"
         }
       },
       "secondary": {

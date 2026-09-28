@@ -32,7 +32,7 @@
         "$value": "{color.neutral.900}"
       },
       "on-action": {
-        "$value": "{kit.primary-foreground}"
+        "$value": "{brand.dark.primary-fg}"
       }
     },
     "border": {
@@ -43,19 +43,19 @@
         "$value": "{color.neutral.500}"
       },
       "focus": {
-        "$value": "{color.neutral.400}"
+        "$value": "{brand.dark.focus}"
       }
     },
     "action": {
       "primary": {
         "base": {
-          "$value": "{kit.primary}"
+          "$value": "{brand.dark.primary}"
         },
         "hover": {
-          "$value": "{color.neutral.300}"
+          "$value": "{brand.dark.primary-hover}"
         },
         "fg": {
-          "$value": "{kit.primary-foreground}"
+          "$value": "{brand.dark.primary-fg}"
         }
       },
       "secondary": {

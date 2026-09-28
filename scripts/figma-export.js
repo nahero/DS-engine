@@ -6,7 +6,7 @@
 
 const SOURCE = 'Obra shadcn ui kit (Figma file dbk2ali9ax6GIGOOXNr2gp)'
 // Only these raw Tailwind hues are exported; the kit ships 26. Add a hue here before using it.
-const HUES = ['neutral', 'red', 'blue', 'green', 'amber', 'violet']
+const HUES = ['neutral', 'red', 'blue', 'green', 'amber', 'violet', 'purple']
 const WEIGHTS = { Regular: 400, Medium: 500, Semibold: 600, Bold: 700 }
 const FONT_FALLBACK = {
   sans: ['ui-sans-serif', 'system-ui', 'sans-serif'],

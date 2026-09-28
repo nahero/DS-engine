@@ -8,9 +8,11 @@ Source of truth: DTCG JSON in `tokens/`. `npm run build:tokens` turns it into `s
 |---|---|---|---|
 | Primitive | `color.neutral.900`, `space.4`, `radius.lg` | `tokens/figma/primitive.json` | Figma (Obra shadcn kit), exported |
 | Kit | `kit.primary`, `kit.muted-foreground` | `tokens/figma/kit.light.json`, `kit.dark.json` | Figma, exported |
+| Brand | `brand.light.primary`, `brand.dark.focus` | `tokens/brand.<theme>.json` | Us, hand-edited |
 | Semantic | `color.action.primary.base`, `radius.control` | `tokens/semantic*.json`, `density.*.json`, `motion.json` | Us, hand-edited |
 
 - Components use **semantic tokens only**. Primitives and `kit.*` exist so the semantic layer can reference them.
+- Brand holds only the roles that change per theme (primary action base/hover/fg, focus), each with a light and a dark value. Semantic `action.primary.*`, `fg.on-action` and `border.focus` alias `brand.<mode>.*`, so theme and light/dark switch independently. Brand values alias primitives, not `kit.*`.
 - Semantic colours alias `kit.*` where the kit has the same role (surfaces, text, primary/secondary/danger actions, borders). Status, confidence and citation colours have no kit equivalent and alias primitives.
 - `tokens/figma/*` is never hand-edited; re-export with the `sync-tokens` skill. Motion and density are designed in code; Figma doesn't have them.
 
@@ -26,9 +28,26 @@ Source of truth: DTCG JSON in `tokens/`. `npm run build:tokens` turns it into `s
 | Light + comfortable (default) | `:root` | `kit.light`, `semantic.light`, `density.comfortable` |
 | Dark | `.dark` on `<html>` | `kit.dark`, `semantic.dark` |
 | Compact | `[data-density="compact"]` | `density.compact` |
+| Brand theme | `[data-theme="<name>"]` on `<html>`; none = default | `brand.<name>` (default: `brand.default`) |
 | Reduced motion | `prefers-reduced-motion` or `[data-motion="reduced"]` | `globals.css` (see `motion.md`) |
 
 Override blocks only contain tokens whose value differs from `:root`. Values are CSS references (`var(--ds-kit-primary)`), so a `.dark` override of a kit token also changes every semantic token that points at it. This relies on `.dark` sitting on `<html>`, as addon-themes and the app do.
+
+Every switch is independent: each block redefines only its own variables, in one `tokens.css`. A new theme is a new `tokens/brand.<name>.json`; the build adds its block and the contrast check covers it in both modes automatically.
+
+## Figma collections (code → Figma)
+Our layers live in the Obra library file next to the kit's collections, which stay untouched:
+
+| Collection | Modes | Contents |
+|---|---|---|
+| DS Brand | Default, Purple (one per `brand.*.json`; Pro plan allows 4) | `light/*`, `dark/*` brand roles; hidden from pickers |
+| DS Semantic | Light, Dark | all `color.*` semantic roles, aliasing primitives or DS Brand |
+| DS Density | Comfortable, Compact | `control/height`, `row/height`, `space/*`, `font/size/body` |
+
+- Designers set the three modes on a frame (Layer panel → variable modes). Kit references are resolved to primitives per mode, so the kit's own `shadcn colors` mode doesn't need switching.
+- Each variable's Dev Mode code syntax is its CSS variable (`var(--ds-color-bg-canvas)`); scopes limit pickers (fills, text, stroke, gap, size).
+- Push after changing hand-owned tokens: `node scripts/figma-push-payload.js > <payload.json>`, then run `scripts/figma-push.js` via `use_figma` with the payload in place of `__PAYLOAD__`. It creates or updates by name, never deletes, and reports orphans and literal values. Then publish the library in Figma.
+- Not yet in Figma: radius, type, shadow and motion roles. Kit components are still bound to kit variables, so they don't follow DS Brand until rebound.
 
 ## Tailwind utilities
 Tailwind's default palette, type scale, radii, shadows and easings are removed (`--*: initial` in `globals.css`), so only token-backed utilities exist.
