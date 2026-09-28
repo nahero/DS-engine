@@ -84,7 +84,7 @@ One workflow on push to `main`: build tokens → build app → build Storybook �
 ## Build order
 1. Scaffold Vite/React/TS, Tailwind, shadcn, Storybook. Get the Pages deploy working with a placeholder page.
 2. Style Dictionary with hand-written placeholder DTCG tokens (both modes, both densities). Map them into shadcn vars.
-3. Create `docs/design-system/*` and the three skills.
+3. ~~Docs and skills~~ Done: `docs/design-system/{tokens,components,patterns,accessibility,motion}.md`, `.claude/skills/{new-component,sync-tokens,ui-review}`.
 4. ~~Figma~~ Done: Obra kit variables exported to `tokens/figma/`, placeholders replaced, contrast check in the build. Re-export: run `scripts/figma-export.js` via `use_figma` on the library file, save the result, `node scripts/write-figma-tokens.js <file>`, `npm run build:tokens`.
 5. Build components with full-state stories.
 6. Build the screens and mock data.

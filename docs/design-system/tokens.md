@@ -1,0 +1,63 @@
+# Tokens
+
+Source of truth: DTCG JSON in `tokens/`. `npm run build:tokens` turns it into `src/styles/tokens.css` (CSS custom properties, prefix `--ds-`) and `src/styles/tokens.ts` (motion values for JS), then runs the contrast check. `globals.css` maps the result to Tailwind utilities and shadcn variables.
+
+## Tiers
+
+| Tier | Example | File | Owner |
+|---|---|---|---|
+| Primitive | `color.neutral.900`, `space.4`, `radius.lg` | `tokens/figma/primitive.json` | Figma (Obra shadcn kit), exported |
+| Kit | `kit.primary`, `kit.muted-foreground` | `tokens/figma/kit.light.json`, `kit.dark.json` | Figma, exported |
+| Semantic | `color.action.primary.base`, `radius.control` | `tokens/semantic*.json`, `density.*.json`, `motion.json` | Us, hand-edited |
+
+- Components use **semantic tokens only**. Primitives and `kit.*` exist so the semantic layer can reference them.
+- Semantic colours alias `kit.*` where the kit has the same role (surfaces, text, primary/secondary/danger actions, borders). Status, confidence and citation colours have no kit equivalent and alias primitives.
+- `tokens/figma/*` is never hand-edited; re-export with the `sync-tokens` skill. Motion and density are designed in code; Figma doesn't have them.
+
+## Naming
+- Semantic names describe a **role**, never a scale step: `font.weight.heading`, not `font.weight.medium`. Reusing a primitive's path overwrites it (see `docs/ai-log.md`, font weight collision).
+- Colour roles: `bg.*` (canvas, surface, surface-raised, subtle, inverse), `fg.*` (default, muted, subtle, inverse, on-action), `border.*` (default, strong, focus), `action.{primary,secondary,danger}.{base,hover,fg}`, `status.{info,success,warning,danger,neutral}.{bg,fg,border}`, `confidence.{high,medium,low}`, `highlight.citation.{bg,border}`.
+- Size roles: `radius.{inner,control,surface,overlay}`, `shadow.{raised,overlay}`, `font.size.{caption,body,body-lg,heading-sm,heading-md,heading-lg,display}`, `control.height`, `row.height`, `space.{inset,stack,cell}`.
+
+## Modes
+| Mode | Selector | Source |
+|---|---|---|
+| Light + comfortable (default) | `:root` | `kit.light`, `semantic.light`, `density.comfortable` |
+| Dark | `.dark` on `<html>` | `kit.dark`, `semantic.dark` |
+| Compact | `[data-density="compact"]` | `density.compact` |
+| Reduced motion | `prefers-reduced-motion` or `[data-motion="reduced"]` | `globals.css` (see `motion.md`) |
+
+Override blocks only contain tokens whose value differs from `:root`. Values are CSS references (`var(--ds-kit-primary)`), so a `.dark` override of a kit token also changes every semantic token that points at it. This relies on `.dark` sitting on `<html>`, as addon-themes and the app do.
+
+## Tailwind utilities
+Tailwind's default palette, type scale, radii, shadows and easings are removed (`--*: initial` in `globals.css`), so only token-backed utilities exist.
+
+| Need | Utilities |
+|---|---|
+| Surfaces | `bg-canvas`, `bg-surface`, `bg-surface-raised`, `bg-subtle`, `bg-inverse` |
+| Text | `text-fg`, `text-fg-muted`, `text-fg-subtle`, `text-fg-inverse`, `text-fg-on-action` |
+| Borders | `border-border`, `border-border-strong`, `ring-border-focus` |
+| Actions | `bg-action-primary`, `hover:bg-action-primary-hover`, `text-action-primary-fg` (same for `secondary`, `danger`) |
+| Status | `bg-status-warning-bg`, `text-status-warning-fg`, `border-status-warning-border` (info, success, warning, danger, neutral) |
+| Confidence, citation | `bg-confidence-high/medium/low`, `bg-citation-bg`, `border-citation-border` |
+| Density-aware sizes | `h-control`, `h-row`, `p-inset`, `gap-stack`, `px-cell`, `text-body` |
+| Type | `text-caption`, `text-body`, `text-body-lg`, `text-heading-sm/md/lg`, `text-display`; `font-normal/medium/semibold/bold` (role weights) |
+| Radius, shadow | `rounded-inner`, `rounded-control`, `rounded-surface`, `rounded-overlay`; `shadow-raised`, `shadow-overlay` |
+| Spacing scale | `p-4` etc. still work: `--spacing` is `space.1` (4px) |
+
+shadcn components keep their own names (`bg-primary`, `text-muted-foreground`, `rounded-md` …). `globals.css` points those variables at semantic tokens, so shadcn code needs no edits to follow the tokens. Tailwind's `rounded-sm/md/lg/xl` resolve to inner/control/surface/overlay.
+
+## Where we differ from the kit
+The kit's values are kept as exported; these differences live in our semantic layer and are enforced by `scripts/check-contrast.js` (text 4.5:1, non-text 3:1, both modes).
+
+| Role | Kit | Ours | Why |
+|---|---|---|---|
+| `fg.muted`, `fg.subtle` (light) | neutral-500 | neutral-700 / 600 | 4.35:1 on `bg.subtle` |
+| `border.focus` | ring: neutral-300 / 700 | neutral-500 / 400 | Kit ring ≈ 1.5:1 |
+| `action.danger.fg` (dark) | white | neutral-950 | 2.77:1 on red-400 |
+| shadcn `--input` | neutral-200 | `border.strong` (neutral-500) | Input boundaries need 3:1 (WCAG 1.4.11) |
+
+## Changing tokens
+- **Hand-owned** (semantic, density, motion): edit the JSON, `npm run build:tokens`, commit JSON and generated files. CI fails if the generated files drift or contrast fails.
+- **From Figma**: `sync-tokens` skill.
+- New role: add it to both `semantic.light.json` and `semantic.dark.json`, map a utility in `globals.css`, add pairs to `scripts/check-contrast.js` if it carries text or a boundary, update this file.
