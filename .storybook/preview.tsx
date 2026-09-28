@@ -10,6 +10,15 @@ const withDensity: Decorator = (Story, context) => {
   return <Story />
 }
 
+// Brand theme (tokens/brand.<name>.json). "theme" is taken by addon-themes for light/dark.
+const withBrand: Decorator = (Story, context) => {
+  const brand = context.globals.brand ?? 'default'
+  const root = document.documentElement
+  if (brand === 'default') delete root.dataset.theme
+  else root.dataset.theme = brand
+  return <Story />
+}
+
 // "Reduced" forces the prefers-reduced-motion behaviour; "System" follows the OS setting.
 const withMotion: Decorator = (Story, context) => {
   const root = document.documentElement
@@ -31,6 +40,18 @@ const preview: Preview = {
     },
   },
   globalTypes: {
+    brand: {
+      description: 'Brand theme',
+      toolbar: {
+        title: 'Brand',
+        icon: 'paintbrush',
+        items: [
+          { value: 'default', title: 'Brand: default' },
+          { value: 'purple', title: 'Brand: purple' },
+        ],
+        dynamicTitle: true,
+      },
+    },
     density: {
       description: 'Density',
       toolbar: {
@@ -57,10 +78,12 @@ const preview: Preview = {
     },
   },
   initialGlobals: {
+    brand: 'default',
     density: 'comfortable',
     motion: 'system',
   },
   decorators: [
+    withBrand,
     withDensity,
     withMotion,
     withThemeByClassName({

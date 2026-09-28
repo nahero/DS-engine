@@ -5,7 +5,7 @@ description: Re-export DS-Engine design tokens from the Obra Figma kit into toke
 
 # Sync tokens
 
-Background: `docs/design-system/tokens.md`. Figma is read-only here; nothing is written to Figma.
+Background: `docs/design-system/tokens.md`. Step 1 only reads Figma; step 4 writes our DS collections back to it.
 
 ## 1. Export from Figma (skip if only hand-owned JSON changed)
 1. Load the `figma-use` skill (MCP resource `skill://figma/figma-use/SKILL.md`) before calling `use_figma`.
@@ -26,5 +26,12 @@ Background: `docs/design-system/tokens.md`. Figma is read-only here; nothing is 
 - Kit roles added/removed → update `tokens.md` and, if shadcn uses them, `globals.css`.
 - `npm run build` and `npm run build-storybook`; glance at *Foundations/Tokens* in both themes and densities.
 
-## 4. Commit
+## 4. Push hand-owned tokens to Figma (after semantic, brand or density changes)
+1. `node scripts/figma-push-payload.js > <scratchpad>/payload.json`
+2. Run `use_figma` on `dbk2ali9ax6GIGOOXNr2gp` with `scripts/figma-push.js`, `__PAYLOAD__` replaced by the payload JSON.
+3. Check the report: `orphans` (renamed/removed tokens: delete in Figma only if the human agrees), `literals` (values with no Figma variable to alias).
+4. Verify: resolve every DS Semantic variable per DS Brand × mode in Figma and compare with the code's resolved values; expect zero mismatches.
+5. Ask the human to publish the library update.
+
+## 5. Commit
 Commit `tokens/**`, `src/styles/tokens.css`, `src/styles/tokens.ts` together (CI fails on drift). Message says what changed in Figma.

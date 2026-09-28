@@ -1,0 +1,34 @@
+{
+  "brand": {
+    "$description": "Brand theme: Default (the kit's black-and-white shadcn look). Only the roles that change per theme; each has a light and a dark value so themes and light/dark switch independently.",
+    "$type": "color",
+    "light": {
+      "primary": {
+        "$value": "{color.neutral.900}"
+      },
+      "primary-hover": {
+        "$value": "{color.neutral.800}"
+      },
+      "primary-fg": {
+        "$value": "{color.white}"
+      },
+      "focus": {
+        "$value": "{color.neutral.500}"
+      }
+    },
+    "dark": {
+      "primary": {
+        "$value": "{color.neutral.200}"
+      },
+      "primary-hover": {
+        "$value": "{color.neutral.300}"
+      },
+      "primary-fg": {
+        "$value": "{color.neutral.950}"
+      },
+      "focus": {
+        "$value": "{color.neutral.400}"
+      }
+    }
+  }
+}
