@@ -1,0 +1,17 @@
+{
+  "motion": {
+    "$description": "Designed in code, not Figma. Kept separate so Figma re-exports never overwrite it.",
+    "duration": {
+      "$type": "duration",
+      "fast": { "$value": { "value": 100, "unit": "ms" }, "$description": "Hover, focus, small state changes" },
+      "base": { "$value": { "value": 200, "unit": "ms" }, "$description": "Enter/exit of popovers, toasts, row collapse" },
+      "slow": { "$value": { "value": 300, "unit": "ms" }, "$description": "Side panel, large layout shifts" }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "standard": { "$value": [0.2, 0, 0, 1], "$description": "Elements moving or changing on screen" },
+      "enter": { "$value": [0, 0, 0, 1], "$description": "Elements appearing (decelerate)" },
+      "exit": { "$value": [0.3, 0, 1, 1], "$description": "Elements leaving (accelerate)" }
+    }
+  }
+}

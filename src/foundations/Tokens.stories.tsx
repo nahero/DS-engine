@@ -5,6 +5,7 @@ import light from '../../tokens/semantic.light.json'
 import dark from '../../tokens/semantic.dark.json'
 import comfortable from '../../tokens/density.comfortable.json'
 import compact from '../../tokens/density.compact.json'
+import motion from '../../tokens/motion.json'
 
 type Token = { path: string[]; value: unknown }
 
@@ -142,6 +143,50 @@ function RadiusAndShadow() {
   )
 }
 
+// Hover or focus a row to play it. Durations use the standard easing; easings use the base duration.
+function Motion() {
+  const tokens = flatten(motion)
+  const format = (value: unknown) =>
+    Array.isArray(value) ? `cubic-bezier(${value.join(', ')})` : `${(value as { value: number }).value}ms`
+  return (
+    <Page title="Motion">
+      <p className="text-fg-muted">
+        Hover or focus a row to play it. Set Motion to reduced in the toolbar: every duration becomes 0.
+      </p>
+      <TokenTable headers={['Token', 'CSS variable', 'Value', 'Preview']}>
+        {tokens.map((t) => {
+          const isDuration = t.path[1] === 'duration'
+          const style: CSSProperties = {
+            transitionProperty: 'translate',
+            transitionDuration: isDuration ? `var(${cssVar(t.path)})` : 'var(--ds-motion-duration-base)',
+            transitionTimingFunction: isDuration ? 'var(--ds-motion-easing-standard)' : `var(${cssVar(t.path)})`,
+          }
+          return (
+            <tr key={name(t.path)} className="h-row border-b border-border">
+              <td className="px-cell">{name(t.path)}</td>
+              <td className="px-cell"><Code>{cssVar(t.path)}</Code></td>
+              <td className="px-cell"><Code>{format(t.value)}</Code></td>
+              <td className="px-cell">
+                <button
+                  type="button"
+                  aria-label={`Preview ${name(t.path)}`}
+                  className="group w-48 rounded-inner border border-border bg-subtle p-1 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <span
+                    aria-hidden
+                    className="block size-4 rounded-inner bg-action-primary group-hover:translate-x-40 group-focus-visible:translate-x-40"
+                    style={style}
+                  />
+                </button>
+              </td>
+            </tr>
+          )
+        })}
+      </TokenTable>
+    </Page>
+  )
+}
+
 const meta = {
   title: 'Foundations/Tokens',
   parameters: { layout: 'fullscreen' },
@@ -154,3 +199,4 @@ export const SemanticColors: Story = { render: () => <Colors /> }
 export const DensityTokens: Story = { name: 'Density', render: () => <Density /> }
 export const TypographyTokens: Story = { name: 'Typography', render: () => <Typography /> }
 export const RadiusAndShadowTokens: Story = { name: 'Radius and shadow', render: () => <RadiusAndShadow /> }
+export const MotionTokens: Story = { name: 'Motion', render: () => <Motion /> }

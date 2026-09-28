@@ -10,6 +10,14 @@ const withDensity: Decorator = (Story, context) => {
   return <Story />
 }
 
+// "Reduced" forces the prefers-reduced-motion behaviour; "System" follows the OS setting.
+const withMotion: Decorator = (Story, context) => {
+  const root = document.documentElement
+  if (context.globals.motion === 'reduced') root.dataset.motion = 'reduced'
+  else delete root.dataset.motion
+  return <Story />
+}
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -35,12 +43,26 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    motion: {
+      description: 'Motion',
+      toolbar: {
+        title: 'Motion',
+        icon: 'play',
+        items: [
+          { value: 'system', title: 'Motion: system' },
+          { value: 'reduced', title: 'Motion: reduced' },
+        ],
+        dynamicTitle: true,
+      },
+    },
   },
   initialGlobals: {
     density: 'comfortable',
+    motion: 'system',
   },
   decorators: [
     withDensity,
+    withMotion,
     withThemeByClassName({
       themes: { light: '', dark: 'dark' },
       defaultTheme: 'light',

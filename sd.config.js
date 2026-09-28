@@ -1,17 +1,31 @@
-// Builds src/styles/tokens.css from tokens/*.json (DTCG).
+// Builds src/styles/tokens.css and src/styles/tokens.ts from tokens/*.json (DTCG).
 // One block per mode: :root (light + comfortable), .dark, [data-density="compact"].
 // Mode blocks only contain tokens whose value differs from the default mode.
+// tokens.ts exposes motion values to JS (Motion library format, not installed): durations in seconds, easings as arrays.
 import fs from 'node:fs'
 import StyleDictionary from 'style-dictionary'
 import { transformGroups } from 'style-dictionary/enums'
 
 const OUTPUT = 'src/styles/tokens.css'
+const OUTPUT_TS = 'src/styles/tokens.ts'
 const PRIMITIVES = 'tokens/primitive.json'
 const SEMANTIC = 'tokens/semantic.json'
+const MOTION = 'tokens/motion.json'
 
-const transforms = StyleDictionary.hooks.transformGroups[transformGroups.css].map((t) =>
-  t === 'size/rem' ? 'size/pxToRem' : t,
-)
+// SD's css group doesn't handle DTCG duration objects ({ value, unit }).
+StyleDictionary.registerTransform({
+  name: 'duration/css',
+  type: 'value',
+  filter: (token) => token.$type === 'duration',
+  transform: (token) => `${token.$value.value}${token.$value.unit}`,
+})
+
+const transforms = [
+  ...StyleDictionary.hooks.transformGroups[transformGroups.css].map((t) =>
+    t === 'size/rem' ? 'size/pxToRem' : t,
+  ),
+  'duration/css',
+]
 
 // Override blocks reference primitives defined in :root, which SD reports as "filtered out
 // references"; that is intended, so warnings are only fatal for the base block.
@@ -45,7 +59,7 @@ const originalValues = (tokens) =>
 
 const base = await buildBlock({
   selector: ':root',
-  source: [PRIMITIVES, SEMANTIC, 'tokens/semantic.light.json', 'tokens/density.comfortable.json'],
+  source: [PRIMITIVES, SEMANTIC, MOTION, 'tokens/semantic.light.json', 'tokens/density.comfortable.json'],
 })
 const baseValues = originalValues(base.tokens)
 const differsFromBase = (token) =>
@@ -69,4 +83,19 @@ const header = `/**
  * Run \`npm run build:tokens\` after changing tokens.
  */`
 fs.writeFileSync(OUTPUT, [header, base.output, dark.output, compact.output].join('\n\n') + '\n')
-console.log(`Wrote ${OUTPUT} (${base.tokens.length} base, dark + compact overrides)`)
+
+const toSeconds = ({ value, unit }) => (unit === 'ms' ? value / 1000 : value)
+const motion = { duration: {}, easing: {} }
+for (const t of base.tokens.filter((t) => t.path[0] === 'motion')) {
+  const [, group, key] = t.path
+  motion[group][key] = group === 'duration' ? toSeconds(t.original.$value) : t.original.$value
+}
+// Keep easing arrays on one line.
+const motionSource = JSON.stringify(motion, null, 2).replace(/\[[^\]]*\]/g, (a) => a.replace(/\s+/g, ' ').replace('[ ', '[').replace(' ]', ']'))
+const ts = `${header}
+
+/** Durations in seconds, easings as cubic-bezier control points (Motion format). */
+export const motion = ${motionSource} as const
+`
+fs.writeFileSync(OUTPUT_TS, ts)
+console.log(`Wrote ${OUTPUT} and ${OUTPUT_TS}`)

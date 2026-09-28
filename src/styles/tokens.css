@@ -108,6 +108,12 @@
   --ds-shadow-sm: 0px 1px 3px 0px #0206171a, 0px 1px 2px 0px #0206170f;
   --ds-shadow-md: 0px 4px 8px 0px #0206171f, 0px 1px 2px 0px #0206170f;
   --ds-shadow-lg: 0px 12px 24px 0px #02061729, 0px 1px 2px 0px #0206170f;
+  --ds-motion-duration-fast: 100ms; /** Hover, focus, small state changes */
+  --ds-motion-duration-base: 200ms; /** Enter/exit of popovers, toasts, row collapse */
+  --ds-motion-duration-slow: 300ms; /** Side panel, large layout shifts */
+  --ds-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1); /** Elements moving or changing on screen */
+  --ds-motion-easing-enter: cubic-bezier(0, 0, 0, 1); /** Elements appearing (decelerate) */
+  --ds-motion-easing-exit: cubic-bezier(0.3, 0, 1, 1); /** Elements leaving (accelerate) */
   --ds-color-bg-canvas: var(--ds-color-neutral-50);
   --ds-color-bg-surface: var(--ds-color-white);
   --ds-color-bg-surface-raised: var(--ds-color-white);

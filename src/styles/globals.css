@@ -17,6 +17,7 @@
   --inset-shadow-*: initial;
   --drop-shadow-*: initial;
   --text-shadow-*: initial;
+  --ease-*: initial;
 }
 
 @theme inline {
@@ -161,6 +162,43 @@
   --spacing-inset: var(--ds-space-inset);
   --spacing-stack: var(--ds-space-stack);
   --spacing-cell: var(--ds-space-cell);
+
+  /* Motion: token easings, token defaults for `transition` and tw-animate enter/exit (see docs/design-system/motion.md) */
+  --ease-standard: var(--ds-motion-easing-standard);
+  --ease-enter: var(--ds-motion-easing-enter);
+  --ease-exit: var(--ds-motion-easing-exit);
+  --default-transition-duration: var(--ds-motion-duration-fast);
+  --default-transition-timing-function: var(--ds-motion-easing-standard);
+  --animate-in: enter var(--tw-animation-duration, var(--tw-duration, var(--ds-motion-duration-base))) var(--tw-ease, var(--ds-motion-easing-enter)) var(--tw-animation-delay, 0s) var(--tw-animation-iteration-count, 1) var(--tw-animation-direction, normal) var(--tw-animation-fill-mode, none);
+  --animate-out: exit var(--tw-animation-duration, var(--tw-duration, var(--ds-motion-duration-base))) var(--tw-ease, var(--ds-motion-easing-exit)) var(--tw-animation-delay, 0s) var(--tw-animation-iteration-count, 1) var(--tw-animation-direction, normal) var(--tw-animation-fill-mode, none);
+}
+
+/* Token durations (Tailwind's numeric duration-* still exists; ui-review flags it). */
+@utility duration-fast {
+  --tw-duration: var(--ds-motion-duration-fast);
+  transition-duration: var(--ds-motion-duration-fast);
+}
+@utility duration-base {
+  --tw-duration: var(--ds-motion-duration-base);
+  transition-duration: var(--ds-motion-duration-base);
+}
+@utility duration-slow {
+  --tw-duration: var(--ds-motion-duration-slow);
+  transition-duration: var(--ds-motion-duration-slow);
+}
+
+/* Reduced motion: all token durations collapse to 0 (instant change). data-motion lets Storybook force it. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ds-motion-duration-fast: 0s;
+    --ds-motion-duration-base: 0s;
+    --ds-motion-duration-slow: 0s;
+  }
+}
+[data-motion="reduced"] {
+  --ds-motion-duration-fast: 0s;
+  --ds-motion-duration-base: 0s;
+  --ds-motion-duration-slow: 0s;
 }
 
 /* shadcn variables → semantic tokens. Light/dark and density come from tokens.css. */
