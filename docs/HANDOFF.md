@@ -19,8 +19,8 @@ States everywhere: loading, empty, error, agent failed, low confidence, missing 
 ## Constraints
 - Claude Pro (Claude Code), Figma Pro, GitHub Free.
 - **No Code Connect** (Org/Enterprise only). Replace it with a mapping table in `docs/design-system/components.md`.
-- **No Figma Variables REST API** (Enterprise only). Token export is manual: plugin → DTCG JSON → commit to `tokens/`.
-- Figma is not set up yet. Start with hand-written placeholder tokens and replace them later.
+- **No Figma Variables REST API** (Enterprise only). Token export runs through the Figma MCP instead: `scripts/figma-export.js` (Plugin API, read-only) → `scripts/write-figma-tokens.js` → `tokens/figma/*.json`.
+- Figma: the Obra shadcn kit (community edition, file `dbk2ali9ax6GIGOOXNr2gp`) is published to the team library. Working file: DS-Engine-Main (`LbYcGPXhnrMBahsdvBJ2HI`). Figma is reached through the claude.ai Figma connector; no `claude mcp add` needed.
 - Repo is public (required for Pages on the free plan).
 
 ## Stack
@@ -28,6 +28,7 @@ States everywhere: loading, empty, error, agent failed, low confidence, missing 
 - Tailwind v4 + shadcn/ui (Radix primitives)
 - Storybook (Vite builder) with addon-a11y and addon-themes
 - Style Dictionary (latest, DTCG input)
+- Geist + Geist Mono (`@fontsource-variable/*`, self-hosted), matching the Figma kit
 - Mock data: generated JSON / faker. Deliberately messy: long names, missing fields, ~1,000 rows.
 - GitHub Actions → GitHub Pages
 
@@ -35,6 +36,8 @@ States everywhere: loading, empty, error, agent failed, low confidence, missing 
 ```
 DS-engine/
 ├─ tokens/                  # DTCG JSON (source)
+│  └─ figma/                # exported from Figma, never hand-edited
+├─ scripts/                 # Figma export, contrast check
 ├─ sd.config.js
 ├─ src/
 │  ├─ styles/tokens.css     # generated, never edit
@@ -54,7 +57,9 @@ DS-engine/
 ```
 
 ## Tokens architecture
-- Two tiers: **primitive** (`color.blue.500`) → **semantic** (`color.action.primary`, `color.status.warning.bg`). Components use semantic tokens only.
+- Three tiers: **primitive** (`color.neutral.900`, from Figma) → **kit** (`kit.primary`, the Obra kit's shadcn mapping per mode, from Figma) → **semantic** (`color.action.primary`, `color.status.warning.bg`, hand-owned). Components use semantic tokens only.
+- Semantic tokens alias `kit.*` where the kit covers the role; status, confidence and citation colours come from primitives. Where a kit value fails WCAG, the semantic layer overrides it (see `docs/ai-log.md`).
+- `npm run build:tokens` also runs `scripts/check-contrast.js`; any failing pair fails the build.
 - Modes: light / dark (`.dark` class), density comfortable / compact (`[data-density="compact"]`).
 - Style Dictionary outputs `src/styles/tokens.css` (CSS custom properties per mode).
 - `globals.css` maps shadcn variables to semantic tokens (e.g. `--primary: var(--color-action-primary)`).
@@ -80,8 +85,7 @@ One workflow on push to `main`: build tokens → build app → build Storybook �
 1. Scaffold Vite/React/TS, Tailwind, shadcn, Storybook. Get the Pages deploy working with a placeholder page.
 2. Style Dictionary with hand-written placeholder DTCG tokens (both modes, both densities). Map them into shadcn vars.
 3. Create `docs/design-system/*` and the three skills.
-4. *(Needs Figma)* Set up Figma variables and components, export DTCG, replace placeholders, connect Figma MCP:
-   `claude mcp add --transport http figma https://mcp.figma.com/mcp`
+4. ~~Figma~~ Done: Obra kit variables exported to `tokens/figma/`, placeholders replaced, contrast check in the build. Re-export: run `scripts/figma-export.js` via `use_figma` on the library file, save the result, `node scripts/write-figma-tokens.js <file>`, `npm run build:tokens`.
 5. Build components with full-state stories.
 6. Build the screens and mock data.
 7. README (decisions, not setup), finalise `docs/ai-log.md`, record a 3-min walkthrough.

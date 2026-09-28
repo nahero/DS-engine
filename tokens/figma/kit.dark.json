@@ -1,0 +1,102 @@
+{
+  "$description": "Generated from Obra shadcn ui kit (Figma file dbk2ali9ax6GIGOOXNr2gp) on 2026-09-28. Do not edit; re-export.",
+  "kit": {
+    "$type": "color",
+    "background": {
+      "$value": "{color.neutral.950}"
+    },
+    "foreground": {
+      "$value": "{color.white}"
+    },
+    "primary": {
+      "$value": "{color.neutral.200}"
+    },
+    "primary-foreground": {
+      "$value": "{color.neutral.950}"
+    },
+    "secondary": {
+      "$value": "{color.neutral.700}"
+    },
+    "secondary-foreground": {
+      "$value": "{color.neutral.100}"
+    },
+    "accent": {
+      "$value": "{color.neutral.900}"
+    },
+    "accent-foreground": {
+      "$value": "{color.neutral.100}"
+    },
+    "muted": {
+      "$value": "{color.neutral.900}"
+    },
+    "muted-foreground": {
+      "$value": "{color.neutral.400}"
+    },
+    "destructive": {
+      "$value": "{color.red.400}"
+    },
+    "border": {
+      "$value": "{color.neutral.700}"
+    },
+    "input": {
+      "$value": "{color.neutral.700}"
+    },
+    "card": {
+      "$value": "{color.neutral.800}"
+    },
+    "card-foreground": {
+      "$value": "{color.white}"
+    },
+    "popover": {
+      "$value": "{color.neutral.950}"
+    },
+    "popover-foreground": {
+      "$value": "{color.white}"
+    },
+    "ring": {
+      "$value": "{color.neutral.700}"
+    },
+    "ring-error": {
+      "$value": "{color.red.900}"
+    },
+    "sidebar": {
+      "$value": "{color.neutral.950}"
+    },
+    "sidebar-foreground": {
+      "$value": "{color.neutral.300}"
+    },
+    "sidebar-accent": {
+      "$value": "{color.neutral.900}"
+    },
+    "sidebar-accent-foreground": {
+      "$value": "{color.neutral.100}"
+    },
+    "sidebar-primary": {
+      "$value": "{color.neutral.600}"
+    },
+    "sidebar-primary-foreground": {
+      "$value": "{color.neutral.300}"
+    },
+    "sidebar-border": {
+      "$value": "{color.neutral.800}"
+    },
+    "sidebar-ring": {
+      "$value": "{color.neutral.700}"
+    },
+    "chart-1": {
+      "$value": "{color.blue.300}"
+    },
+    "chart-2": {
+      "$value": "{color.blue.500}"
+    },
+    "chart-3": {
+      "$value": "{color.blue.600}"
+    },
+    "chart-4": {
+      "$value": "{color.blue.700}"
+    },
+    "chart-5": {
+      "$value": "{color.blue.800}"
+    }
+  }
+}

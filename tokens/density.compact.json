@@ -27,7 +27,7 @@
     "size": {
       "$type": "dimension",
       "body": {
-        "$value": "{font.size.200}"
+        "$value": "{font.size.13}"
       }
     }
   }

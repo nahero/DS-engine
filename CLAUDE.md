@@ -12,12 +12,12 @@ Project context and build order: `docs/HANDOFF.md`. Read it at the start of a ne
 - `npm run build`: typecheck + app build to `dist/`
 - `npm run lint`: oxlint
 - `npm run storybook` / `npm run build-storybook`: CI builds Storybook into `dist/storybook`
-- `npm run build:tokens`: `tokens/*.json` → `src/styles/tokens.css` + `tokens.ts` (commit the result; CI fails if it drifts)
+- `npm run build:tokens`: `tokens/**/*.json` → `src/styles/tokens.css` + `tokens.ts`, then WCAG contrast check (commit the result; CI fails if it drifts or contrast fails)
 - Add shadcn components: `npx shadcn@latest add <name>`
 
 ## Hard rules
 - **Tokens only.** No hardcoded colors, spacing, radii, font sizes or shadows. Use semantic tokens; never primitives in components.
-- **Never edit `src/styles/tokens.css` or `src/styles/tokens.ts`.** They are generated. Change `tokens/*.json` and rebuild.
+- **Never edit `src/styles/tokens.css`, `src/styles/tokens.ts` or `tokens/figma/*`.** They are generated (the last from Figma). Change hand-owned `tokens/*.json` or re-export from Figma, then rebuild.
 - **Reuse before creating.** Check `src/components/ui/` and `docs/design-system/components.md` first. Build on shadcn/Radix, never from scratch when a primitive exists.
 - **Every component** gets Storybook stories covering all states (default, hover/focus, disabled, loading, empty, error, long content) in light/dark and both densities.
 - **Accessibility:** semantic elements, full keyboard support, visible focus, labels on all inputs, status never communicated by color alone. Stories must pass addon-a11y.

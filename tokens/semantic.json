@@ -36,22 +36,22 @@
     "size": {
       "$type": "dimension",
       "caption": {
-        "$value": "{font.size.100}"
+        "$value": "{font.size.12}"
       },
       "body-lg": {
-        "$value": "{font.size.400}"
+        "$value": "{font.size.16}"
       },
       "heading-sm": {
-        "$value": "{font.size.500}"
+        "$value": "{font.size.18}"
       },
       "heading-md": {
-        "$value": "{font.size.600}"
+        "$value": "{font.size.22}"
       },
       "heading-lg": {
-        "$value": "{font.size.700}"
+        "$value": "{font.size.26}"
       },
       "display": {
-        "$value": "{font.size.800}"
+        "$value": "{font.size.40}"
       }
     },
     "weight": {
@@ -66,16 +66,16 @@
         "$value": "{font.weight.semibold}"
       },
       "heading": {
-        "$value": "{font.weight.bold}"
+        "$value": "{font.weight.medium}"
       }
     },
     "line-height": {
       "$type": "number",
       "heading": {
-        "$value": "{font.line-height.tight}"
+        "$value": "{font.line-height.heading-4}"
       },
       "body": {
-        "$value": "{font.line-height.normal}"
+        "$value": "{font.line-height.paragraph-regular}"
       }
     }
   }

@@ -3,16 +3,16 @@
     "$type": "color",
     "bg": {
       "canvas": {
-        "$value": "{color.neutral.50}"
+        "$value": "{kit.background}"
       },
       "surface": {
-        "$value": "{color.white}"
+        "$value": "{kit.card}"
       },
       "surface-raised": {
-        "$value": "{color.white}"
+        "$value": "{kit.popover}"
       },
       "subtle": {
-        "$value": "{color.neutral.100}"
+        "$value": "{kit.muted}"
       },
       "inverse": {
         "$value": "{color.neutral.900}"
@@ -20,7 +20,7 @@
     },
     "fg": {
       "default": {
-        "$value": "{color.neutral.900}"
+        "$value": "{kit.foreground}"
       },
       "muted": {
         "$value": "{color.neutral.700}"
@@ -32,46 +32,46 @@
         "$value": "{color.neutral.50}"
       },
       "on-action": {
-        "$value": "{color.white}"
+        "$value": "{kit.primary-foreground}"
       }
     },
     "border": {
       "default": {
-        "$value": "{color.neutral.200}"
+        "$value": "{kit.border}"
       },
       "strong": {
         "$value": "{color.neutral.500}"
       },
       "focus": {
-        "$value": "{color.blue.600}"
+        "$value": "{color.neutral.500}"
       }
     },
     "action": {
       "primary": {
         "base": {
-          "$value": "{color.blue.600}"
+          "$value": "{kit.primary}"
         },
         "hover": {
-          "$value": "{color.blue.700}"
+          "$value": "{color.neutral.800}"
         },
         "fg": {
-          "$value": "{color.white}"
+          "$value": "{kit.primary-foreground}"
         }
       },
       "secondary": {
         "base": {
-          "$value": "{color.neutral.100}"
+          "$value": "{kit.secondary}"
         },
         "hover": {
           "$value": "{color.neutral.200}"
         },
         "fg": {
-          "$value": "{color.neutral.900}"
+          "$value": "{kit.secondary-foreground}"
         }
       },
       "danger": {
         "base": {
-          "$value": "{color.red.600}"
+          "$value": "{kit.destructive}"
         },
         "hover": {
           "$value": "{color.red.700}"

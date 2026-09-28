@@ -1,4 +1,5 @@
-// Builds src/styles/tokens.css and src/styles/tokens.ts from tokens/*.json (DTCG).
+// Builds src/styles/tokens.css and src/styles/tokens.ts from tokens/**/*.json (DTCG).
+// tokens/figma/ is exported from Figma (primitives + kit tier); the rest is hand-owned.
 // One block per mode: :root (light + comfortable), .dark, [data-density="compact"].
 // Mode blocks only contain tokens whose value differs from the default mode.
 // tokens.ts exposes motion values to JS (Motion library format, not installed): durations in seconds, easings as arrays.
@@ -8,7 +9,9 @@ import { transformGroups } from 'style-dictionary/enums'
 
 const OUTPUT = 'src/styles/tokens.css'
 const OUTPUT_TS = 'src/styles/tokens.ts'
-const PRIMITIVES = 'tokens/primitive.json'
+const PRIMITIVES = 'tokens/figma/primitive.json'
+const KIT_LIGHT = 'tokens/figma/kit.light.json'
+const KIT_DARK = 'tokens/figma/kit.dark.json'
 const SEMANTIC = 'tokens/semantic.json'
 const MOTION = 'tokens/motion.json'
 
@@ -59,7 +62,7 @@ const originalValues = (tokens) =>
 
 const base = await buildBlock({
   selector: ':root',
-  source: [PRIMITIVES, SEMANTIC, MOTION, 'tokens/semantic.light.json', 'tokens/density.comfortable.json'],
+  source: [PRIMITIVES, KIT_LIGHT, SEMANTIC, MOTION, 'tokens/semantic.light.json', 'tokens/density.comfortable.json'],
 })
 const baseValues = originalValues(base.tokens)
 const differsFromBase = (token) =>
@@ -68,7 +71,7 @@ const differsFromBase = (token) =>
 const dark = await buildBlock({
   selector: '.dark',
   include: [PRIMITIVES, SEMANTIC],
-  source: ['tokens/semantic.dark.json'],
+  source: [KIT_DARK, 'tokens/semantic.dark.json'],
   filter: differsFromBase,
 })
 const compact = await buildBlock({
