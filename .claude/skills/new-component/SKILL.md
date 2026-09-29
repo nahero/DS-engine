@@ -14,7 +14,7 @@ Read `docs/design-system/figma.md` first for file keys, kit component names and 
 - Read `docs/design-system/patterns.md` for where it's used and which states it needs.
 
 ## 2. Read the Figma component
-- Library: Obra shadcn kit, file `dbk2ali9ax6GIGOOXNr2gp`, library key in `docs/HANDOFF.md` / memory. Kit components end in `- Nova`.
+- Library: Obra shadcn kit, file `dbk2ali9ax6GIGOOXNr2gp`, file map in `docs/design-system/figma.md`. Kit components end in `- Nova`.
 - Find it: `search_design_system` (one query per call) or `use_figma` read-only on the library page (load the `figma-use` skill first).
 - Record: variant properties and options, per-size height / padding / gap / radius / font size, bound variables (which `shadcn colors/*`, `radius-*`, typography vars).
 - Never write to the library file.
@@ -23,7 +23,7 @@ Read `docs/design-system/figma.md` first for file keys, kit component names and 
 - If shadcn has it: `npx shadcn@latest add <name>`. Otherwise compose Radix primitives. Never from scratch when a primitive exists.
 - The CLI writes `import { cn } from "cn"`. Change it to `import { cn } from "@/lib/utils"`: that instance knows our token utility names; the bare package drops `text-label` and doesn't merge `rounded-control`. New utility names (text size, radius, shadow, spacing) must be added to `src/lib/utils.ts`.
 - Project composites go in `src/components/review/`, generic ones in `src/components/ui/`.
-- New npm dependency not in HANDOFF.md → ask first.
+- New npm dependency not under Stack in the vault overview (`Projects/DS-Engine/overview.md`) → ask first.
 
 ## 4. Style with tokens only
 - Semantic utilities from `docs/design-system/tokens.md` (`bg-surface`, `text-fg-muted`, `h-control`, `rounded-control`, `duration-fast`…). shadcn names (`bg-primary`) are fine inside shadcn files.

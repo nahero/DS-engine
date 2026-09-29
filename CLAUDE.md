@@ -1,11 +1,11 @@
 # CLAUDE.md
 
-Project context and build order: `docs/HANDOFF.md`. Read it at the start of a new task.
+Project context, status and decisions live in the Obsidian vault: `/Users/igor/Documents/OBSIDIAN/MinDian/Projects/DS-Engine/overview.md`. Read it at the start of a new task and update it as work lands.
 
 ## Communication
 - Report only the bare minimum of what was done. No explanations of code unless asked.
 - Use plan mode for multi-file or structural changes. Wait for approval.
-- Ask before adding dependencies not listed in HANDOFF.md.
+- Ask before adding dependencies not listed under Stack in the vault overview.
 
 ## Commands
 - `npm run dev`: app dev server (base `/DS-engine/`)

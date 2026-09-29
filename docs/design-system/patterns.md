@@ -1,6 +1,6 @@
 # Patterns
 
-The product is a concept UI for **human supervision of AI agent work**: an agent pre-processes incoming submissions, a reviewer checks, corrects and approves them. Patterns below apply to both screens. Components are listed in `components.md`; accessibility rules in `accessibility.md`.
+The product is a concept **insurance claims admin**: an AI agent pre-processes incoming claims, a handler checks, corrects and approves them. Patterns below apply to both screens. Components are listed in `components.md`; accessibility rules in `accessibility.md`.
 
 ## Review queue (dense table)
 - **Default sort: needs attention first**: agent failed → low confidence → missing data → stale → the rest, then oldest first. The sort is visible and changeable.
