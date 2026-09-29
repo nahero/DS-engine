@@ -198,6 +198,10 @@
   --ds-color-confidence-high: var(--ds-color-green-600);
   --ds-color-confidence-medium: var(--ds-color-amber-600);
   --ds-color-confidence-low: var(--ds-color-red-600);
+  --ds-color-chart-1: var(--ds-color-blue-600);
+  --ds-color-chart-2: var(--ds-color-amber-600);
+  --ds-color-chart-3: var(--ds-color-green-600);
+  --ds-color-chart-4: var(--ds-color-violet-600);
   --ds-color-highlight-citation-bg: var(--ds-color-violet-100);
   --ds-color-highlight-citation-border: var(--ds-color-violet-400);
   --ds-space-inset: var(--ds-space-4);
@@ -289,6 +293,10 @@
   --ds-color-confidence-high: var(--ds-color-green-500);
   --ds-color-confidence-medium: var(--ds-color-amber-500);
   --ds-color-confidence-low: var(--ds-color-red-500);
+  --ds-color-chart-1: var(--ds-color-blue-400);
+  --ds-color-chart-2: var(--ds-color-amber-400);
+  --ds-color-chart-3: var(--ds-color-green-400);
+  --ds-color-chart-4: var(--ds-color-violet-400);
   --ds-color-highlight-citation-bg: var(--ds-color-violet-900);
   --ds-color-highlight-citation-border: var(--ds-color-violet-500);
   --ds-color-fg-on-action: var(--ds-brand-dark-primary-fg);

@@ -160,6 +160,20 @@
         "$value": "{color.red.500}"
       }
     },
+    "chart": {
+      "1": {
+        "$value": "{color.blue.400}"
+      },
+      "2": {
+        "$value": "{color.amber.400}"
+      },
+      "3": {
+        "$value": "{color.green.400}"
+      },
+      "4": {
+        "$value": "{color.violet.400}"
+      }
+    },
     "highlight": {
       "citation": {
         "bg": {

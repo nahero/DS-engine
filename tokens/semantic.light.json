@@ -160,6 +160,21 @@
         "$value": "{color.red.600}"
       }
     },
+    "chart": {
+      "$description": "Categorical data series (charts). Order: 1 blue, 2 amber, 3 green, 4 violet — adjacent series differ in hue and lightness. Never the only cue: legends and labels carry meaning.",
+      "1": {
+        "$value": "{color.blue.600}"
+      },
+      "2": {
+        "$value": "{color.amber.600}"
+      },
+      "3": {
+        "$value": "{color.green.600}"
+      },
+      "4": {
+        "$value": "{color.violet.600}"
+      }
+    },
     "highlight": {
       "citation": {
         "bg": {

@@ -32,6 +32,7 @@ const pairs = [
   ...['canvas', 'surface'].map((bg) => ['border.focus', `bg.${bg}`, NON_TEXT]),
   ['border.strong', 'bg.surface', NON_TEXT],
   ...['high', 'medium', 'low'].map((c) => [`confidence.${c}`, 'bg.surface', NON_TEXT]),
+  ...['1', '2', '3', '4'].map((c) => [`chart.${c}`, 'bg.surface', NON_TEXT]),
 ]
 
 function merge(files) {

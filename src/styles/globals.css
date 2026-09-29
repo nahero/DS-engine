@@ -230,10 +230,10 @@
   --border: var(--ds-color-border-default);
   --input: var(--ds-color-border-strong);
   --ring: var(--ds-color-border-focus);
-  --chart-1: var(--ds-color-action-primary-base);
-  --chart-2: var(--ds-color-confidence-high);
-  --chart-3: var(--ds-color-confidence-medium);
-  --chart-4: var(--ds-color-confidence-low);
+  --chart-1: var(--ds-color-chart-1);
+  --chart-2: var(--ds-color-chart-2);
+  --chart-3: var(--ds-color-chart-3);
+  --chart-4: var(--ds-color-chart-4);
   --chart-5: var(--ds-color-highlight-citation-border);
   --sidebar: var(--ds-color-bg-surface);
   --sidebar-foreground: var(--ds-color-fg-default);
