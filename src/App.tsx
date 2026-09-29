@@ -3,6 +3,8 @@ import { Construction } from 'lucide-react'
 
 import { AppShell } from '@/components/app/AppShell'
 import { Button } from '@/components/ui/button'
+import { ClaimDetail } from '@/screens/ClaimDetail'
+import { ClaimsQueue } from '@/screens/ClaimsQueue'
 import { Overview } from '@/screens/Overview'
 
 const PAGES: Record<string, { section: string; title: string }> = {
@@ -16,21 +18,33 @@ const PAGES: Record<string, { section: string; title: string }> = {
   settings: { section: 'Admin', title: 'Settings' },
 }
 
-// Only sidebar ids change the page; other hashes (#main, #claim-…) leave it as is.
-function pageFromHash(current: string) {
-  const id = window.location.hash.slice(1)
-  if (!id) return 'overview'
-  return id in PAGES ? id : current
+type Route = { page: string; claimId?: string }
+
+const CLAIM_PREFIX = 'claim-'
+
+// Sidebar ids and #claim-<id> change the page; other hashes (#main) leave it as is.
+function routeFromHash(current: Route): Route {
+  const id = decodeURIComponent(window.location.hash.slice(1))
+  if (!id) return { page: 'overview' }
+  if (id in PAGES) return { page: id }
+  if (id.startsWith(CLAIM_PREFIX) && id.length > CLAIM_PREFIX.length) {
+    return { page: 'claim-detail', claimId: id.slice(CLAIM_PREFIX.length) }
+  }
+  return current
 }
 
-function usePage() {
-  const [page, setPage] = React.useState(() => pageFromHash('overview'))
+function useRoute() {
+  const [route, setRoute] = React.useState<Route>(() => routeFromHash({ page: 'overview' }))
   React.useEffect(() => {
-    const onHashChange = () => setPage((current) => pageFromHash(current))
+    const onHashChange = () =>
+      setRoute((current) => {
+        const next = routeFromHash(current)
+        return next.page === current.page && next.claimId === current.claimId ? current : next
+      })
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
-  return page
+  return route
 }
 
 function ComingSoon({ title }: { title: string }) {
@@ -47,11 +61,35 @@ function ComingSoon({ title }: { title: string }) {
 }
 
 export default function App() {
-  const page = usePage()
-  const { section, title } = PAGES[page]
+  const { page, claimId } = useRoute()
+  const isClaim = page === 'claim-detail' && claimId !== undefined
+  const meta = isClaim ? { section: 'Claims', title: claimId } : PAGES[page]
+  const breadcrumb = isClaim
+    ? [{ label: 'Claims' }, { label: 'Queue', href: '#claims-queue' }, { label: claimId }]
+    : [{ label: meta.section }, { label: meta.title }]
+
+  // Announce the new page: title, and focus to the main region (not on first load).
+  const firstRender = React.useRef(true)
+  React.useEffect(() => {
+    document.title = `${meta.title} \u00b7 ClaimDesk`
+    if (firstRender.current) {
+      firstRender.current = false
+      return
+    }
+    document.getElementById('main')?.focus()
+  }, [page, meta.title])
+
   return (
-    <AppShell activeItem={page} breadcrumb={[{ label: section }, { label: title }]}>
-      {page === 'overview' ? <Overview /> : <ComingSoon title={title} />}
+    <AppShell activeItem={isClaim ? 'claims-queue' : page} breadcrumb={breadcrumb}>
+      {isClaim ? (
+        <ClaimDetail claimId={claimId} />
+      ) : page === 'overview' ? (
+        <Overview />
+      ) : page === 'claims-queue' ? (
+        <ClaimsQueue />
+      ) : (
+        <ComingSoon title={meta.title} />
+      )}
     </AppShell>
   )
 }
