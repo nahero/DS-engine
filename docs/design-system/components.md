@@ -11,7 +11,9 @@ Figma library: **Obra shadcn ui kit (community edition)**, published to the team
 | Button | `src/components/ui/button.tsx` | shadcn Button (Radix Slot) | `Button - Nova` | Done: kit sizing, soft destructive, `loading` | Default, Variants, Sizes, WithIcons, Focus, Disabled, Loading, Invalid, LongLabel, AsLink |
 | Spinner | `src/components/ui/spinner.tsx` | shadcn Spinner (Lucide) | `Spinner` | Used by Button `loading`; static under reduced motion | via Button/Loading |
 | StatusBadge | `components/review/` | shadcn Badge | `Badge` | Planned | — |
-| ConfidenceIndicator | `components/review/` | Token-styled meter (Radix Progress if it fits) | — (compose) | Planned | — |
+| ConfidenceIndicator | `components/review/` | Icon + number + label, `confidence.*` tokens | DS `Confidence indicator` (DS-Engine-Main, `55:61`): Level High/Medium/Low/None, Value | Figma done, code planned | — |
+| ExtractedFieldRow | `components/review/` | shadcn Table row + ConfidenceIndicator + CitationChip + Input | DS `Extracted field row` (`60:4629`): State Default/Low confidence/Missing/Agent failed/Editing/Corrected, Field, Value, Show source, Show reveal | Figma done, code planned | — |
+| PayoutBreakdown | `components/review/` | Label/value rows + shadcn Separator, Alert, Skeleton | DS `Payout breakdown` (`59:1981`): State Within limit/Above authority limit/Capped by policy limit/Deductible missing/Denied/Loading, Claimed, Deductible, Covered, Limit, Payable, Show note | Figma done, code planned | — |
 | CitationChip | `components/review/` | shadcn Badge + HoverCard/Popover | `Badge`, `Hover Card` | Planned | — |
 | DataTable | `components/review/` | shadcn Table + TanStack Table | `Table - Nova`, `Data Table` page | Planned | — |
 | FilterBar | `components/review/` | Input, Select, ToggleGroup, Button | `Input - Nova`, `Select`, `Toggle Group` | Planned | — |

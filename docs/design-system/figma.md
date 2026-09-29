@@ -6,7 +6,7 @@ Read this before any Figma work; update it after any session that changes the fi
 | File | Key | Role |
 |---|---|---|
 | Obra shadcn ui kit (community edition), team copy | `dbk2ali9ax6GIGOOXNr2gp` | Library: kit components + all variable collections. Published to the team ("New Team", Pro). |
-| DS-Engine-Main | `LbYcGPXhnrMBahsdvBJ2HI` | Working file: designs built from library instances. Pages: `Page 1`, `Insurance admin` (`26:50`). |
+| DS-Engine-Main | `LbYcGPXhnrMBahsdvBJ2HI` | Working file: designs built from library instances. Pages: `Page 1`, `Insurance admin` (`26:50`, v1, frozen), `Insurance admin v2 — DS components` (`50:32`), `DS components` (`50:856`). |
 
 Access: Figma MCP (`plugin:figma:figma`), `whoami` = igor023@gmail.com, Full seat. Load the `figma-use` skill before `use_figma`.
 
@@ -57,6 +57,12 @@ Other relevant pages: Alert Dialog `1953:9001`, Field `1953:9016`, Input `1953:9
 | `37:1673` | Insurance admin / 02 Claims queue | — |
 | `38:560` | Insurance admin / 03 Claim detail | — |
 | `37:2811`, `37:2814`, `37:2817` | Decision notes under each screen | — |
+| `50:32` page | v2: duplicate of v1 with DS components swapped in (03 fields table + payout card, 02 confidence column); notes `50:341/344/347` | — |
+| `55:61` | DS `Confidence indicator` set (page `DS components`) | planned |
+| `60:4629` | DS `Extracted field row` set | planned |
+| `59:1981` | DS `Payout breakdown` set | planned |
+
+v1 (`26:50`) is kept as-is to show progress; changes go to v2.
 
 Screens 02 and 03 are clones of 01: shell = `Sidebar` + `Main` (`Header`, `Body`); screen content lives in `Body`. Modes set explicitly per frame (DS Semantic Light, DS Density Comfortable, DS Brand Default).
 
@@ -65,3 +71,5 @@ Screens 02 and 03 are clones of 01: shell = `Sidebar` + `Main` (`Header`, `Body`
 - Custom layers: bind colours to DS Semantic / DS Component, spacing to DS Density, radius to DS Component or kit radii. No raw hex.
 - `figma.createAutoLayout()` frames get an unbound white fill: set `fills = []` on layout frames.
 - Kit slots (Card, Breadcrumb) keep placeholder children: remove them before appending.
+- TEXT props can't bind to text inside nested kit instances: expose the nested instance instead (`isExposedInstance`).
+- A variant set's default is the top-left variant by position.
