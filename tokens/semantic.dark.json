@@ -16,6 +16,9 @@
       },
       "inverse": {
         "$value": "{color.neutral.50}"
+      },
+      "accent": {
+        "$value": "{brand.dark.accent}"
       }
     },
     "fg": {
@@ -33,6 +36,9 @@
       },
       "on-action": {
         "$value": "{brand.dark.primary-fg}"
+      },
+      "accent": {
+        "$value": "{brand.dark.accent-fg}"
       }
     },
     "border": {

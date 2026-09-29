@@ -23,6 +23,7 @@ const pairs = [
     ['canvas', 'surface', 'surface-raised', 'subtle'].map((bg) => [`fg.${fg}`, `bg.${bg}`, TEXT]),
   ),
   ['fg.inverse', 'bg.inverse', TEXT],
+  ...['accent', 'default', 'muted'].map((fg) => [`fg.${fg}`, 'bg.accent', TEXT]),
   ...['primary', 'secondary', 'danger', 'danger-soft'].flatMap((a) => [
     [`action.${a}.fg`, `action.${a}.base`, TEXT],
     [`action.${a}.fg`, `action.${a}.hover`, TEXT],

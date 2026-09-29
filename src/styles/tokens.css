@@ -234,12 +234,18 @@
   --ds-brand-light-primary-hover: var(--ds-color-neutral-800);
   --ds-brand-light-primary-fg: var(--ds-color-white);
   --ds-brand-light-focus: var(--ds-color-neutral-500);
+  --ds-brand-light-accent: var(--ds-color-neutral-100);
+  --ds-brand-light-accent-fg: var(--ds-color-black);
   --ds-brand-dark-primary: var(--ds-color-neutral-200);
   --ds-brand-dark-primary-hover: var(--ds-color-neutral-300);
   --ds-brand-dark-primary-fg: var(--ds-color-neutral-950);
   --ds-brand-dark-focus: var(--ds-color-neutral-400);
+  --ds-brand-dark-accent: var(--ds-color-neutral-900);
+  --ds-brand-dark-accent-fg: var(--ds-color-white);
   --ds-row-height: var(--ds-space-12);
+  --ds-color-bg-accent: var(--ds-brand-light-accent); /** Brand tint for hover, active nav and selected rows. Neutral in the default brand. */
   --ds-color-fg-on-action: var(--ds-brand-light-primary-fg);
+  --ds-color-fg-accent: var(--ds-brand-light-accent-fg);
   --ds-color-border-focus: var(--ds-brand-light-focus);
   --ds-color-action-primary-base: var(--ds-brand-light-primary);
   --ds-color-action-primary-hover: var(--ds-brand-light-primary-hover);
@@ -299,7 +305,9 @@
   --ds-color-chart-4: var(--ds-color-violet-400);
   --ds-color-highlight-citation-bg: var(--ds-color-violet-900);
   --ds-color-highlight-citation-border: var(--ds-color-violet-500);
+  --ds-color-bg-accent: var(--ds-brand-dark-accent);
   --ds-color-fg-on-action: var(--ds-brand-dark-primary-fg);
+  --ds-color-fg-accent: var(--ds-brand-dark-accent-fg);
   --ds-color-border-focus: var(--ds-brand-dark-focus);
   --ds-color-action-primary-base: var(--ds-brand-dark-primary);
   --ds-color-action-primary-hover: var(--ds-brand-dark-primary-hover);
@@ -319,7 +327,11 @@
   --ds-brand-light-primary: var(--ds-color-purple-600);
   --ds-brand-light-primary-hover: var(--ds-color-purple-700);
   --ds-brand-light-focus: var(--ds-color-purple-500);
+  --ds-brand-light-accent: var(--ds-color-purple-50);
+  --ds-brand-light-accent-fg: var(--ds-color-purple-900);
   --ds-brand-dark-primary: var(--ds-color-purple-400);
   --ds-brand-dark-primary-hover: var(--ds-color-purple-300);
   --ds-brand-dark-focus: var(--ds-color-purple-400);
+  --ds-brand-dark-accent: var(--ds-color-purple-950);
+  --ds-brand-dark-accent-fg: var(--ds-color-purple-100);
 }

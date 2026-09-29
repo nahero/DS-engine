@@ -16,6 +16,10 @@
       },
       "inverse": {
         "$value": "{color.neutral.900}"
+      },
+      "accent": {
+        "$value": "{brand.light.accent}",
+        "$description": "Brand tint for hover, active nav and selected rows. Neutral in the default brand."
       }
     },
     "fg": {
@@ -33,6 +37,9 @@
       },
       "on-action": {
         "$value": "{brand.light.primary-fg}"
+      },
+      "accent": {
+        "$value": "{brand.light.accent-fg}"
       }
     },
     "border": {

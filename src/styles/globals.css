@@ -223,8 +223,8 @@
   --secondary-foreground: var(--ds-color-action-secondary-fg);
   --muted: var(--ds-color-bg-subtle);
   --muted-foreground: var(--ds-color-fg-muted);
-  --accent: var(--ds-color-bg-subtle);
-  --accent-foreground: var(--ds-color-fg-default);
+  --accent: var(--ds-color-bg-accent);
+  --accent-foreground: var(--ds-color-fg-accent);
   --destructive: var(--ds-color-action-danger-base);
   --destructive-foreground: var(--ds-color-action-danger-fg);
   --border: var(--ds-color-border-default);
@@ -239,8 +239,8 @@
   --sidebar-foreground: var(--ds-color-fg-default);
   --sidebar-primary: var(--ds-color-action-primary-base);
   --sidebar-primary-foreground: var(--ds-color-action-primary-fg);
-  --sidebar-accent: var(--ds-color-bg-subtle);
-  --sidebar-accent-foreground: var(--ds-color-fg-default);
+  --sidebar-accent: var(--ds-color-bg-accent);
+  --sidebar-accent-foreground: var(--ds-color-fg-accent);
   --sidebar-border: var(--ds-color-border-default);
   --sidebar-ring: var(--ds-color-border-focus);
   color-scheme: light;

@@ -20,7 +20,7 @@ Source of truth: DTCG JSON in `tokens/`. `npm run build:tokens` turns it into `s
 ## Naming
 - Pattern: `<category>.<role>.<variant>.<state>`, e.g. `color.action.primary.hover`, `color.status.warning.bg`. Names describe a **role**, never a value or scale step: `font.weight.heading`, not `font.weight.medium`. Reusing a primitive's path overwrites it (see `docs/ai-log.md`, font weight collision).
 - Component tokens: `<component>.<property>`, e.g. `card.bg`, `dialog.radius` (CSS: `--ds-card-bg`).
-- Colour roles: `bg.*` (canvas, surface, surface-raised, subtle, inverse), `fg.*` (default, muted, subtle, inverse, on-action), `border.*` (default, strong, focus), `action.{primary,secondary,danger}.{base,hover,fg}`, `status.{info,success,warning,danger,neutral}.{bg,fg,border}`, `confidence.{high,medium,low}` (marks only, 3:1; confidence text uses `status.*.fg`), `chart.1–4` (categorical series: blue, amber, green, violet), `highlight.citation.{bg,border}`.
+- Colour roles: `bg.*` (canvas, surface, surface-raised, subtle, inverse, accent), `fg.*` (default, muted, subtle, inverse, on-action, accent), `border.*` (default, strong, focus), `action.{primary,secondary,danger}.{base,hover,fg}`, `status.{info,success,warning,danger,neutral}.{bg,fg,border}`, `confidence.{high,medium,low}` (marks only, 3:1; confidence text uses `status.*.fg`), `chart.1–4` (categorical series: blue, amber, green, violet), `highlight.citation.{bg,border}`.
 - Size roles: `radius.{inner,control,surface,overlay}`, `shadow.{raised,overlay}`, `font.size.{label,caption,body,body-lg,heading-sm,heading-md,heading-lg,display}`, `control.height` (36px comfortable = kit Large, 32px compact = kit Default), `row.height`, `space.{inset,stack,cell}`.
 - New utility names for text size, radius, shadow or spacing must also be registered in `src/lib/utils.ts`, or `cn()` mis-merges them.
 
@@ -91,3 +91,6 @@ The Obra kit's values are the starting point; these differences live in our sema
 - **Hand-owned** (semantic, component, density, motion): edit the JSON, `npm run build:tokens`, commit JSON and generated files. CI fails if the generated files drift or contrast fails.
 - **From Figma**: `sync-tokens` skill.
 - New role: add it to both `semantic.light.json` and `semantic.dark.json`, map a utility in `globals.css`, add pairs to `scripts/check-contrast.js` if it carries text or a boundary, update this file.
+
+## Brand accent
+`brand.*.accent` / `accent-fg` → `bg.accent` / `fg.accent` → shadcn `--accent` and `--sidebar-accent`. Used for menu hover, the active sidebar item and selected table rows. Default brand keeps these neutral (same as `bg.subtle`), Purple uses purple 50/900 (light) and 950/100 (dark).
