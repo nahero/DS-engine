@@ -2,8 +2,9 @@
 // Plugin API code, run by Claude through the Figma MCP `use_figma` tool (like figma-export.js).
 // Replace the PAYLOAD placeholder below with the output of `node scripts/figma-push-payload.js`.
 // Idempotent: collections, modes and variables are matched by name, created if missing, then
-// overwritten. Never touches the kit's own collections. Variables that exist in Figma but not in
-// the payload are reported, not deleted.
+// overwritten. Variables that exist in Figma but not in the payload are reported, not deleted.
+// The only kit collection it writes is `shadcn colors` (the adapter): each mapped variable aliases
+// its DS token in every kit mode. Previous values are returned in `adapterBefore` for rollback.
 // Runs as the body of an async function: top-level await and return are allowed.
 
 const PAYLOAD = __PAYLOAD__
@@ -30,7 +31,7 @@ const rgba = (hex) => {
 }
 const alias = (v) => ({ type: 'VARIABLE_ALIAS', id: v.id })
 
-const report = { created: [], updated: 0, literals: [], orphans: [], skipped: PAYLOAD.skipped }
+const report = { created: [], updated: 0, literals: [], orphans: [], skipped: PAYLOAD.skipped, adapted: 0, unadapted: [], adapterBefore: {} }
 // "Collection:name" → variable; seeded with what's already in Figma so a partial payload can alias it.
 const colNameById = new Map(collections.map((c) => [c.id, c.name]))
 const pushed = new Map(variables.map((v) => [`${colNameById.get(v.variableCollectionId)}:${v.name}`, v]))
@@ -74,6 +75,22 @@ for (const spec of PAYLOAD.collections) {
   }
   const wanted = new Set(spec.variables.map((i) => i.name))
   report.orphans.push(...[...existing.keys()].filter((n) => !wanted.has(n)).map((n) => `${spec.name}/${n}`))
+}
+
+// Adapter: kit `shadcn colors/<group>/<name>` → shadcn CSS name → DS token.
+const kitCol = colByName.get('shadcn colors')
+const cssName = (name) => name.split('/').at(-1).trim().toLowerCase().replace(/\s+/g, '-')
+for (const v of PAYLOAD.adapter ? inCol(kitCol) : []) {
+  const target = PAYLOAD.adapter[cssName(v.name)]
+  if (!target) {
+    report.unadapted.push(v.name)
+    continue
+  }
+  const ds = pushed.get(`${target.collection}:${target.alias}`)
+  if (!ds) throw new Error(`Adapter ${v.name}: no variable ${target.collection} ${target.alias}`)
+  report.adapterBefore[v.name] = v.valuesByMode
+  for (const mode of kitCol.modes) v.setValueForMode(mode.modeId, alias(ds))
+  report.adapted++
 }
 
 return report

@@ -28,6 +28,7 @@ Project context and build order: `docs/HANDOFF.md`. Read it at the start of a ne
 ## Pointers
 - Tokens: `docs/design-system/tokens.md`, motion: `docs/design-system/motion.md`
 - Components + Figma→code mapping: `docs/design-system/components.md`
+- Figma files, collections, mode switching, kit components: `docs/design-system/figma.md` (read before Figma work, update after)
 - Patterns: `docs/design-system/patterns.md`
 - Accessibility: `docs/design-system/accessibility.md`
 - Skills: `.claude/skills/` (new-component, sync-tokens, ui-review)

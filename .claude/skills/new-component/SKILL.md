@@ -6,6 +6,7 @@ description: Build or rework a UI component in DS-Engine (shadcn/Radix base, sem
 # New component
 
 Follow in order. Stop and ask if a step reveals a decision that is the user's (API shape, a new dependency, deviating from the kit).
+Read `docs/design-system/figma.md` first for file keys, kit component names and pages; add the component there when it's done.
 
 ## 1. Check what exists
 - Read `docs/design-system/components.md` (inventory + Figma mapping) and list `src/components/ui/`.

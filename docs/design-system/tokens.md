@@ -15,7 +15,7 @@ Source of truth: DTCG JSON in `tokens/`. `npm run build:tokens` turns it into `s
 - `tokens/figma/*` is never hand-edited; re-export with the `sync-tokens` skill. Motion and density are designed in code; Figma doesn't have them.
 
 ### shadcn adapter
-`globals.css` maps shadcn variable names (`--background`, `--primary`, `--card` …) onto semantic tokens, or component tokens where they exist (`--card` → `--ds-card-bg`, `--popover` → `--ds-dialog-bg`). It is an adapter, not a tier. In Figma, the kit's `shadcn colors` variables still hold the kit's own values, so kit components don't follow DS modes until they're pointed at DS Semantic (pending).
+`globals.css` maps shadcn variable names (`--background`, `--primary`, `--card` …) onto semantic tokens, or component tokens where they exist (`--card` → `--ds-card-bg`, `--popover` → `--ds-dialog-bg`). It is an adapter, not a tier. In Figma, the kit's `shadcn colors` variables alias DS Semantic / DS Component the same way (see `figma.md`).
 
 ## Naming
 - Pattern: `<category>.<role>.<variant>.<state>`, e.g. `color.action.primary.hover`, `color.status.warning.bg`. Names describe a **role**, never a value or scale step: `font.weight.heading`, not `font.weight.medium`. Reusing a primitive's path overwrites it (see `docs/ai-log.md`, font weight collision).
@@ -55,7 +55,9 @@ Our layers live in the Obra library file next to the kit's collections, which st
 - Designers set the three moded collections on a frame (Layer panel → variable modes).
 - Each variable's Dev Mode code syntax is its CSS variable (`var(--ds-color-bg-canvas)`); scopes limit pickers (fills, text, stroke, gap, size).
 - Push after changing hand-owned tokens: `node scripts/figma-push-payload.js > <payload.json>`, then run `scripts/figma-push.js` via `use_figma` with the payload in place of `__PAYLOAD__`. It creates or updates by name, never deletes, and reports orphans and literal values. Then publish the library in Figma.
-- Not yet in Figma: radius, type, shadow and motion roles. Kit components are still bound to kit variables, so they don't follow DS Brand until rebound.
+- The push also re-points the kit's `shadcn colors` variables at DS tokens (the adapter), from the same mapping as `globals.css`.
+- Not yet in Figma: radius, type, shadow and motion roles (except card/dialog radius via DS Component).
+- Mode switching and file details: `figma.md`.
 
 ## Tailwind utilities
 Tailwind's default palette, type scale, radii, shadows and easings are removed (`--*: initial` in `globals.css`), so only token-backed utilities exist.

@@ -5,7 +5,7 @@ description: Re-export DS-Engine design tokens from the Obra Figma kit into toke
 
 # Sync tokens
 
-Background: `docs/design-system/tokens.md`. Step 1 only reads Figma; step 4 writes our DS collections back to it.
+Background: `docs/design-system/tokens.md`, `docs/design-system/figma.md`. Step 1 only reads Figma; step 4 writes our DS collections and the `shadcn colors` adapter back to it.
 
 ## 1. Export from Figma (skip if only hand-owned JSON changed)
 1. Load the `figma-use` skill (MCP resource `skill://figma/figma-use/SKILL.md`) before calling `use_figma`.
