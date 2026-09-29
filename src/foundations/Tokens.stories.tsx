@@ -6,6 +6,10 @@ import dark from '../../tokens/semantic.dark.json'
 import comfortable from '../../tokens/density.comfortable.json'
 import compact from '../../tokens/density.compact.json'
 import motion from '../../tokens/motion.json'
+import primitive from '../../tokens/figma/primitive.json'
+import component from '../../tokens/component.json'
+import brandDefault from '../../tokens/brand.default.json'
+import brandPurple from '../../tokens/brand.purple.json'
 
 type Token = { path: string[]; value: unknown }
 
@@ -20,6 +24,11 @@ function flatten(node: object, path: string[] = []): Token[] {
 const cssVar = (path: string[]) => `--ds-${path.join('-')}`
 const name = (path: string[]) => path.join('.')
 const lookup = (tokens: Token[]) => new Map(tokens.map((t) => [name(t.path), String(t.value)]))
+// "{color.purple.600}" → "var(--ds-color-purple-600)": aliases resolve through the same CSS variables the app uses.
+const aliasVar = (value: unknown) => {
+  const match = /^\{(.+)\}$/.exec(String(value))
+  return match ? `var(--ds-${match[1].replaceAll('.', '-')})` : String(value)
+}
 
 function TokenTable({ headers, children }: { headers: string[]; children: ReactNode }) {
   return (
@@ -187,6 +196,107 @@ function Motion() {
   )
 }
 
+function Primitives() {
+  const hues = Object.entries(primitive.color).filter(([key]) => !key.startsWith('$'))
+  return (
+    <Page title="Primitive colors">
+      <p className="text-fg-muted">
+        Exported from the Figma kit (<Code>tokens/figma/primitive.json</Code>). Components never use these directly; semantic
+        and brand tokens alias them.
+      </p>
+      <div className="flex flex-col gap-stack">
+        {hues.map(([hue, steps]) => {
+          const tokens = typeof steps === 'object' && steps !== null && '$value' in steps
+            ? [{ path: ['color', hue], value: steps.$value }]
+            : flatten(steps as object, ['color', hue])
+          return (
+            <div key={hue} className="flex flex-col gap-2">
+              <h2 className="text-body font-medium">{hue}</h2>
+              <div className="flex flex-wrap gap-2">
+                {tokens.map((t) => (
+                  <figure key={name(t.path)} className="flex w-20 flex-col gap-1">
+                    <div
+                      aria-hidden
+                      className="h-10 rounded-inner border border-border"
+                      style={{ background: `var(${cssVar(t.path)}, ${String(t.value)})` }}
+                    />
+                    <figcaption className="flex flex-col">
+                      <span className="text-caption">{t.path.at(-1)}</span>
+                      <Code>{String(t.value)}</Code>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </Page>
+  )
+}
+
+function Brand() {
+  const themes = [
+    { label: 'Default', tokens: lookup(flatten(brandDefault)) },
+    { label: 'Purple', tokens: lookup(flatten(brandPurple)) },
+  ]
+  return (
+    <Page title="Brand themes">
+      <p className="text-fg-muted">
+        Roles that change per brand (<Code>tokens/brand.*.json</Code>), each with a light and dark value. Semantic tokens alias
+        them; switch Brand in the toolbar to apply a theme.
+      </p>
+      <TokenTable headers={['Token', 'CSS variable', ...themes.map((t) => t.label)]}>
+        {flatten(brandDefault).map((t) => (
+          <tr key={name(t.path)} className="h-row border-b border-border">
+            <td className="px-cell">{name(t.path)}</td>
+            <td className="px-cell"><Code>{cssVar(t.path)}</Code></td>
+            {themes.map((theme) => {
+              const value = theme.tokens.get(name(t.path))
+              return (
+                <td key={theme.label} className="px-cell">
+                  <span className="flex items-center gap-2">
+                    <span aria-hidden className="size-6 shrink-0 rounded-inner border border-border" style={{ background: aliasVar(value) }} />
+                    <Code>{value}</Code>
+                  </span>
+                </td>
+              )
+            })}
+          </tr>
+        ))}
+      </TokenTable>
+    </Page>
+  )
+}
+
+function Components() {
+  return (
+    <Page title="Component tokens">
+      <p className="text-fg-muted">
+        Only where a component needs its own knob (<Code>tokens/component.json</Code>). They alias semantic tokens, so they
+        follow light/dark, brand and density.
+      </p>
+      <TokenTable headers={['', 'Token', 'CSS variable', 'Alias']}>
+        {flatten(component).map((t) => {
+          const isColor = /bg|border/.test(t.path.at(-1) ?? '')
+          return (
+            <tr key={name(t.path)} className="h-row border-b border-border">
+              <td className="px-cell">
+                {isColor && (
+                  <div aria-hidden className="size-8 rounded-inner border border-border" style={{ background: `var(${cssVar(t.path)})` }} />
+                )}
+              </td>
+              <td className="px-cell">{name(t.path)}</td>
+              <td className="px-cell"><Code>{cssVar(t.path)}</Code></td>
+              <td className="px-cell"><Code>{typeof t.value === 'object' ? 'shadow (see Radius and shadow)' : String(t.value)}</Code></td>
+            </tr>
+          )
+        })}
+      </TokenTable>
+    </Page>
+  )
+}
+
 const meta = {
   title: 'Foundations/Tokens',
   parameters: { layout: 'fullscreen' },
@@ -200,3 +310,6 @@ export const DensityTokens: Story = { name: 'Density', render: () => <Density />
 export const TypographyTokens: Story = { name: 'Typography', render: () => <Typography /> }
 export const RadiusAndShadowTokens: Story = { name: 'Radius and shadow', render: () => <RadiusAndShadow /> }
 export const MotionTokens: Story = { name: 'Motion', render: () => <Motion /> }
+export const PrimitiveColors: Story = { name: 'Primitive colors', render: () => <Primitives /> }
+export const BrandThemes: Story = { name: 'Brand themes', render: () => <Brand /> }
+export const ComponentTokens: Story = { name: 'Component tokens', render: () => <Components /> }

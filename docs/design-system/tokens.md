@@ -56,6 +56,7 @@ Our layers live in the Obra library file next to the kit's collections, which st
 - Each variable's Dev Mode code syntax is its CSS variable (`var(--ds-color-bg-canvas)`); scopes limit pickers (fills, text, stroke, gap, size).
 - Push after changing hand-owned tokens: `node scripts/figma-push-payload.js > <payload.json>`, then run `scripts/figma-push.js` via `use_figma` with the payload in place of `__PAYLOAD__`. It creates or updates by name, never deletes, and reports orphans and literal values. Then publish the library in Figma.
 - The push also re-points the kit's `shadcn colors` variables at DS tokens (the adapter), from the same mapping as `globals.css`.
+- Verify after any push (read-only): same payload into `scripts/figma-verify.js` via `use_figma`. It must return no `mismatches`, `missing`, `extra` or `adapter` entries. Storybook `Foundations/Tokens` reads the same token files, so it never drifts from code.
 - Not yet in Figma: radius, type, shadow and motion roles (except card/dialog radius via DS Component).
 - Mode switching and file details: `figma.md`.
 
