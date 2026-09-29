@@ -5,6 +5,8 @@
 // overwritten. Variables that exist in Figma but not in the payload are reported, not deleted.
 // The only kit collection it writes is `shadcn colors` (the adapter): each mapped variable aliases
 // its DS token in every kit mode. Previous values are returned in `adapterBefore` for rollback.
+// With `kitOverlays`, every other kit colour that differs between the kit's modes (alpha overlays)
+// moves into DS Semantic as a hidden `kit/<name>` variable, so DS Semantic is the only light/dark switch.
 // Runs as the body of an async function: top-level await and return are allowed.
 
 const PAYLOAD = __PAYLOAD__
@@ -31,7 +33,7 @@ const rgba = (hex) => {
 }
 const alias = (v) => ({ type: 'VARIABLE_ALIAS', id: v.id })
 
-const report = { created: [], updated: 0, literals: [], orphans: [], skipped: PAYLOAD.skipped, adapted: 0, unadapted: [], adapterBefore: {} }
+const report = { created: [], updated: 0, literals: [], orphans: [], skipped: PAYLOAD.skipped, adapted: 0, unadapted: [], adapterBefore: {}, overlays: 0, overlayBefore: {} }
 // "Collection:name" → variable; seeded with what's already in Figma so a partial payload can alias it.
 const colNameById = new Map(collections.map((c) => [c.id, c.name]))
 const pushed = new Map(variables.map((v) => [`${colNameById.get(v.variableCollectionId)}:${v.name}`, v]))
@@ -74,7 +76,7 @@ for (const spec of PAYLOAD.collections) {
     pushed.set(`${spec.name}:${item.name}`, v)
   }
   const wanted = new Set(spec.variables.map((i) => i.name))
-  report.orphans.push(...[...existing.keys()].filter((n) => !wanted.has(n)).map((n) => `${spec.name}/${n}`))
+  report.orphans.push(...[...existing.keys()].filter((n) => !wanted.has(n) && !n.startsWith('kit/')).map((n) => `${spec.name}/${n}`))
 }
 
 // Adapter: kit `shadcn colors/<group>/<name>` → shadcn CSS name → DS token.
@@ -91,6 +93,33 @@ for (const v of PAYLOAD.adapter ? inCol(kitCol) : []) {
   report.adapterBefore[v.name] = v.valuesByMode
   for (const mode of kitCol.modes) v.setValueForMode(mode.modeId, alias(ds))
   report.adapted++
+}
+
+if (PAYLOAD.kitOverlays) {
+  const sem = colByName.get('DS Semantic')
+  const semModes = ['Light', 'Dark'].map((n) => sem.modes.find((m) => m.name === n).modeId)
+  const kitModes = ['shadcn', 'shadcn-dark'].map((n) => kitCol.modes.find((m) => m.name === n).modeId)
+  const semVars = new Map(inCol(sem).map((v) => [v.name, v]))
+  const byId = new Map(variables.map((v) => [v.id, v]))
+  // Follow aliases inside the kit collection in the same mode; stop at anything outside it.
+  const resolveInKit = (value, modeId) => {
+    const target = value?.type === 'VARIABLE_ALIAS' ? byId.get(value.id) : null
+    return target && target.variableCollectionId === kitCol.id ? resolveInKit(target.valuesByMode[modeId], modeId) : value
+  }
+  const pending = inCol(kitCol)
+    .filter((v) => v.resolvedType === 'COLOR')
+    .map((v) => ({ v, values: kitModes.map((m) => resolveInKit(v.valuesByMode[m], m)) }))
+    .filter(({ values }) => JSON.stringify(values[0]) !== JSON.stringify(values[1]))
+  for (const { v, values } of pending) {
+    const name = `kit/${v.name}`
+    const s = semVars.get(name) ?? figma.variables.createVariable(name, sem, 'COLOR')
+    s.scopes = []
+    s.description = 'Figma-only: kit overlay moved under DS Semantic so light/dark is one switch. Not in code.'
+    values.forEach((value, i) => s.setValueForMode(semModes[i], value))
+    report.overlayBefore[v.name] = v.valuesByMode
+    for (const m of kitModes) v.setValueForMode(m, alias(s))
+    report.overlays++
+  }
 }
 
 return report

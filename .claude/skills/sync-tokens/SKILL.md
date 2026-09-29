@@ -28,7 +28,7 @@ Background: `docs/design-system/tokens.md`, `docs/design-system/figma.md`. Step 
 
 ## 4. Push hand-owned tokens to Figma (after semantic, brand or density changes)
 1. `node scripts/figma-push-payload.js > <scratchpad>/payload.json`
-2. Run `use_figma` on `dbk2ali9ax6GIGOOXNr2gp` with `scripts/figma-push.js`, `__PAYLOAD__` replaced by the payload JSON.
+2. Run `use_figma` on `dbk2ali9ax6GIGOOXNr2gp` with `scripts/figma-push.js`, `__PAYLOAD__` replaced by the payload JSON (add `"kitOverlays": true` if the kit was updated, so its mode-dependent overlays stay under DS Semantic).
 3. Check the report: `orphans` (renamed/removed tokens: delete in Figma only if the human agrees), `literals` (values with no Figma variable to alias).
 4. Verify: resolve every DS Semantic variable per DS Brand × mode in Figma and compare with the code's resolved values; expect zero mismatches.
 5. Ask the human to publish the library update.

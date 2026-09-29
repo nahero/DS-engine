@@ -15,10 +15,10 @@ Access: Figma MCP (`plugin:figma:figma`), `whoami` = igor023@gmail.com, Full sea
 |---|---|---|---|
 | `raw tailwind colors` | 1 | Kit | Primitives (`tw-raw/<hue>/<step>`). Exported to `tokens/figma/primitive.json` (selected hues only). |
 | `spacing`, `border radii`, `typography`, `shadows` | 1 | Kit | Primitives. Exported. |
-| `shadcn colors` | shadcn, shadcn-dark | Kit, **re-pointed by us** | Adapter: 26 variables (`general/*`, `focus/ring`, `sidebar/*`) alias DS Semantic / DS Component in both modes. `alpha/*` overlays and `focus/ring error` keep kit values. Pre-rebind values: `scripts/figma-kit-colors-backup.json`. |
+| `shadcn colors` | shadcn, shadcn-dark | Kit, **re-pointed by us** | Adapter: 26 variables (`general/*`, `focus/ring`, `sidebar/*`) alias DS Semantic / DS Component in both modes. The 40 mode-dependent overlays (`alpha/*/switch/*`, `alpha/white/outline-bg`, `focus/ring error`) alias hidden DS Semantic `kit/*` variables, so this collection's mode no longer matters. Pre-rebind values: `scripts/figma-kit-colors-backup.json`. |
 | `theme` | 1 | Kit | Neutral ramp + chart colours; untouched. |
 | DS Brand | Default, Purple | Us | Per-theme roles; hidden from pickers. |
-| DS Semantic | Light, Dark | Us | All semantic colours. Code syntax = CSS variable. |
+| DS Semantic | Light, Dark | Us | All semantic colours. Code syntax = CSS variable. Plus hidden Figma-only `kit/*` overlays (not in code; the push ignores them). |
 | DS Density | Comfortable, Compact | Us | `control/height`, `row/height`, `space/*`, `font/size/body`. |
 | DS Component | Default | Us | `card/*`, `dialog/*`. |
 
@@ -28,10 +28,10 @@ Written by `scripts/figma-push.js` (DS collections + adapter); read by `scripts/
 | Switch | Set on the frame |
 |---|---|
 | Brand | DS Brand → Default / Purple |
-| Light / dark | DS Semantic → Light / Dark **and** `shadcn colors` → shadcn / shadcn-dark (kit components use kit `alpha/*` overlays that follow the kit mode) |
+| Light / dark | DS Semantic → Light / Dark |
 | Density | DS Density → Comfortable / Compact |
 
-Verified 2026-09-29: `Button - Nova` Primary/Secondary/Outline/Ghost/Destructive render correctly in all four brand × mode combinations.
+One collection per switch; the kit's own `shadcn colors` mode has no effect. Verified 2026-09-29: `Button - Nova` Primary/Secondary/Outline/Ghost/Destructive render correctly in all four brand × mode combinations with only DS Brand and DS Semantic set.
 
 ## Kit components in use
 Kit component names end in `- Nova`; names starting with `.` are internal parts.
