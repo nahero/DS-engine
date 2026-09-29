@@ -53,14 +53,14 @@ Other relevant pages: Alert Dialog `1953:9001`, Field `1953:9016`, Input `1953:9
 | Node | What | Code |
 |---|---|---|
 | `8:864` | `Card - Nova` instance (in progress, `Page 1`) | — |
-| `28:433` | Insurance admin / 01 Overview | — |
-| `37:1673` | Insurance admin / 02 Claims queue | — |
-| `38:560` | Insurance admin / 03 Claim detail | — |
+| `28:433` | Insurance admin / 01 Overview | `src/screens/Overview.tsx` |
+| `37:1673` | Insurance admin / 02 Claims queue | `src/screens/ClaimsQueue.tsx` (built from v2 `50:125`) |
+| `38:560` | Insurance admin / 03 Claim detail | `src/screens/ClaimDetail.tsx` (built from v2 `50:77`) |
 | `37:2811`, `37:2814`, `37:2817` | Decision notes under each screen | — |
 | `50:32` page | v2: duplicate of v1 with DS components swapped in (03 fields table + payout card, 02 confidence column); notes `50:341/344/347` | — |
-| `55:61` | DS `Confidence indicator` set (page `DS components`) | planned |
-| `60:4629` | DS `Extracted field row` set | planned |
-| `59:1981` | DS `Payout breakdown` set | planned |
+| `55:61` | DS `Confidence indicator` set (page `DS components`) | `ConfidenceIndicator.tsx` |
+| `60:4629` | DS `Extracted field row` set | `ExtractedFieldRow.tsx` |
+| `59:1981` | DS `Payout breakdown` set | `PayoutBreakdown.tsx` |
 
 v1 (`26:50`) is kept as-is to show progress; changes go to v2.
 

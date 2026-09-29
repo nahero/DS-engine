@@ -10,15 +10,26 @@ Figma library: **Obra shadcn ui kit (community edition)**, published to the team
 |---|---|---|---|---|---|
 | Button | `src/components/ui/button.tsx` | shadcn Button (Radix Slot) | `Button - Nova` | Done: kit sizing, soft destructive, `loading` | Default, Variants, Sizes, WithIcons, Focus, Disabled, Loading, Invalid, LongLabel, AsLink |
 | Spinner | `src/components/ui/spinner.tsx` | shadcn Spinner (Lucide) | `Spinner` | Used by Button `loading`; static under reduced motion | via Button/Loading |
-| StatusBadge | `components/review/` | shadcn Badge | `Badge` | Planned | — |
-| ConfidenceIndicator | `components/review/` | Icon + number + label, `confidence.*` tokens | DS `Confidence indicator` (DS-Engine-Main, `55:61`): Level High/Medium/Low/None, Value | Figma done, code planned | — |
-| ExtractedFieldRow | `components/review/` | shadcn Table row + ConfidenceIndicator + CitationChip + Input | DS `Extracted field row` (`60:4629`): State Default/Low confidence/Missing/Agent failed/Editing/Corrected, Field, Value, Show source, Show reveal | Figma done, code planned | — |
-| PayoutBreakdown | `components/review/` | Label/value rows + shadcn Separator, Alert, Skeleton | DS `Payout breakdown` (`59:1981`): State Within limit/Above authority limit/Capped by policy limit/Deductible missing/Denied/Loading, Claimed, Deductible, Covered, Limit, Payable, Show note | Figma done, code planned | — |
-| CitationChip | `components/review/` | shadcn Badge + HoverCard/Popover | `Badge`, `Hover Card` | Planned | — |
-| DataTable | `components/review/` | shadcn Table + TanStack Table | `Table - Nova`, `Data Table` page | Planned | — |
-| FilterBar | `components/review/` | Input, Select, ToggleGroup, Button | `Input - Nova`, `Select`, `Toggle Group` | Planned | — |
-| SidePanel | `components/review/` | shadcn Sheet | `Sheet` | Planned | — |
+| StatusBadge | `components/review/StatusBadge.tsx` | shadcn Badge | `Badge` | Done: claim lifecycle → variant, text always shown | pending |
+| ConfidenceIndicator | `components/review/ConfidenceIndicator.tsx` | Icon in `confidence.*` (3:1 mark), text in `status.*.fg` (4.5:1) | DS `Confidence indicator` (`55:61`) | Done | pending |
+| SlaIndicator | `components/review/SlaIndicator.tsx` | Icon + text, `status.*` fg | — (text in kit cells) | Done: overdue / due today / due in N d / n.a. | All variants |
+| FlagLabel | `components/review/FlagLabel.tsx` | Lucide icon + neutral text | — | Done: 6 flags | All variants |
+| ActorBadge | `components/review/ActorBadge.tsx` | shadcn Badge | `Badge` | Done: agent / person / system / policyholder | All variants |
+| KpiCard | `components/review/KpiCard.tsx` | shadcn Card + Skeleton | `Card - Nova` (Overview KPI row) | Done: default, danger tone, missing, loading | Default, Danger, MissingValue, Loading, NoHint, LongContent, Row |
+| ClaimsVolumeChart | `components/review/ClaimsVolumeChart.tsx` | shadcn Chart (Recharts) stacked bars, `chart.1–4` | `Chart` frame + custom bars | Done: legend, totals, tooltip, sr-only table, reduced motion | Default, Loading, Empty, Error, SingleWeek, LargeValues |
+| NeedsAttentionList | `components/review/NeedsAttentionList.tsx` | shadcn Card + links | `Card - Nova` | Done | Default, Loading, Empty, Error, Long |
+| ActivityFeed | `components/review/ActivityFeed.tsx` | shadcn Card + list | `Card - Nova` | Done; wraps below `sm` | Default, Loading, Empty, Error, Long |
+| ExtractedFieldRow, ExtractedFieldsTable | `components/review/` | shadcn Table row + ConfidenceIndicator + CitationChip + Input | DS `Extracted field row` (`60:4629`) | Done: Default, Low confidence, Missing, Agent failed, Editing (Enter/Esc), Corrected (audited) | pending |
+| PayoutBreakdown | `components/review/` | `<dl>` rows + Separator, Alert, Skeleton; logic in `claim-utils.ts` | DS `Payout breakdown` (`59:1981`) | Done: all 6 states derived from data | pending |
+| CitationChip | `components/review/` | Badge-style button + Tooltip | `Badge` | Done: opens Documents tab, highlights cited doc (`citation.*`) | pending |
+| ClaimHeader, ClaimSummary, AgentSummary, AuditTrail, CoverageChecks, DocumentList | `components/review/` | Card, Tabs, Badge, Button | Claim detail frame (`50:77`) | Done: approve / senior approval / refer / request info flows, PII reveal audited | pending |
+| ClaimsTable, FilterBar, BulkBar | `components/review/` (+ `queue-utils.ts`) | shadcn Table + TanStack Table v9, Input, Select, Checkbox, Pagination | `Table Header` / `Table Cell`, `Input - Nova`, `Select` | Done: needs-attention sort, filters + chips, selection, bulk rules, ↑/↓ j/k x Enter keys, 25/50/100 pages | pending |
+| AppShell, AppSidebar, AppHeader, DisplayMenu | `components/app/` | shadcn Sidebar, Breadcrumb, Input, DropdownMenu, Avatar | Sidebar parts, `Breadcrumb`, `Input - Nova` | Done. DisplayMenu (theme / brand / density) is code-only, for demoing tokens | AppSidebar ×5, AppHeader ×3, DisplayMenu ×2, AppShell ×3 |
+| useDisplaySettings | `lib/use-display-settings.ts` | — | — | Sets `.dark`, `data-theme`, `data-density` on `<html>`, persisted; `index.html` applies it before paint | — |
 | Toast | `components/ui/` | shadcn Sonner | `Sonner` | Planned | — |
+
+Screens: `screens/Overview.tsx` (done, stories: Default, Loading, Empty, Error, Stale, Mobile), `screens/ClaimsQueue.tsx`, `screens/ClaimDetail.tsx` (done, stories pending). Routing is hash-based in `App.tsx` (`#overview`, `#claims-queue`, `#claim-<id>`).
+shadcn primitives restyled to tokens (card, badge, input, select, sidebar, sheet, breadcrumb, dropdown-menu, avatar, skeleton, tooltip, chart, table, checkbox, pagination, tabs, alert): stories pending (paused by Igor 2026-09-29).
 
 ## Figma → code mapping
 Code Connect needs an Org/Enterprise plan, so this table does its job: how a Figma instance's properties translate into code.

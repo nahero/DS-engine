@@ -76,7 +76,8 @@ export default function App() {
       firstRender.current = false
       return
     }
-    document.getElementById('main')?.focus()
+    window.scrollTo(0, 0)
+    document.getElementById('main')?.focus({ preventScroll: true })
   }, [page, meta.title])
 
   return (

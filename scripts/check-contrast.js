@@ -33,6 +33,8 @@ const pairs = [
   ['border.strong', 'bg.surface', NON_TEXT],
   ...['high', 'medium', 'low'].map((c) => [`confidence.${c}`, 'bg.surface', NON_TEXT]),
   ...['1', '2', '3', '4'].map((c) => [`chart.${c}`, 'bg.surface', NON_TEXT]),
+  // Confidence labels are text in status foregrounds, on cards and on the low-confidence (warning) row.
+  ...['success', 'warning', 'danger'].flatMap((s) => ['bg.surface', 'status.warning.bg'].map((bg) => [`status.${s}.fg`, bg, TEXT])),
 ]
 
 function merge(files) {

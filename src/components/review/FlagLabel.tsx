@@ -15,9 +15,9 @@ const icons: Record<ClaimFlag, LucideIcon> = {
 export function FlagLabel({ flag, className }: { flag: ClaimFlag; className?: string }) {
   const Icon = icons[flag]
   return (
-    <span className={cn('inline-flex items-center gap-1 text-caption text-fg', className)}>
+    <span className={cn('inline-flex min-w-0 items-center gap-1 text-caption text-fg', className)} title={flag}>
       <Icon aria-hidden="true" className="size-3.5 shrink-0 text-fg-muted" />
-      {flag}
+      <span className="truncate">{flag}</span>
     </span>
   )
 }

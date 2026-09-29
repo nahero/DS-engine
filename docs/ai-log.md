@@ -43,3 +43,27 @@ Notable things AI got wrong, how they were caught, and the fix.
 - **How it was caught:** The human opened the AsLink story in the deployed Storybook.
 - **Fix:** `asChild` now renders `<Slot.Root>{children}</Slot.Root>` with no extra nodes; `loading` only applies to the native button. The story check now counts a render error or empty root as a failure (verified: it flags AsLink on the old build).
 - **Lesson:** "No violations" from an empty page means nothing. Automated checks must first assert that the thing rendered.
+
+## shadcn CLI wrote raw colours into globals.css
+- **What went wrong:** `npx shadcn add sidebar` appended hard-coded `hsl(...)` sidebar colours under `.dark` in `globals.css`, bypassing the token adapter. It also stopped on an interactive "overwrite button.tsx?" prompt.
+- **How it was caught:** Reviewing `git diff` after the CLI ran.
+- **Fix:** Reverted `globals.css`; run the CLI with `yes n |` so it never overwrites our components; check the diff of `globals.css` after every `shadcn add`.
+- **Lesson:** Generators write outside the files you asked for. Diff everything they touch.
+
+## Confidence text passed the contrast check but failed WCAG
+- **What went wrong:** `confidence.*` colours were validated as non-text marks (3:1), but `ConfidenceIndicator` used them for the label text too (3.18–3.98:1).
+- **How it was caught:** A subagent's axe run on the Claim detail screen.
+- **Fix:** Icons keep `confidence.*`; the text uses `status.*.fg`. Added `status.*.fg` on `bg.surface` and on `status.warning.bg` to `check-contrast.js`.
+- **Lesson:** A contrast check is only as good as its pairs: list how each token is actually used, not how it was meant to be used.
+
+## Wrong series colours after rebinding the Figma chart
+- **What went wrong:** Mapping the kit chart colours 1/2/3/5 to the new `chart/1–4` by number made Motor violet and Travel amber, because the Figma bars had used the kit colours in a different order than the code.
+- **How it was caught:** Screenshot of the v2 Overview after the rebind.
+- **Fix:** Remapped by series (Motor 1 blue, Property 2 amber, Health 3 green, Travel 4 violet) to match the code.
+- **Lesson:** Map by meaning, not by index; screenshot after bulk rebinding.
+
+## Horizontal page scroll from screen-reader-only text
+- **What went wrong:** The Claim detail page was 694px wide at a 375px viewport although the fields table scrolled inside its own container. `sr-only` spans are `position: absolute`; their containing block was outside the scroll container, so they extended the page.
+- **How it was caught:** Measuring `scrollWidth` at 375px in the browser, then walking overflow ancestors.
+- **Fix:** Scroll containers (`ExtractedFieldsTable`, tabs list) are `relative`.
+- **Lesson:** Any `overflow-x-auto` wrapper that contains `sr-only` content needs to be a positioned element.
