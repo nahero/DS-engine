@@ -1,0 +1,44 @@
+{
+  "card": {
+    "$description": "Card surface. References semantic tokens only.",
+    "bg": {
+      "$type": "color",
+      "$value": "{color.bg.surface}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.border.default}"
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.surface}"
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": "{space.inset}"
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.stack}"
+    }
+  },
+  "dialog": {
+    "$description": "Dialog surface. References semantic tokens only.",
+    "bg": {
+      "$type": "color",
+      "$value": "{color.bg.surface-raised}"
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.overlay}"
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": "{space.inset}"
+    },
+    "shadow": {
+      "$type": "shadow",
+      "$value": "{shadow.overlay}"
+    }
+  }
+}

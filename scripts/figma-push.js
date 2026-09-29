@@ -14,11 +14,14 @@ const colByName = new Map(collections.map((c) => [c.name, c]))
 const inCol = (col) => variables.filter((v) => v.variableCollectionId === col.id)
 
 const raw = new Map(inCol(colByName.get('raw tailwind colors')).map((v) => [v.name, v]))
-// Kit spacing variables by px value; named steps win over out-of-scale ones.
-const spacing = new Map()
-for (const v of inCol(colByName.get('spacing')).sort((a, b) => a.name.startsWith('out-of-scale') - b.name.startsWith('out-of-scale'))) {
-  const px = Object.values(v.valuesByMode)[0]
-  if (!spacing.has(px)) spacing.set(px, v)
+// Kit spacing / radius variables by px value; named steps win over out-of-scale ones.
+const pools = {}
+for (const name of ['spacing', 'border radii']) {
+  pools[name] = new Map()
+  for (const v of inCol(colByName.get(name)).sort((a, b) => a.name.startsWith('out-of-scale') - b.name.startsWith('out-of-scale'))) {
+    const px = Object.values(v.valuesByMode)[0]
+    if (!pools[name].has(px)) pools[name].set(px, v)
+  }
 }
 
 const rgba = (hex) => {
@@ -27,10 +30,12 @@ const rgba = (hex) => {
 }
 const alias = (v) => ({ type: 'VARIABLE_ALIAS', id: v.id })
 
-const report = { created: [], updated: 0, literals: [], orphans: [] }
-const pushed = new Map() // "Collection:name" → variable
+const report = { created: [], updated: 0, literals: [], orphans: [], skipped: PAYLOAD.skipped }
+// "Collection:name" → variable; seeded with what's already in Figma so a partial payload can alias it.
+const colNameById = new Map(collections.map((c) => [c.id, c.name]))
+const pushed = new Map(variables.map((v) => [`${colNameById.get(v.variableCollectionId)}:${v.name}`, v]))
 
-for (const spec of PAYLOAD) {
+for (const spec of PAYLOAD.collections) {
   let col = colByName.get(spec.name)
   if (!col) {
     col = figma.variables.createVariableCollection(spec.name)
@@ -60,7 +65,7 @@ for (const spec of PAYLOAD) {
         v.setValueForMode(modeIds[i], rgba(value.hex))
         report.literals.push(`${spec.name}/${item.name} [${spec.modes[i]}] ${value.hex}`)
       } else {
-        target = value.pool === 'spacing' ? spacing.get(value.px) : undefined
+        target = value.pool ? pools[value.pool].get(value.px) : undefined
         v.setValueForMode(modeIds[i], target ? alias(target) : value.px)
         if (!target) report.literals.push(`${spec.name}/${item.name} [${spec.modes[i]}] ${value.px}px`)
       }

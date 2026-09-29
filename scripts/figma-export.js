@@ -1,7 +1,8 @@
 // Figma → DTCG export. Plugin API code, run by Claude through the Figma MCP `use_figma` tool
 // against the Obra shadcn kit library file (read-only). Not a Node script.
-// Returns { primitive, 'kit.light', 'kit.dark' }; each is written to tokens/figma/<name>.json
-// with scripts/write-figma-tokens.js.
+// Returns { primitive }, written to tokens/figma/primitive.json with scripts/write-figma-tokens.js.
+// Only primitives come from Figma: the kit's shadcn colours are an adapter onto DS Semantic
+// (see scripts/figma-push.js), not a token tier.
 // Runs as the body of an async function: top-level await and return are allowed.
 
 const SOURCE = 'Obra shadcn ui kit (Figma file dbk2ali9ax6GIGOOXNr2gp)'
@@ -32,9 +33,8 @@ const set = (obj, path, leaf) => {
   for (const k of keys.slice(0, -1)) node = node[k] ??= {}
   node[keys.at(-1)] = leaf
 }
-const kebab = (s) => s.trim().toLowerCase().replace(/\s+/g, '-')
 
-// Resolve a colour value to a DTCG reference ({color.*} or {kit.*}) or a literal hex.
+// Resolve a colour value to a DTCG reference ({color.*}) or a literal hex.
 // Aliases into another collection use that collection's default mode; kit opacities are percent.
 function resolveColor(value, modeId) {
   if (value?.type === 'VARIABLE_ALIAS') {
@@ -43,7 +43,6 @@ function resolveColor(value, modeId) {
     let m
     if ((m = name.match(/^tw-raw\/(white|black)$/))) return `{color.${m[1]}}`
     if ((m = name.match(/^tw-raw\/([a-z]+)\/(\d+)$/)) && HUES.includes(m[1])) return `{color.${m[1]}.${m[2]}}`
-    if (name.startsWith('shadcn colors/')) return `{kit.${kitName(name)}}`
     const next = modeId in target.valuesByMode ? target.valuesByMode[modeId] : defaultValue(target)
     return resolveColor(next, modeId)
   }
@@ -59,9 +58,6 @@ function literal(ref) {
   const path = ref.slice(1, -1).split('.')
   const raw = path.length === 2 ? `tw-raw/${path[1]}` : `tw-raw/${path[1]}/${path[2]}`
   return defaultValue(variables.find((v) => v.name === raw))
-}
-function kitName(name) {
-  return kebab(name.replace(/^shadcn colors\/(general|focus|sidebar)\//, ''))
 }
 
 const primitive = { $description: `Generated from ${SOURCE} on ${new Date().toISOString().slice(0, 10)}. Do not edit; re-export.` }
@@ -146,20 +142,5 @@ for (const [key, prefix] of Object.entries(styles)) {
   set(primitive, `font.line-height.${key}`, { $value: round(lineHeight / size) })
 }
 
-// Kit tier: shadcn colours per mode, plus chart colours (single mode, repeated in both files)
-const kitCol = col('shadcn colors')
-const kit = {}
-for (const mode of kitCol.modes) {
-  const file = mode.name.endsWith('dark') ? 'kit.dark' : 'kit.light'
-  const out = { $description: primitive.$description, kit: { $type: 'color' } }
-  for (const v of inCol('shadcn colors').filter((v) => v.name.startsWith('shadcn colors/'))) {
-    out.kit[kitName(v.name)] = { $value: resolveColor(v.valuesByMode[mode.modeId], mode.modeId) }
-  }
-  for (const v of inCol('theme').filter((v) => v.name.startsWith('chart colors/'))) {
-    out.kit[kebab(v.name.split('/')[1])] = { $value: resolveColor(defaultValue(v)) }
-  }
-  kit[file] = out
-}
-
 // Stringified so the MCP tool returns it verbatim.
-return JSON.stringify({ primitive, ...kit })
+return JSON.stringify({ primitive })

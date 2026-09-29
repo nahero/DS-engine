@@ -29,3 +29,4 @@ storybook-static
 # Storybook
 storybook-static
 *storybook.log
+.serena/

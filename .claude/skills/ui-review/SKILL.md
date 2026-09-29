@@ -13,7 +13,7 @@ Scope: the working-tree diff (`git diff` + untracked files under `src/`) unless 
 Search changed `src/**/*.{tsx,ts,css}` (excluding generated files):
 - Hardcoded colours: `#[0-9a-fA-F]{3,8}\b`, `rgb\(`, `hsl\(`, `oklch\(`
 - Arbitrary values: `-\[[^\]]+\]` (e.g. `text-[13px]`, `w-[312px]`, `bg-[#…]`). Allowed only for non-token geometry (e.g. `grid-cols-[auto_1fr]`) with a reason.
-- Primitive tokens in components: `--ds-color-(neutral|red|blue|green|amber|violet|white|black)`, `--ds-kit-`, `--ds-space-[0-9]`, `--ds-radius-(sm|md|lg|xl|px-)`
+- Primitive tokens in components: `--ds-color-(neutral|red|blue|green|amber|violet|white|black)`, `--ds-space-[0-9]`, `--ds-radius-(sm|md|lg|xl|px-)`
 - Numeric motion: `duration-[0-9]`, `delay-[0-9]`, raw `ms` in `transition`
 - Inline `style={{` with literal sizes or colours
 - `import { cn } from "cn"` instead of `@/lib/utils` (custom utilities get dropped or not merged)

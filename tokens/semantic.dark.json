@@ -3,16 +3,16 @@
     "$type": "color",
     "bg": {
       "canvas": {
-        "$value": "{kit.background}"
+        "$value": "{color.neutral.950}"
       },
       "surface": {
-        "$value": "{kit.card}"
+        "$value": "{color.neutral.800}"
       },
       "surface-raised": {
-        "$value": "{kit.popover}"
+        "$value": "{color.neutral.950}"
       },
       "subtle": {
-        "$value": "{kit.muted}"
+        "$value": "{color.neutral.900}"
       },
       "inverse": {
         "$value": "{color.neutral.50}"
@@ -20,10 +20,10 @@
     },
     "fg": {
       "default": {
-        "$value": "{kit.foreground}"
+        "$value": "{color.white}"
       },
       "muted": {
-        "$value": "{kit.muted-foreground}"
+        "$value": "{color.neutral.400}"
       },
       "subtle": {
         "$value": "{color.neutral.400}"
@@ -37,7 +37,7 @@
     },
     "border": {
       "default": {
-        "$value": "{kit.border}"
+        "$value": "{color.neutral.700}"
       },
       "strong": {
         "$value": "{color.neutral.500}"
@@ -60,18 +60,18 @@
       },
       "secondary": {
         "base": {
-          "$value": "{kit.secondary}"
+          "$value": "{color.neutral.700}"
         },
         "hover": {
           "$value": "{color.neutral.600}"
         },
         "fg": {
-          "$value": "{kit.secondary-foreground}"
+          "$value": "{color.neutral.100}"
         }
       },
       "danger": {
         "base": {
-          "$value": "{kit.destructive}"
+          "$value": "{color.red.400}"
         },
         "hover": {
           "$value": "{color.red.500}"

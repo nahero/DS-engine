@@ -4,8 +4,9 @@
 //   DS Brand     modes per tokens/brand.<name>.json (Default first), aliases Figma primitives
 //   DS Semantic  Light / Dark, aliases primitives or DS Brand
 //   DS Density   Comfortable / Compact, aliases kit spacing variables by value
-// Kit references ({kit.*}) are resolved to the primitive for that mode, so a frame only needs the
-// DS collections' modes set; aliasing the kit's moded variables would also need the kit mode switched.
+//   DS Component single mode, aliases DS Semantic / DS Density (radius: kit radius variables by value)
+// Plus `adapter`: the kit's `shadcn colors` variables re-pointed at DS Semantic / DS Component,
+// using the same shadcn → token mapping as src/styles/globals.css.
 import fs from 'node:fs'
 
 const read = (file) => JSON.parse(fs.readFileSync(file, 'utf8'))
@@ -13,7 +14,8 @@ const get = (tree, path) => path.split('.').reduce((node, k) => node?.[k], tree)
 const title = (s) => s[0].toUpperCase() + s.slice(1)
 
 const primitive = read('tokens/figma/primitive.json')
-const kit = { light: read('tokens/figma/kit.light.json'), dark: read('tokens/figma/kit.dark.json') }
+const tokens = read('tokens/semantic.json')
+const component = read('tokens/component.json')
 const semantic = { light: read('tokens/semantic.light.json'), dark: read('tokens/semantic.dark.json') }
 const density = { comfortable: read('tokens/density.comfortable.json'), compact: read('tokens/density.compact.json') }
 const themes = fs
@@ -37,7 +39,6 @@ function color(value, mode) {
   const ref = value.slice(1, -1)
   const [head, ...rest] = ref.split('.')
   if (head === 'color') return { alias: `tw-raw/${rest.join('/')}` }
-  if (head === 'kit') return color(get(kit[mode], ref).$value, mode)
   if (head === 'brand') return { alias: rest.join('/'), collection: 'DS Brand' }
   throw new Error(`Can't map ${value} to Figma`)
 }
@@ -46,8 +47,10 @@ function color(value, mode) {
 function dimension(value) {
   if (typeof value === 'object') return { px: value.value }
   const ref = value.slice(1, -1)
+  if (get(tokens, ref)) return dimension(get(tokens, ref).$value)
   const px = get(primitive, ref).$value.value
-  return ref.startsWith('space.') ? { px, pool: 'spacing' } : { px }
+  const pool = { space: 'spacing', radius: 'border radii' }[ref.split('.')[0]]
+  return pool ? { px, pool } : { px }
 }
 
 const COLOR_SCOPES = {
@@ -107,4 +110,48 @@ const densityCollection = {
   })),
 }
 
-process.stdout.write(JSON.stringify([brandCollection, semanticCollection, densityCollection], null, 2) + '\n')
+// Component token value → alias into DS Semantic / DS Density, or a kit radius by value.
+function componentValue(value, type) {
+  const ref = value.slice(1, -1)
+  if (type === 'color') return { alias: ref.replace(/^color\./, '').replaceAll('.', '/'), collection: 'DS Semantic' }
+  if (get(density.comfortable, ref)) return { alias: ref.replaceAll('.', '/'), collection: 'DS Density' }
+  return dimension(value)
+}
+const COMPONENT_SCOPES = { color: ['FRAME_FILL', 'SHAPE_FILL'], radius: ['CORNER_RADIUS'], padding: ['GAP'], gap: ['GAP'] }
+const skipped = []
+const componentCollection = {
+  name: 'DS Component',
+  modes: ['Default'],
+  variables: Object.entries(component).flatMap(([name, group]) =>
+    leaves(group).flatMap(([path, token]) => {
+      const type = token.$type ?? group.$type
+      if (type === 'shadow') {
+        skipped.push(`${name}/${path.join('/')}: shadows are effect styles in Figma, not variables`)
+        return []
+      }
+      const prop = path.at(-1)
+      return [{
+        name: `${name}/${path.join('/')}`,
+        type: type === 'color' ? 'COLOR' : 'FLOAT',
+        scopes: prop === 'border' ? ['STROKE_COLOR'] : COMPONENT_SCOPES[type === 'color' ? 'color' : prop] ?? ['WIDTH_HEIGHT'],
+        web: `var(--ds-${name}-${path.join('-')})`,
+        description: group.$description ?? '',
+        values: [componentValue(token.$value, type)],
+      }]
+    }),
+  ),
+}
+
+const collections = [brandCollection, semanticCollection, densityCollection, componentCollection]
+
+// shadcn adapter: `--primary: var(--ds-color-action-primary-base)` in globals.css → kit variable
+// `primary` aliases DS Semantic `action/primary/base` (in every kit mode).
+const byWeb = new Map(collections.flatMap((c) => c.variables.map((v) => [v.web, { alias: v.name, collection: c.name }])))
+const globals = fs.readFileSync('src/styles/globals.css', 'utf8')
+const adapterBlock = globals.slice(globals.indexOf(':root', globals.indexOf('shadcn variable names are an adapter')))
+const adapter = {}
+for (const [, name, target] of adapterBlock.slice(0, adapterBlock.indexOf('}')).matchAll(/--([a-z0-9-]+):\s*(var\(--ds-[a-z0-9-]+\))/g)) {
+  if (byWeb.has(target) && byWeb.get(target).collection !== 'DS Density') adapter[name] = byWeb.get(target)
+}
+
+process.stdout.write(JSON.stringify({ collections, adapter, skipped }, null, 2) + '\n')

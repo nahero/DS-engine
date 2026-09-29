@@ -208,14 +208,14 @@
   --ds-motion-duration-slow: 0s;
 }
 
-/* shadcn variables → semantic tokens. Light/dark and density come from tokens.css. */
+/* shadcn variable names are an adapter onto our semantic/component tokens. Light/dark and density come from tokens.css. */
 :root {
   --radius: var(--ds-radius-control);
   --background: var(--ds-color-bg-canvas);
   --foreground: var(--ds-color-fg-default);
-  --card: var(--ds-color-bg-surface);
+  --card: var(--ds-card-bg);
   --card-foreground: var(--ds-color-fg-default);
-  --popover: var(--ds-color-bg-surface-raised);
+  --popover: var(--ds-dialog-bg);
   --popover-foreground: var(--ds-color-fg-default);
   --primary: var(--ds-color-action-primary-base);
   --primary-foreground: var(--ds-color-action-primary-fg);

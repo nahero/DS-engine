@@ -10,7 +10,7 @@ Background: `docs/design-system/tokens.md`. Step 1 only reads Figma; step 4 writ
 ## 1. Export from Figma (skip if only hand-owned JSON changed)
 1. Load the `figma-use` skill (MCP resource `skill://figma/figma-use/SKILL.md`) before calling `use_figma`.
 2. Run `use_figma` on the library file `dbk2ali9ax6GIGOOXNr2gp` with the full contents of `scripts/figma-export.js` as `code` (it ends with `return JSON.stringify(...)`).
-   - If the result is cut off (tool output limit ≈ 20 kB), export in parts: temporarily change the last line to return one key (`primitive`, `kit.light`, `kit.dark`) per call and merge.
+   - If the result is cut off (tool output limit ≈ 20 kB), export in parts: temporarily change the last line to return one key per call and merge.
 3. Save the returned JSON verbatim to the scratchpad, then `node scripts/write-figma-tokens.js <file>`.
 4. New hue needed by a semantic token? Add it to `HUES` in `scripts/figma-export.js` and re-export; don't hand-add primitives.
 

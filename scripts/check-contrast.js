@@ -11,7 +11,7 @@ const MODES = Object.fromEntries(
   THEMES.flatMap((theme) =>
     ['light', 'dark'].map((mode) => [
       `${theme}/${mode}`,
-      ['tokens/figma/primitive.json', `tokens/figma/kit.${mode}.json`, `tokens/brand.${theme}.json`, `tokens/semantic.${mode}.json`],
+      ['tokens/figma/primitive.json', `tokens/brand.${theme}.json`, `tokens/semantic.${mode}.json`],
     ]),
   ),
 )
