@@ -4,7 +4,18 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DS-Engine</title>
+    <title>ClaimDesk · DS-Engine</title>
+    <script>
+      // Applies saved display settings before first paint (same key and attributes as src/lib/use-display-settings.ts).
+      try {
+        var s = JSON.parse(localStorage.getItem('ds-display-settings') || '{}')
+        var root = document.documentElement
+        var dark = s.theme === 'dark' || (s.theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)
+        if (dark) root.classList.add('dark')
+        if (s.brand === 'purple') root.dataset.theme = 'purple'
+        if (s.density === 'compact') root.dataset.density = 'compact'
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

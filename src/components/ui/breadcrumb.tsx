@@ -12,7 +12,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
     <ol
       data-slot="breadcrumb-list"
       className={cn(
-        "flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5",
+        "flex flex-wrap items-center gap-1 text-body break-words text-fg-muted",
         className
       )}
       {...props}
@@ -24,7 +24,7 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
   return (
     <li
       data-slot="breadcrumb-item"
-      className={cn("inline-flex items-center gap-1.5", className)}
+      className={cn("inline-flex min-w-0 items-center gap-1", className)}
       {...props}
     />
   )
@@ -42,7 +42,7 @@ function BreadcrumbLink({
   return (
     <Comp
       data-slot="breadcrumb-link"
-      className={cn("transition-colors hover:text-foreground", className)}
+      className={cn("min-w-0 truncate rounded-inner outline-none transition-colors hover:text-fg focus-visible:ring-3 focus-visible:ring-ring", className)}
       {...props}
     />
   )
@@ -55,7 +55,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
       role="link"
       aria-disabled="true"
       aria-current="page"
-      className={cn("font-normal text-foreground", className)}
+      className={cn("min-w-0 truncate font-normal text-fg", className)}
       {...props}
     />
   )
@@ -88,7 +88,7 @@ function BreadcrumbEllipsis({
       data-slot="breadcrumb-ellipsis"
       role="presentation"
       aria-hidden="true"
-      className={cn("flex size-9 items-center justify-center", className)}
+      className={cn("flex size-control items-center justify-center", className)}
       {...props}
     >
       <MoreHorizontal className="size-4" />
