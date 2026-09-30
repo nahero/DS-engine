@@ -1,3 +1,4 @@
+import { currentUser } from './current-user'
 import type { ActivityEvent, Kpi, NeedsAttentionItem, WeeklyVolume } from './types'
 
 export const kpis: Kpi[] = [
@@ -7,6 +8,9 @@ export const kpis: Kpi[] = [
   { id: 'auto', label: 'Agent auto-approved', value: '61%', hint: { icon: 'percent', text: 'of claims this period' } },
   { id: 'sla', label: 'SLA breaches', value: '7', hint: { icon: 'overdue', text: 'Overdue' }, tone: 'danger' },
 ]
+
+/** Calendar year of the weeks in `weeklyVolume` (ISO week labels carry no year). */
+export const weeklyVolumeYear = 2026
 
 export const weeklyVolume: WeeklyVolume[] = [
   { week: 'W34', Motor: 110, Property: 65, Health: 48, Travel: 27 },
@@ -27,7 +31,7 @@ export const needsAttention: NeedsAttentionItem[] = [
 
 export const recentActivity: ActivityEvent[] = [
   { id: 'a1', time: '10:42', actor: { kind: 'agent' }, event: 'Extracted 14 fields from FNOL', claimId: 'CLM-2026-004812' },
-  { id: 'a2', time: '10:31', actor: { kind: 'person', name: 'Emily Carter' }, event: 'Approved payout €2,140.00', claimId: 'CLM-2026-004790' },
+  { id: 'a2', time: '10:31', actor: { kind: 'person', name: currentUser.name }, event: 'Approved payout €2,140.00', claimId: 'CLM-2026-004790' },
   { id: 'a3', time: '10:12', actor: { kind: 'agent' }, event: 'Flagged “Loss date outside policy period”', claimId: 'CLM-2026-004821' },
   { id: 'a4', time: '09:58', actor: { kind: 'person', name: 'Rachel Morgan' }, event: 'Requested info: discharge letter', claimId: 'CLM-2026-004812' },
   { id: 'a5', time: '09:40', actor: { kind: 'agent' }, event: 'Auto-approved at 96% · High confidence', claimId: 'CLM-2026-004803' },

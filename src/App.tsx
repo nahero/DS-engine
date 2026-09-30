@@ -2,7 +2,10 @@ import * as React from 'react'
 import { Construction } from 'lucide-react'
 
 import { AppShell } from '@/components/app/AppShell'
+import { PageHeader } from '@/components/app/PageHeader'
+import { StateBlock } from '@/components/review/StateBlock'
 import { Button } from '@/components/ui/button'
+import { routes } from '@/lib/routes'
 import { ClaimDetail } from '@/screens/ClaimDetail'
 import { ClaimsQueue } from '@/screens/ClaimsQueue'
 import { Overview } from '@/screens/Overview'
@@ -49,13 +52,20 @@ function useRoute() {
 
 function ComingSoon({ title }: { title: string }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-stack p-inset py-24 text-center">
-      <Construction aria-hidden className="size-8 text-fg-muted" />
-      <h1 className="text-heading-lg font-semibold">{title}</h1>
-      <p className="max-w-prose text-body text-fg-muted">Not built yet. The Overview is the first screen of this concept.</p>
-      <Button asChild variant="outline">
-        <a href="#overview">Back to Overview</a>
-      </Button>
+    <div className="flex flex-col gap-stack p-inset">
+      <PageHeader title={title} />
+      <StateBlock
+        kind="empty"
+        framed
+        icon={Construction}
+        title="Not built yet"
+        description="The Overview is the first screen of this concept."
+        action={
+          <Button asChild variant="outline">
+            <a href={routes.overview}>Back to Overview</a>
+          </Button>
+        }
+      />
     </div>
   )
 }
@@ -65,7 +75,7 @@ export default function App() {
   const isClaim = page === 'claim-detail' && claimId !== undefined
   const meta = isClaim ? { section: 'Claims', title: claimId } : PAGES[page]
   const breadcrumb = isClaim
-    ? [{ label: 'Claims' }, { label: 'Queue', href: '#claims-queue' }, { label: claimId }]
+    ? [{ label: 'Claims' }, { label: 'Queue', href: routes.queue }, { label: claimId }]
     : [{ label: meta.section }, { label: meta.title }]
 
   // Announce the new page: title, and focus to the main region (not on first load).

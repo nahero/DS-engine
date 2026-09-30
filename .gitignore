@@ -30,3 +30,11 @@ storybook-static
 storybook-static
 *storybook.log
 .serena/
+
+# Tests
+coverage
+.vitest-attachments
+__screenshots__
+test-results
+playwright-report
+.playwright

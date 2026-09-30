@@ -37,7 +37,7 @@ function TokenTable({ headers, children }: { headers: string[]; children: ReactN
         <tr className="border-b border-border-strong text-left text-fg-muted">
           {headers.map((h) => (
             <th key={h} scope="col" className="px-cell py-2 font-medium">
-              {h}
+              {h || <span className="sr-only">Swatch</span>}
             </th>
           ))}
         </tr>

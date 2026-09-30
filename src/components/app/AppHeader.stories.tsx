@@ -4,6 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 import type { DisplaySettings } from '@/lib/use-display-settings'
 import { useMockDisplaySettings } from './use-mock-display-settings'
 import { AppHeader } from './AppHeader'
+import { routes } from '@/lib/routes'
 
 function HeaderWithSettings(props: React.ComponentProps<typeof AppHeader>) {
   const settings = useMockDisplaySettings()
@@ -26,7 +27,7 @@ const meta = {
   component: AppHeader,
   decorators: [withProvider],
   args: {
-    breadcrumb: [{ label: 'Claims', href: '#claims-queue' }, { label: 'Overview' }],
+    breadcrumb: [{ label: 'Claims', href: routes.queue }, { label: 'Overview' }],
     displaySettings: undefined as unknown as DisplaySettings,
   },
   render: (args) => <HeaderWithSettings {...args} />,
@@ -49,8 +50,8 @@ export const Default: Story = {}
 export const LongBreadcrumb: Story = {
   args: {
     breadcrumb: [
-      { label: 'Claims', href: '#claims-queue' },
-      { label: 'Motor vehicle and third-party liability', href: '#claims-queue' },
+      { label: 'Claims', href: routes.queue },
+      { label: 'Motor vehicle and third-party liability', href: routes.queue },
       { label: 'Referred to underwriting review', href: '#referred' },
       { label: 'Policyholder: Bartholomew Featherstonehaugh-Montgomery', href: '#policyholders' },
       { label: 'CLM-2026-0048213 supplementary assessment' },

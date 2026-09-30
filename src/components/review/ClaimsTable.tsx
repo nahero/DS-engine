@@ -13,7 +13,7 @@ import {
   type RowSelectionState,
   type SortingState,
 } from '@tanstack/react-table'
-import { ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight, CircleAlert, Inbox, SearchX } from 'lucide-react'
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight, SearchX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -25,15 +25,18 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
+import { routes } from '@/lib/routes'
 import { compareNeedsAttention, formatDate, formatMoney } from '@/data/claims'
 import type { Claim } from '@/data/types'
 import { ConfidenceIndicator } from './ConfidenceIndicator'
 import { FlagLabel } from './FlagLabel'
 import { SlaIndicator } from './SlaIndicator'
 import { sortLabel } from './queue-utils'
+import type { ViewState } from './shared'
+import { StateBlock } from './StateBlock'
 import { StatusBadge } from './StatusBadge'
+import { TruncatedText } from './TruncatedText'
 
 const features = tableFeatures({
   rowSortingFeature,
@@ -77,7 +80,7 @@ const columns: ClaimColumn[] = [
     sortDescFirst: false,
     cell: ({ row }) => (
       <a
-        href={`#claim-${row.original.id}`}
+        href={routes.claim(row.original.id)}
         tabIndex={-1}
         className="rounded-inner font-mono text-caption whitespace-nowrap text-fg underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring"
       >
@@ -89,14 +92,7 @@ const columns: ClaimColumn[] = [
     id: 'policyholder',
     header: 'Policyholder',
     enableSorting: false,
-    cell: ({ row }) => (
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <span className="block max-w-36 truncate">{row.original.policyholder}</span>
-        </TooltipTrigger>
-        <TooltipContent>{row.original.policyholder}</TooltipContent>
-      </Tooltip>
-    ),
+    cell: ({ row }) => <TruncatedText text={row.original.policyholder} className="max-w-36" />,
   },
   { id: 'lob', header: 'LOB', enableSorting: false, cell: ({ row }) => row.original.lob },
   {
@@ -218,7 +214,7 @@ export interface ClaimsTableHandle {
 export interface ClaimsTableProps {
   /** Already filtered claims. */
   data: Claim[]
-  state?: 'default' | 'loading' | 'empty' | 'error'
+  state?: ViewState
   /** Why there is nothing to show: no claims at all, or the filters match none. */
   emptyReason?: 'none' | 'filters'
   sorting: SortingState
@@ -333,44 +329,45 @@ export function ClaimsTable({
       row.toggleSelected()
     } else if (e.key === 'Enter' && onRow) {
       e.preventDefault()
-      window.location.assign(`#claim-${row.original.id}`)
+      window.location.assign(routes.claim(row.original.id))
     }
   }
 
   if (state === 'error') {
     return (
-      <div role="alert" className="flex flex-col items-center gap-2 rounded-surface border bg-surface px-inset py-12 text-center">
-        <CircleAlert aria-hidden="true" className="size-5 text-status-danger-fg" />
-        <p className="text-body font-medium text-fg">Couldn’t load claims</p>
-        <p className="text-caption text-fg-muted">The claims queue didn’t load. Check your connection and try again.</p>
-        <Button variant="outline" size="sm" onClick={onRetry}>
-          Retry
-        </Button>
-      </div>
+      <StateBlock
+        kind="error"
+        framed
+        title="Couldn’t load claims"
+        description="The claims queue didn’t load. Check your connection and try again."
+        action={
+          <Button variant="outline" size="sm" onClick={onRetry}>
+            Retry
+          </Button>
+        }
+      />
     )
   }
 
   if (state === 'empty' || (state === 'default' && total === 0)) {
     const filtered = state === 'default' && emptyReason === 'filters'
     return (
-      <div className="flex flex-col items-center gap-2 rounded-surface border bg-surface px-inset py-12 text-center">
-        {filtered ? (
-          <SearchX aria-hidden="true" className="size-5 text-fg-muted" />
-        ) : (
-          <Inbox aria-hidden="true" className="size-5 text-fg-muted" />
-        )}
-        <p className="text-body font-medium text-fg">{filtered ? 'No claims match these filters' : 'No claims yet'}</p>
-        <p className="text-caption text-fg-muted">
-          {filtered
-            ? 'Try removing a filter or searching for something else.'
-            : 'New claims appear here as soon as they are submitted.'}
-        </p>
-        {filtered && (
-          <Button variant="outline" size="sm" onClick={onClearFilters}>
-            Clear filters
-          </Button>
-        )}
-      </div>
+      <StateBlock
+        kind="empty"
+        framed
+        icon={filtered ? SearchX : undefined}
+        title={filtered ? 'No claims match these filters' : 'No claims yet'}
+        description={
+          filtered ? 'Try removing a filter or searching for something else.' : 'New claims appear here as soon as they are submitted.'
+        }
+        action={
+          filtered ? (
+            <Button variant="outline" size="sm" onClick={onClearFilters}>
+              Clear filters
+            </Button>
+          ) : undefined
+        }
+      />
     )
   }
 
@@ -379,170 +376,173 @@ export function ClaimsTable({
   const rangeEnd = Math.min(total, rangeStart + pageSize - 1)
 
   return (
-    <TooltipProvider>
-      <div className="flex flex-col gap-stack">
-        <div
-          role="region"
-          aria-label="Claims table"
-          tabIndex={0}
-          aria-busy={loading || undefined}
-          className="max-h-svh scroll-pt-control overflow-auto rounded-surface border bg-surface outline-none focus-visible:ring-3 focus-visible:ring-ring"
-        >
-          {loading && <p role="status" className="sr-only">Loading claims</p>}
-          <Table containerClassName="overflow-visible" className="border-separate border-spacing-0" aria-hidden={loading || undefined}>
-            <TableCaption className="sr-only">
-              Claims, page {pageIndex + 1} of {pageCount}
-            </TableCaption>
-            <TableHeader>
-              {table.getHeaderGroups().map((group) => (
-                <TableRow key={group.id} className="border-0 hover:bg-transparent">
-                  {group.headers.map((header) => {
-                    const column = header.column
-                    const align = alignOf(column)
-                    const sortable = !loading && column.getCanSort()
-                    const dir = column.getIsSorted()
-                    const SortIcon = dir === 'asc' ? ArrowUp : dir === 'desc' ? ArrowDown : ArrowUpDown
-                    return (
-                      <TableHead
-                        key={header.id}
-                        scope="col"
-                        aria-sort={sortable ? (dir === 'asc' ? 'ascending' : dir === 'desc' ? 'descending' : 'none') : undefined}
-                        className={cn('sticky top-0 z-10 border-b border-border bg-subtle', align === 'right' && 'text-right')}
-                      >
-                        {sortable ? (
-                          <button
-                            type="button"
-                            onClick={column.getToggleSortingHandler()}
-                            className={cn(
-                              '-mx-1.5 inline-flex h-7 items-center gap-1 rounded-inner px-1.5 font-medium outline-none hover:bg-border focus-visible:ring-3 focus-visible:ring-ring',
-                              align === 'right' && 'flex-row-reverse',
-                            )}
-                          >
-                            <table.FlexRender header={header} />
-                            <SortIcon aria-hidden="true" className={cn('size-3.5 shrink-0', !dir && 'text-fg-muted')} />
-                          </button>
-                        ) : loading && column.id === 'select' ? null : (
-                          <table.FlexRender header={header} />
+    <div className="flex flex-col gap-stack">
+      <div
+        role="region"
+        aria-label="Claims table"
+        tabIndex={0}
+        aria-busy={loading || undefined}
+        className="max-h-svh scroll-pt-control overflow-auto rounded-surface border bg-surface outline-none focus-visible:ring-3 focus-visible:ring-ring"
+      >
+        {loading && <p role="status" className="sr-only">Loading claims</p>}
+        <Table containerClassName="overflow-visible" className="border-separate border-spacing-0" aria-hidden={loading || undefined}>
+          <TableCaption className="sr-only">
+            Claims, page {pageIndex + 1} of {pageCount}
+          </TableCaption>
+          <TableHeader>
+            {table.getHeaderGroups().map((group) => (
+              <TableRow key={group.id} className="border-0 hover:bg-transparent">
+                {group.headers.map((header) => {
+                  const column = header.column
+                  const align = alignOf(column)
+                  const sortable = !loading && column.getCanSort()
+                  const dir = column.getIsSorted()
+                  const SortIcon = dir === 'asc' ? ArrowUp : dir === 'desc' ? ArrowDown : ArrowUpDown
+                  return (
+                    <TableHead
+                      key={header.id}
+                      scope="col"
+                      aria-sort={sortable ? (dir === 'asc' ? 'ascending' : dir === 'desc' ? 'descending' : 'none') : undefined}
+                      className={cn(
+                          'sticky top-0 z-10 border-b border-border bg-subtle',
+                          align === 'right' && 'text-right',
+                          // Room between the 16px checkbox and the next sort button (WCAG 2.5.8 target spacing).
+                          column.id === 'select' && '[&:has([role=checkbox])]:pr-2',
                         )}
-                      </TableHead>
-                    )
-                  })}
+                    >
+                      {sortable ? (
+                        <button
+                          type="button"
+                          onClick={column.getToggleSortingHandler()}
+                          className={cn(
+                            '-mx-1.5 inline-flex h-7 items-center gap-1 rounded-inner px-1.5 font-medium outline-none hover:bg-border focus-visible:ring-3 focus-visible:ring-ring',
+                            align === 'right' && 'flex-row-reverse',
+                          )}
+                        >
+                          <table.FlexRender header={header} />
+                          <SortIcon aria-hidden="true" className={cn('size-3.5 shrink-0', !dir && 'text-fg-muted')} />
+                        </button>
+                      ) : loading && column.id === 'select' ? null : (
+                        <table.FlexRender header={header} />
+                      )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+
+          {loading ? (
+            <TableBody className="[&_tr:last-child>td]:border-b-0">
+              {Array.from({ length: SKELETON_ROWS }, (_, i) => (
+                <TableRow key={i} className="h-row border-0 hover:bg-transparent">
+                  {columns.map((col) => (
+                    <TableCell key={col.id} className="border-b border-border py-0">
+                      <Skeleton className={cn('h-4', SKELETON_WIDTHS[col.id ?? ''], col.id === 'claimed' && 'ml-auto')} />
+                    </TableCell>
+                  ))}
                 </TableRow>
               ))}
-            </TableHeader>
-
-            {loading ? (
-              <TableBody className="[&_tr:last-child>td]:border-b-0">
-                {Array.from({ length: SKELETON_ROWS }, (_, i) => (
-                  <TableRow key={i} className="h-row border-0 hover:bg-transparent">
-                    {columns.map((col) => (
-                      <TableCell key={col.id} className="border-b border-border py-0">
-                        <Skeleton className={cn('h-4', SKELETON_WIDTHS[col.id ?? ''], col.id === 'claimed' && 'ml-auto')} />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            ) : (
-              <TableBody onKeyDown={onBodyKeyDown} onFocus={(e) => {
-                const idx = (e.target as HTMLElement).closest<HTMLElement>('tr[data-row-index]')?.dataset.rowIndex
-                if (idx !== undefined) setActiveIndex(Number(idx))
-              }} className="[&_tr:last-child>td]:border-b-0">
-                {rows.map((row, i) => (
-                  <TableRow
-                    key={row.id}
-                    ref={(el) => {
-                      rowRefs.current[i] = el
-                    }}
-                    data-row-index={i}
-                    data-state={row.getIsSelected() ? 'selected' : undefined}
-                    tabIndex={i === active ? 0 : -1}
-                    className="h-row border-0 outline-none focus-visible:outline-3 focus-visible:outline-solid focus-visible:-outline-offset-3"
-                  >
-                    {row.getAllCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className={cn('border-b border-border py-0', alignOf(cell.column) === 'right' && 'text-right')}
-                      >
-                        <table.FlexRender cell={cell} />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            )}
-          </Table>
-        </div>
-
-        {!loading && (
-          <div className="flex flex-wrap items-center gap-x-stack gap-y-2">
-            <p className="text-body text-fg-muted tabular-nums">
-              Showing {rangeStart.toLocaleString('en-US')}–{rangeEnd.toLocaleString('en-US')} of {total.toLocaleString('en-US')}
-            </p>
-            <div className="ml-auto flex flex-wrap items-center gap-x-stack gap-y-2">
-              <div className="flex items-center gap-2">
-                <span id="claims-rows-per-page" className="text-body text-fg-muted">
-                  Rows per page
-                </span>
-                <Select
-                  value={String(pageSize)}
-                  onValueChange={(v) => {
-                    table.setPageSize(Number(v))
-                    goToPage(0)
+            </TableBody>
+          ) : (
+            <TableBody onKeyDown={onBodyKeyDown} onFocus={(e) => {
+              const idx = (e.target as HTMLElement).closest<HTMLElement>('tr[data-row-index]')?.dataset.rowIndex
+              if (idx !== undefined) setActiveIndex(Number(idx))
+            }} className="[&_tr:last-child>td]:border-b-0">
+              {rows.map((row, i) => (
+                <TableRow
+                  key={row.id}
+                  ref={(el) => {
+                    rowRefs.current[i] = el
                   }}
+                  data-row-index={i}
+                  data-state={row.getIsSelected() ? 'selected' : undefined}
+                  tabIndex={i === active ? 0 : -1}
+                  className="h-row border-0 outline-none focus-visible:outline-3 focus-visible:outline-solid focus-visible:-outline-offset-3"
                 >
-                  <SelectTrigger aria-labelledby="claims-rows-per-page" className="w-20">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent position="popper" align="end">
-                    {PAGE_SIZES.map((n) => (
-                      <SelectItem key={n} value={String(n)}>
-                        {n}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <Pagination aria-label="Claims pagination" className="mx-0 w-auto">
-                <PaginationContent>
-                  <PaginationItem>
-                    <Button variant="ghost" aria-label="Previous page" disabled={pageIndex === 0} onClick={() => goToPage(pageIndex - 1)}>
-                      <ChevronLeft aria-hidden="true" />
-                      <span className="hidden sm:inline">Previous</span>
-                    </Button>
-                  </PaginationItem>
-                  {pageItems(pageIndex, pageCount).map((item) =>
-                    typeof item === 'number' ? (
-                      <PaginationItem key={item}>
-                        <Button
-                          variant={item === pageIndex ? 'outline' : 'ghost'}
-                          size="icon"
-                          aria-label={`Page ${item + 1}`}
-                          aria-current={item === pageIndex ? 'page' : undefined}
-                          onClick={() => goToPage(item)}
-                          className="tabular-nums"
-                        >
-                          {item + 1}
-                        </Button>
-                      </PaginationItem>
-                    ) : (
-                      <PaginationItem key={item}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    ),
-                  )}
-                  <PaginationItem>
-                    <Button variant="ghost" aria-label="Next page" disabled={pageIndex >= pageCount - 1} onClick={() => goToPage(pageIndex + 1)}>
-                      <span className="hidden sm:inline">Next</span>
-                      <ChevronRight aria-hidden="true" />
-                    </Button>
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </div>
-          </div>
-        )}
+                  {row.getAllCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={cn('border-b border-border py-0', alignOf(cell.column) === 'right' && 'text-right')}
+                    >
+                      <table.FlexRender cell={cell} />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
+        </Table>
       </div>
-    </TooltipProvider>
+
+      {!loading && (
+        <div className="flex flex-wrap items-center gap-x-stack gap-y-2">
+          <p className="text-body text-fg-muted tabular-nums">
+            Showing {rangeStart.toLocaleString('en-US')}–{rangeEnd.toLocaleString('en-US')} of {total.toLocaleString('en-US')}
+          </p>
+          <div className="ml-auto flex flex-wrap items-center gap-x-stack gap-y-2">
+            <div className="flex items-center gap-2">
+              <span id="claims-rows-per-page" className="text-body text-fg-muted">
+                Rows per page
+              </span>
+              <Select
+                value={String(pageSize)}
+                onValueChange={(v) => {
+                  table.setPageSize(Number(v))
+                  goToPage(0)
+                }}
+              >
+                <SelectTrigger aria-labelledby="claims-rows-per-page" className="w-20">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent position="popper" align="end">
+                  {PAGE_SIZES.map((n) => (
+                    <SelectItem key={n} value={String(n)}>
+                      {n}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Pagination aria-label="Claims pagination" className="mx-0 w-auto">
+              <PaginationContent>
+                <PaginationItem>
+                  <Button variant="ghost" aria-label="Previous page" disabled={pageIndex === 0} onClick={() => goToPage(pageIndex - 1)}>
+                    <ChevronLeft aria-hidden="true" />
+                    <span className="hidden sm:inline">Previous</span>
+                  </Button>
+                </PaginationItem>
+                {pageItems(pageIndex, pageCount).map((item) =>
+                  typeof item === 'number' ? (
+                    <PaginationItem key={item}>
+                      <Button
+                        variant={item === pageIndex ? 'outline' : 'ghost'}
+                        size="icon"
+                        aria-label={`Page ${item + 1}`}
+                        aria-current={item === pageIndex ? 'page' : undefined}
+                        onClick={() => goToPage(item)}
+                        className="tabular-nums"
+                      >
+                        {item + 1}
+                      </Button>
+                    </PaginationItem>
+                  ) : (
+                    <PaginationItem key={item}>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  ),
+                )}
+                <PaginationItem>
+                  <Button variant="ghost" aria-label="Next page" disabled={pageIndex >= pageCount - 1} onClick={() => goToPage(pageIndex + 1)}>
+                    <span className="hidden sm:inline">Next</span>
+                    <ChevronRight aria-hidden="true" />
+                  </Button>
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }

@@ -3,8 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Skeleton } from '@/components/ui/skeleton'
 import type { ClaimDetail } from '@/data/types'
 import { ActorBadge } from './ActorBadge'
-
-const NBSP = '\u00A0'
+import { NBSP } from './shared'
 
 /** The agent's recommendation and the reasons behind it. Always labelled as AI-generated; the handler decides. */
 export function AgentSummary({ summary, loading = false }: { summary?: ClaimDetail['agentSummary']; loading?: boolean }) {

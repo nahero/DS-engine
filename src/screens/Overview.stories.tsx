@@ -29,7 +29,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {}
 export const Loading: Story = { args: { state: 'loading' } }
 export const Empty: Story = { args: { state: 'empty' } }
-export const Error: Story = { args: { state: 'error' } }
+export const ErrorState: Story = { name: 'Error', args: { state: 'error' } }
 export const Stale: Story = { args: { state: 'stale' } }
 
 /** 375px viewport: KPIs wrap to two columns, chart and lists stack, no horizontal scroll. */

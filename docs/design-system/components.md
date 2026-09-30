@@ -16,7 +16,7 @@ Figma library: **Obra shadcn ui kit (community edition)**, published to the team
 | FlagLabel | `components/review/FlagLabel.tsx` | Lucide icon + neutral text | — | Done: 6 flags | All variants |
 | ActorBadge | `components/review/ActorBadge.tsx` | shadcn Badge | `Badge` | Done: agent / person / system / policyholder | All variants |
 | KpiCard | `components/review/KpiCard.tsx` | shadcn Card + Skeleton | `Card - Nova` (Overview KPI row) | Done: default, danger tone, missing, loading | Default, Danger, MissingValue, Loading, NoHint, LongContent, Row |
-| ClaimsVolumeChart | `components/review/ClaimsVolumeChart.tsx` | shadcn Chart (Recharts) stacked bars, `chart.1–4` | `Chart` frame + custom bars | Done: legend, totals, tooltip, sr-only table, reduced motion | Default, Loading, Empty, Error, SingleWeek, LargeValues |
+| ClaimsVolumeChart | `components/review/ClaimsVolumeChart.tsx` | shadcn Chart (Recharts) stacked bars, `chart.1–4` | `Chart` frame + custom bars | Done: legend, totals, tooltip, data table (screen-reader only; "Show data table" reveals it), reduced motion; description derived from the weeks shown | Default, Loading, Empty, Error, SingleWeek, LargeValues |
 | NeedsAttentionList | `components/review/NeedsAttentionList.tsx` | shadcn Card + links | `Card - Nova` | Done | Default, Loading, Empty, Error, Long |
 | ActivityFeed | `components/review/ActivityFeed.tsx` | shadcn Card + list | `Card - Nova` | Done; wraps below `sm` | Default, Loading, Empty, Error, Long |
 | ExtractedFieldRow, ExtractedFieldsTable | `components/review/` | shadcn Table row + ConfidenceIndicator + CitationChip + Input | DS `Extracted field row` (`60:4629`) | Done: Default, Low confidence, Missing, Agent failed, Editing (Enter/Esc), Corrected (audited) | pending |
@@ -25,10 +25,15 @@ Figma library: **Obra shadcn ui kit (community edition)**, published to the team
 | ClaimHeader, ClaimSummary, AgentSummary, AuditTrail, CoverageChecks, DocumentList | `components/review/` | Card, Tabs, Badge, Button | Claim detail frame (`50:77`) | Done: approve / senior approval / refer / request info flows, PII reveal audited | pending |
 | ClaimsTable, FilterBar, BulkBar | `components/review/` (+ `queue-utils.ts`) | shadcn Table + TanStack Table v9, Input, Select, Checkbox, Pagination | `Table Header` / `Table Cell`, `Input - Nova`, `Select` | Done: needs-attention sort, filters + chips, selection, bulk rules, ↑/↓ j/k x Enter keys, 25/50/100 pages | pending |
 | AppShell, AppSidebar, AppHeader, DisplayMenu | `components/app/` | shadcn Sidebar, Breadcrumb, Input, DropdownMenu, Avatar | Sidebar parts, `Breadcrumb`, `Input - Nova` | Done. DisplayMenu (theme / brand / density) is code-only, for demoing tokens | AppSidebar ×5, AppHeader ×3, DisplayMenu ×2, AppShell ×3 |
+| StateBlock | `components/review/StateBlock.tsx` | Icon + title + description + action | — | Done: one empty / error block (`role="alert"` on error), `size` sm (in cards) / md (whole region), `framed` | pending |
+| TruncatedText | `components/review/TruncatedText.tsx` (+ `hooks/use-truncated.ts`) | shadcn Tooltip | — | Done: ellipsis; only when cut off it takes focus and shows the full text | pending |
+| PageHeader | `components/app/PageHeader.tsx` | h1 (`text-heading-md`) + subtitle + actions | — | Done: the one h1 size for every screen; optional badges, `titleClassName` (mono claim #) | pending |
+| UnavailableButton | `components/app/UnavailableButton.tsx` | Button + Tooltip | — | Done: demo-only controls (Export, bell). `aria-disabled`, stays focusable, tooltip "Not available in this demo" opens on focus | pending |
+| UserAvatar | `components/app/UserAvatar.tsx` (+ `data/current-user.ts`) | shadcn Avatar | `Avatar` | Done: `decorative` hides it, otherwise `role="img"` named after the user | pending |
 | useDisplaySettings | `lib/use-display-settings.ts` | — | — | Sets `.dark`, `data-theme`, `data-density` on `<html>`, persisted; `index.html` applies it before paint | — |
 | Toast | `components/ui/` | shadcn Sonner | `Sonner` | Planned | — |
 
-Screens: `screens/Overview.tsx` (done, stories: Default, Loading, Empty, Error, Stale, Mobile), `screens/ClaimsQueue.tsx`, `screens/ClaimDetail.tsx` (done, stories pending). Routing is hash-based in `App.tsx` (`#overview`, `#claims-queue`, `#claim-<id>`).
+Screens: `screens/Overview.tsx` (done, stories: Default, Loading, Empty, Error, Stale, Mobile), `screens/ClaimsQueue.tsx`, `screens/ClaimDetail.tsx` (done, stories pending). Routing is hash-based in `App.tsx`; hrefs come from `lib/routes.ts` (`#overview`, `#claims-queue`, `#claim-<id>`). Shared bits for review components: `components/review/shared.ts` (`NBSP`, `ViewState`). Missing data reads "—" + "Missing"; "Not applicable" is only for SLA on closed claims.
 shadcn primitives restyled to tokens (card, badge, input, select, sidebar, sheet, breadcrumb, dropdown-menu, avatar, skeleton, tooltip, chart, table, checkbox, pagination, tabs, alert): stories pending (paused by Igor 2026-09-29).
 
 ## Figma → code mapping

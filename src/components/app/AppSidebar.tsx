@@ -12,7 +12,9 @@ import {
   type LucideIcon,
 } from "lucide-react"
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { UserAvatar } from "@/components/app/UserAvatar"
+import { currentUser } from "@/data/current-user"
+import { routes } from "@/lib/routes"
 import {
   Sidebar,
   SidebarContent,
@@ -29,6 +31,7 @@ import {
 
 type NavItem = {
   id: string
+  href: string
   label: string
   icon: LucideIcon
   /** Awaiting-work count shown right-aligned; `countLabel` completes the accessible name. */
@@ -42,24 +45,24 @@ const navGroups: NavGroup[] = [
   {
     label: "Claims",
     items: [
-      { id: "overview", label: "Overview", icon: LayoutDashboard },
-      { id: "claims-queue", label: "Claims queue", icon: Inbox, count: 128, countLabel: "awaiting" },
-      { id: "my-assigned", label: "My assigned", icon: UserCheck, count: 17, countLabel: "open" },
-      { id: "referred", label: "Referred", icon: Forward, count: 9, countLabel: "pending" },
+      { id: "overview", href: routes.overview, label: "Overview", icon: LayoutDashboard },
+      { id: "claims-queue", href: routes.queue, label: "Claims queue", icon: Inbox, count: 128, countLabel: "awaiting" },
+      { id: "my-assigned", href: routes.page("my-assigned"), label: "My assigned", icon: UserCheck, count: 17, countLabel: "open" },
+      { id: "referred", href: routes.page("referred"), label: "Referred", icon: Forward, count: 9, countLabel: "pending" },
     ],
   },
   {
     label: "Policies",
     items: [
-      { id: "policies", label: "Policies", icon: FileText },
-      { id: "policyholders", label: "Policyholders", icon: Users },
+      { id: "policies", href: routes.page("policies"), label: "Policies", icon: FileText },
+      { id: "policyholders", href: routes.page("policyholders"), label: "Policyholders", icon: Users },
     ],
   },
   {
     label: "Admin",
     items: [
-      { id: "reports", label: "Reports", icon: ChartBar },
-      { id: "settings", label: "Settings", icon: Settings },
+      { id: "reports", href: routes.page("reports"), label: "Reports", icon: ChartBar },
+      { id: "settings", href: routes.page("settings"), label: "Settings", icon: Settings },
     ],
   },
 ]
@@ -83,12 +86,12 @@ function initialsOf(name: string) {
 
 export function AppSidebar({
   activeItem,
-  user = { name: "Emily Carter", role: "Claims handler" },
+  user = currentUser,
   ...props
 }: AppSidebarProps) {
   return (
-    <Sidebar role="complementary" aria-label="Sidebar" {...props}>
-      <SidebarHeader>
+    <Sidebar {...props}>
+      <SidebarHeader role="region" aria-label="ClaimDesk">
         <div className="flex min-h-8 items-center gap-2 py-1.5 pr-2 pl-2.5">
           <span
             aria-hidden="true"
@@ -119,7 +122,7 @@ export function AppSidebar({
                         <SidebarMenuItem key={item.id}>
                           <SidebarMenuButton asChild isActive={isActive}>
                             <a
-                              href={`#${item.id}`}
+                              href={item.href}
                               aria-current={isActive ? "page" : undefined}
                               aria-label={hasCount ? `${item.label}, ${item.count} ${item.countLabel}` : undefined}
                             >
@@ -139,11 +142,9 @@ export function AppSidebar({
         </nav>
       </SidebarContent>
 
-      <SidebarFooter>
+      <SidebarFooter role="region" aria-label="Signed-in user">
         <div className="flex min-h-8 items-center gap-2 py-1.5 pr-2 pl-2.5">
-          <Avatar aria-hidden="true">
-            <AvatarFallback>{user.initials ?? initialsOf(user.name)}</AvatarFallback>
-          </Avatar>
+          <UserAvatar name={user.name} initials={user.initials ?? initialsOf(user.name)} decorative />
           <div className="flex min-w-0 flex-col">
             <span className="truncate text-label font-medium text-sidebar-foreground" title={user.name}>
               {user.name}

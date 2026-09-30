@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { CircleAlert, Lock, Send } from 'lucide-react'
+import { PageHeader } from '@/components/app/PageHeader'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -9,8 +10,8 @@ import type { Claim, ClaimFlag, ClaimStatus } from '@/data/types'
 import { ConfidenceIndicator } from './ConfidenceIndicator'
 import { FlagLabel } from './FlagLabel'
 import { StatusBadge } from './StatusBadge'
+import { NBSP } from './shared'
 
-const NBSP = '\u00A0'
 const FINAL: ClaimStatus[] = ['Denied', 'Paid', 'Closed']
 
 type Panel = 'decide' | 'refer' | null
@@ -74,7 +75,7 @@ export function ClaimHeader({
       <header aria-busy="true" className="flex flex-wrap items-start justify-between gap-stack">
         <div role="status" className="flex flex-col gap-2">
           <span className="sr-only">Loading claim</span>
-          <Skeleton aria-hidden="true" className="h-8 w-72" />
+          <Skeleton aria-hidden="true" className="w-72 text-heading-md">{NBSP}</Skeleton>
           <Skeleton aria-hidden="true" className="w-56 text-body">{NBSP}</Skeleton>
         </div>
         <div aria-hidden="true" className="flex gap-stack">
@@ -126,21 +127,20 @@ export function ClaimHeader({
 
   return (
     <header className="flex flex-col gap-stack">
-      <div className="flex flex-wrap items-start justify-between gap-x-stack gap-y-3">
-        <div className="flex min-w-0 flex-col gap-1">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <h1 ref={heading} tabIndex={-1} className="font-mono text-heading-lg font-medium tracking-tight text-fg outline-none">
-              {claim.id}
-            </h1>
+      <PageHeader
+        className="items-start"
+        title={claim.id}
+        titleClassName="font-mono outline-none"
+        titleProps={{ ref: heading, tabIndex: -1 }}
+        badges={
+          <>
             <StatusBadge status={status} />
             <ConfidenceIndicator score={claim.confidence} />
             {flag && <FlagLabel flag={flag} />}
-          </div>
-          <p className="text-body text-fg-muted">
-            {claim.policyholder} · {claim.lob} claim
-          </p>
-        </div>
-
+          </>
+        }
+        subtitle={`${claim.policyholder} · ${claim.lob} claim`}
+        actions={
         <div className="flex flex-col items-start gap-1 sm:items-end">
           {isFinal ? (
             <p className="flex items-center gap-2 text-body text-fg-muted">
@@ -194,7 +194,8 @@ export function ClaimHeader({
             </>
           )}
         </div>
-      </div>
+        }
+      />
 
       {panel === 'decide' && (
         <div

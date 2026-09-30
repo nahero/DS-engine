@@ -4,5 +4,17 @@
   "rules": {
     "react/rules-of-hooks": "error",
     "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+  },
+  "overrides": [
+    {
+      // shadcn-generated code: variant helpers exported next to components, Math.random for the
+      // skeleton width and setState in the use-mobile effect. Only these rules are relaxed, only here.
+      "files": ["src/components/ui/**", "src/hooks/use-mobile.ts"],
+      "rules": {
+        "react/only-export-components": "off",
+        "react/purity": "off",
+        "react/set-state-in-effect": "off"
+      }
+    }
+  ]
 }

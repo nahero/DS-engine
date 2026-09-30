@@ -6,8 +6,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { formatDate } from '@/data/claims'
 import type { AuditEvent } from '@/data/types'
 import { ActorBadge } from './ActorBadge'
+import { NBSP } from './shared'
 
-const NBSP = '\u00A0'
 const COMPACT_COUNT = 5
 
 /** `22 Sep 09:03` from an ISO date-time. */

@@ -10,15 +10,14 @@ import { formatMoney } from '@/data/claims'
 import type { Payout } from '@/data/types'
 import { cn } from '@/lib/utils'
 import { derivePayout } from './claim-utils'
+import { NBSP } from './shared'
 
-const NBSP = '\u00A0'
-
-/** "—" for a missing figure, with a text alternative for screen readers. */
-function Dash() {
+/** "—" for a missing figure, read as "Missing". With a visible label beside it (`labelled`), the dash is decoration only. */
+function Dash({ labelled = false }: { labelled?: boolean }) {
   return (
     <>
       <span aria-hidden="true">—</span>
-      <span className="sr-only">Not available</span>
+      {!labelled && <span className="sr-only">Missing</span>}
     </>
   )
 }
@@ -143,7 +142,7 @@ function MissingValue() {
       <Badge variant="outline" className="font-semibold">
         Missing
       </Badge>
-      <Dash />
+      <Dash labelled />
     </span>
   )
 }

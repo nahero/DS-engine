@@ -7,8 +7,8 @@ import type { ExtractedField } from '@/data/types'
 import type { CitationSource } from './CitationChip'
 import { ExtractedFieldRow } from './ExtractedFieldRow'
 import { sortFields, type FieldCorrection } from './claim-utils'
+import { NBSP } from './shared'
 
-const NBSP = '\u00A0'
 const SKELETON_ROWS = 7
 
 const th = 'h-row px-2 py-1 text-left text-caption font-medium whitespace-nowrap text-fg-muted'

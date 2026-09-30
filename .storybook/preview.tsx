@@ -1,6 +1,7 @@
 import type { Decorator, Preview } from '@storybook/react-vite'
 import { withThemeByClassName } from '@storybook/addon-themes'
 import '../src/styles/globals.css'
+import { TooltipProvider } from '../src/components/ui/tooltip'
 
 const withDensity: Decorator = (Story, context) => {
   const density = context.globals.density ?? 'comfortable'
@@ -83,6 +84,12 @@ const preview: Preview = {
     motion: 'system',
   },
   decorators: [
+    // The app mounts one TooltipProvider (inside SidebarProvider); stories get the same.
+    (Story) => (
+      <TooltipProvider>
+        <Story />
+      </TooltipProvider>
+    ),
     withBrand,
     withDensity,
     withMotion,

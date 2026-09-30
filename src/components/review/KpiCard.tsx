@@ -11,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import type { Kpi } from '@/data/types'
+import { NBSP } from './shared'
 
 const hintIcons: Record<NonNullable<Kpi['hint']>['icon'], LucideIcon> = {
   'trend-up': TrendingUp,
@@ -21,18 +22,28 @@ const hintIcons: Record<NonNullable<Kpi['hint']>['icon'], LucideIcon> = {
   overdue: CircleAlert,
 }
 
-// Skeleton text uses a non-breaking space so it takes the exact line height of the text it stands in for.
-const NBSP = ' '
-
 /** One headline number with a label and a hint row. `<dl>` keeps label, value and hint associated. */
-export function KpiCard({ kpi, loading = false, className }: { kpi?: Kpi; loading?: boolean; className?: string }) {
+export function KpiCard({
+  kpi,
+  loading = false,
+  announce = true,
+  className,
+}: {
+  kpi?: Kpi
+  loading?: boolean
+  /** Loading announces itself as a live region. A screen that announces loading once for all its cards sets this to false. */
+  announce?: boolean
+  className?: string
+}) {
   if (loading || !kpi) {
     return (
       <Card aria-busy="true" className={className}>
         <CardContent>
-          <span className="sr-only" role="status">
-            Loading
-          </span>
+          {announce && (
+            <span className="sr-only" role="status">
+              Loading
+            </span>
+          )}
           <div aria-hidden="true" className="flex flex-col gap-2">
             <Skeleton className="w-28 text-body">{NBSP}</Skeleton>
             <Skeleton className="w-20 text-heading-lg">{NBSP}</Skeleton>
@@ -58,13 +69,13 @@ export function KpiCard({ kpi, loading = false, className }: { kpi?: Kpi; loadin
             {missing ? (
               <>
                 <span aria-hidden="true">—</span>
-                <span className="sr-only">Not available</span>
+                <span className="sr-only">Missing</span>
               </>
             ) : (
               kpi.value
             )}
           </dd>
-          <dd className="flex min-h-5.5 items-center text-caption text-fg-muted">
+          <dd className="flex min-h-5.5 items-center text-caption text-fg-muted tabular-nums">
             {missing ? (
               <span>Missing</span>
             ) : kpi.hint ? (

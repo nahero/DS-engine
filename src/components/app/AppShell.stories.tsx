@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { AppShell } from './AppShell'
 import { useMockDisplaySettings } from './use-mock-display-settings'
+import { routes } from '@/lib/routes'
 
 const Placeholder = () => (
   <div className="flex flex-col gap-stack p-inset">
@@ -31,7 +32,7 @@ const meta = {
   render: (args) => <ShellWithMockSettings {...args} />,
   args: {
     activeItem: 'overview',
-    breadcrumb: [{ label: 'Claims', href: '#claims-queue' }, { label: 'Overview' }],
+    breadcrumb: [{ label: 'Claims', href: routes.queue }, { label: 'Overview' }],
     children: <Placeholder />,
   },
   parameters: {

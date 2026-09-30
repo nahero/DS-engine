@@ -1,12 +1,13 @@
 import { useId } from 'react'
-import { CircleAlert, Inbox } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { ActivityEvent } from '@/data/types'
+import { routes } from '@/lib/routes'
 import { ActorBadge } from './ActorBadge'
-
-const NBSP = ' '
+import { NBSP, type ViewState } from './shared'
+import { StateBlock } from './StateBlock'
+import { TruncatedText } from './TruncatedText'
 const SKELETON_ROWS = 6
 
 // Row layout shared by real rows and skeletons so loading has the final size.
@@ -16,10 +17,13 @@ const rowClass = 'flex min-h-row flex-wrap items-center gap-x-stack gap-y-1 bord
 export function ActivityFeed({
   events = [],
   state = 'default',
+  announce = true,
   onRetry,
 }: {
   events?: ActivityEvent[]
-  state?: 'default' | 'loading' | 'empty' | 'error'
+  state?: ViewState
+  /** Loading announces itself as a live region. A screen that announces loading once sets this to false. */
+  announce?: boolean
   onRetry?: () => void
 }) {
   const titleId = useId()
@@ -36,8 +40,8 @@ export function ActivityFeed({
 
       <CardContent>
         {view === 'loading' && (
-          <div role="status">
-            <span className="sr-only">Loading recent activity</span>
+          <div role={announce ? 'status' : undefined}>
+            {announce && <span className="sr-only">Loading recent activity</span>}
             <ul aria-hidden="true">
               {Array.from({ length: SKELETON_ROWS }, (_, i) => (
                 <li key={i} className={rowClass}>
@@ -52,22 +56,26 @@ export function ActivityFeed({
         )}
 
         {view === 'empty' && (
-          <div className="flex flex-col items-center gap-1 py-6 text-center">
-            <Inbox aria-hidden="true" className="size-5 text-fg-muted" />
-            <p className="text-body font-medium text-fg">No recent activity</p>
-            <p className="text-caption text-fg-muted">Agent and handler actions will appear here as claims are processed</p>
-          </div>
+          <StateBlock
+            kind="empty"
+            size="sm"
+            title="No recent activity"
+            description="Agent and handler actions will appear here as claims are processed"
+          />
         )}
 
         {view === 'error' && (
-          <div role="alert" className="flex flex-col items-center gap-2 py-6 text-center">
-            <CircleAlert aria-hidden="true" className="size-5 text-status-danger-fg" />
-            <p className="text-body font-medium text-fg">Couldn’t load recent activity</p>
-            <p className="text-caption text-fg-muted">The activity list didn’t load. Check your connection and try again.</p>
-            <Button variant="outline" size="sm" onClick={onRetry}>
-              Retry
-            </Button>
-          </div>
+          <StateBlock
+            kind="error"
+            size="sm"
+            title="Couldn’t load recent activity"
+            description="The activity list didn’t load. Check your connection and try again."
+            action={
+              <Button variant="outline" size="sm" onClick={onRetry}>
+                Retry
+              </Button>
+            }
+          />
         )}
 
         {view === 'default' && (
@@ -80,11 +88,12 @@ export function ActivityFeed({
                 <div className="flex shrink-0 items-center sm:w-40">
                   <ActorBadge actor={event.actor} />
                 </div>
-                <span className="order-last min-w-0 basis-full truncate text-body text-fg sm:order-none sm:flex-1 sm:basis-auto" title={event.event}>
-                  {event.event}
-                </span>
+                <TruncatedText
+                  text={event.event}
+                  className="order-last min-w-0 basis-full text-body text-fg sm:order-none sm:flex-1 sm:basis-auto"
+                />
                 <a
-                  href={`#claim-${event.claimId}`}
+                  href={routes.claim(event.claimId)}
                   className="ml-auto inline-flex min-h-6 shrink-0 items-center rounded-inner text-right sm:ml-0 font-mono text-caption text-fg-muted tabular-nums outline-none hover:text-fg hover:underline focus-visible:ring-3 focus-visible:ring-ring"
                 >
                   {event.claimId}

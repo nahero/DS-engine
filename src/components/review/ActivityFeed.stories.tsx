@@ -40,7 +40,7 @@ export const Loading: Story = { args: { state: 'loading' } }
 
 export const Empty: Story = { args: { state: 'empty', events: [] } }
 
-export const ErrorState: Story = { args: { state: 'error' } }
+export const ErrorState: Story = { name: 'Error', args: { state: 'error' } }
 
 export const LongContent: Story = {
   args: {

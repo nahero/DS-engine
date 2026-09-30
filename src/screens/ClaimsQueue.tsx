@@ -1,15 +1,17 @@
 import * as React from 'react'
 import { Download } from 'lucide-react'
 import type { RowSelectionState, SortingState } from '@tanstack/react-table'
-import { Button } from '@/components/ui/button'
+import { PageHeader } from '@/components/app/PageHeader'
+import { UnavailableButton } from '@/components/app/UnavailableButton'
 import { BulkBar } from '@/components/review/BulkBar'
 import { ClaimsTable, SortStatus, type ClaimsTableHandle } from '@/components/review/ClaimsTable'
 import { FilterBar } from '@/components/review/FilterBar'
+import type { ViewState } from '@/components/review/shared'
 import { applyFilters, emptyFilters, hasActiveFilters, sortLabel, type ClaimFilters } from '@/components/review/queue-utils'
 import { claims as seedClaims } from '@/data/claims'
 import type { Claim, ClaimStatus } from '@/data/types'
 
-export type ClaimsQueueState = 'default' | 'loading' | 'empty' | 'error'
+export type ClaimsQueueState = ViewState
 
 const AWAITING_REVIEW: ClaimStatus[] = ['New', 'In review', 'Info requested', 'Reopened']
 const RETRY_DELAY_MS = 600
@@ -82,16 +84,16 @@ export function ClaimsQueue({ state = 'default', onRetry }: { state?: ClaimsQueu
 
   return (
     <div className="flex flex-col gap-stack p-inset">
-      <div className="flex flex-wrap items-center justify-between gap-stack">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-heading-md font-medium tracking-tight text-fg">Claims queue</h1>
-          <p className="text-body text-fg-muted">{subtitle}</p>
-        </div>
-        <Button variant="outline" disabled={!showData}>
-          <Download aria-hidden="true" />
-          Export
-        </Button>
-      </div>
+      <PageHeader
+        title="Claims queue"
+        subtitle={subtitle}
+        actions={
+          <UnavailableButton variant="outline">
+            <Download aria-hidden="true" />
+            Export
+          </UnavailableButton>
+        }
+      />
 
       {!noClaims && view !== 'error' && (
         <FilterBar filters={filters} onChange={setFilters} handlers={handlers} resultCount={filtered.length} disabled={loading}>

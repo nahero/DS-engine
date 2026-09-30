@@ -2,7 +2,8 @@ import * as React from "react"
 import { Bell, Search } from "lucide-react"
 
 import { DisplayMenu } from "@/components/app/DisplayMenu"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { UnavailableButton } from "@/components/app/UnavailableButton"
+import { UserAvatar } from "@/components/app/UserAvatar"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,7 +12,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
@@ -27,15 +27,11 @@ type AppHeaderProps = Omit<React.ComponentProps<"header">, "children"> & {
   /** Last entry is the current page. */
   breadcrumb: BreadcrumbEntry[]
   displaySettings: DisplaySettings
-  userName?: string
-  userInitials?: string
 }
 
 export function AppHeader({
   breadcrumb,
   displaySettings,
-  userName = "Emily Carter",
-  userInitials = "EC",
   className,
   ...props
 }: AppHeaderProps) {
@@ -92,13 +88,11 @@ export function AppHeader({
       </search>
 
       <div className="flex shrink-0 items-center gap-2 md:gap-stack">
-        <Button variant="outline" size="icon" aria-label="Notifications">
+        <UnavailableButton variant="outline" size="icon" aria-label="Notifications">
           <Bell aria-hidden="true" />
-        </Button>
+        </UnavailableButton>
         <DisplayMenu settings={displaySettings} />
-        <Avatar role="img" aria-label={userName}>
-          <AvatarFallback aria-hidden="true">{userInitials}</AvatarFallback>
-        </Avatar>
+        <UserAvatar />
       </div>
     </header>
   )

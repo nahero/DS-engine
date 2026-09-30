@@ -32,7 +32,7 @@ export const Loading: Story = { args: { state: 'loading' } }
 
 export const Empty: Story = { args: { state: 'empty', data: [] } }
 
-export const Error: Story = { args: { state: 'error' } }
+export const ErrorState: Story = { name: 'Error', args: { state: 'error' } }
 
 export const SingleWeek: Story = { args: { data: weeklyVolume.slice(-1) } }
 

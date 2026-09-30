@@ -18,12 +18,14 @@ const valueStyle: Record<NonNullable<ExtractedField['kind']>, string> = {
   iban: 'font-mono',
 }
 
+// Absent data: visible "—", read as "Missing". Where a visible label follows ("Missing", "Agent failed"), the dash is decoration only.
 const emDash = (
   <>
     <span aria-hidden="true">—</span>
-    <span className="sr-only">Not available</span>
+    <span className="sr-only">Missing</span>
   </>
 )
+const emDashLabelled = <span aria-hidden="true">—</span>
 
 function EditCell({
   field,
@@ -159,7 +161,7 @@ export function ExtractedFieldRow({
           <EditCell field={field} initial={value ?? ''} onSave={(v) => onSave?.(v)} onCancel={() => onCancel?.()} />
         ) : state === 'missing' ? (
           <span className="inline-flex items-center gap-2 text-body text-fg-muted">
-            {emDash}
+            {emDashLabelled}
             <Badge variant="outline" className="font-semibold">
               <CircleAlert aria-hidden="true" />
               Missing
@@ -167,7 +169,7 @@ export function ExtractedFieldRow({
           </span>
         ) : state === 'agent-failed' ? (
           <span className="inline-flex items-center gap-2 text-body text-fg-muted">
-            {emDash}
+            {emDashLabelled}
             <span className="inline-flex items-center gap-1 font-medium text-status-danger-fg">
               <CircleX aria-hidden="true" className="size-3 shrink-0" />
               Agent failed
@@ -217,7 +219,7 @@ export function ExtractedFieldRow({
       {state === 'agent-failed' ? (
         <TableCell colSpan={2} className="px-2 py-1 text-right">
           <span className="inline-flex items-center justify-end gap-cell">
-            <span className="text-body text-fg-muted">{emDash}</span>
+            <span className="text-body text-fg-muted">{emDashLabelled}</span>
             <Button variant="outline" size="sm" data-edit-trigger={field.id} onClick={onEdit}>
               Enter value
               <span className="sr-only"> for {field.label}</span>

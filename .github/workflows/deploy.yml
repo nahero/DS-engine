@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -11,11 +12,12 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  # PR runs get their own group so they never queue ahead of (or replace) a Pages deploy.
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.ref) || 'pages' }}
   cancel-in-progress: false
 
 jobs:
-  build:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -24,9 +26,37 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - id: playwright
+        run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+      - name: Install Chromium (with system dependencies)
+        run: npx playwright install --with-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Install system dependencies only (browser cached)
+        run: npx playwright install-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
       - run: npm run build:tokens
       - name: Check generated tokens are up to date
         run: git diff --exit-code src/styles/tokens.css src/styles/tokens.ts
+      - run: npm run lint -- --deny-warnings
+      - run: npm run typecheck
+      - run: npm run test:unit
+      - run: npm run test:stories
+
+  build:
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
       - run: npm run build
       - run: npm run build-storybook -- -o dist/storybook --disable-telemetry
       - uses: actions/configure-pages@v5
@@ -36,6 +66,7 @@ jobs:
 
   deploy:
     needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

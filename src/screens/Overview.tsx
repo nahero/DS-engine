@@ -1,16 +1,26 @@
+import { useId, useState } from 'react'
 import { Clock, Download, RefreshCw } from 'lucide-react'
+import { PageHeader } from '@/components/app/PageHeader'
+import { UnavailableButton } from '@/components/app/UnavailableButton'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ActivityFeed } from '@/components/review/ActivityFeed'
 import { ClaimsVolumeChart } from '@/components/review/ClaimsVolumeChart'
 import { KpiCard } from '@/components/review/KpiCard'
 import { NeedsAttentionList } from '@/components/review/NeedsAttentionList'
-import { kpis, needsAttention, recentActivity, weeklyVolume } from '@/data/overview'
+import type { ViewState } from '@/components/review/shared'
+import { kpis, needsAttention, recentActivity, weeklyVolume, weeklyVolumeYear } from '@/data/overview'
 import type { Kpi } from '@/data/types'
 
-export type OverviewState = 'default' | 'loading' | 'empty' | 'error' | 'stale'
+export type OverviewState = ViewState | 'stale'
 
-const PERIODS = ['Last 7 days', 'Last 30 days', 'Quarter to date']
+// Each period shows the last N weeks of the weekly series. KPIs are static in this demo.
+const PERIODS = [
+  { label: 'Last 7 days', weeks: 1 },
+  { label: 'Last 30 days', weeks: 4 },
+  { label: 'Quarter to date', weeks: weeklyVolume.length },
+]
+const DEFAULT_PERIOD = 'Last 30 days'
 
 // Empty period: counts are zero, rates and durations have nothing to average and show as missing.
 const emptyKpis: Kpi[] = kpis.map((k) => ({
@@ -32,34 +42,46 @@ export function Overview({
   const loading = state === 'loading'
   const empty = state === 'empty'
   const error = state === 'error'
-  const childState = loading ? 'loading' : empty ? 'empty' : error ? 'error' : 'default'
+  const childState: ViewState = loading ? 'loading' : empty ? 'empty' : error ? 'error' : 'default'
+  const kpiHeadingId = useId()
+
+  const [period, setPeriod] = useState(DEFAULT_PERIOD)
+  const weeks = PERIODS.find((p) => p.label === period)?.weeks ?? weeklyVolume.length
+  const shownWeeks = weeklyVolume.slice(-weeks)
+  const latestWeek = weeklyVolume[weeklyVolume.length - 1]?.week.replace(/\D/g, '')
 
   return (
     <div className="flex flex-col gap-stack p-inset">
-      <div className="flex flex-wrap items-center justify-between gap-stack">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-heading-md font-medium tracking-tight text-fg">Overview</h1>
-          <p className="text-body text-fg-muted">Claims operations · Week 39, 2026</p>
+      {loading && (
+        <div role="status" className="sr-only">
+          Loading overview
         </div>
-        <div className="flex items-center gap-stack">
-          <Select defaultValue="Last 30 days">
-            <SelectTrigger aria-label="Period" className="w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent position="popper" align="end">
-              {PERIODS.map((p) => (
-                <SelectItem key={p} value={p}>
-                  {p}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Button variant="outline">
-            <Download aria-hidden="true" />
-            Export
-          </Button>
-        </div>
-      </div>
+      )}
+
+      <PageHeader
+        title="Overview"
+        subtitle={latestWeek ? `Claims operations · Week ${Number(latestWeek)}, ${weeklyVolumeYear}` : 'Claims operations'}
+        actions={
+          <>
+            <Select value={period} onValueChange={setPeriod}>
+              <SelectTrigger aria-label="Period" className="w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent position="popper" align="end">
+                {PERIODS.map((p) => (
+                  <SelectItem key={p.label} value={p.label}>
+                    {p.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <UnavailableButton variant="outline">
+              <Download aria-hidden="true" />
+              Export
+            </UnavailableButton>
+          </>
+        }
+      />
 
       {state === 'stale' && (
         <div
@@ -76,22 +98,27 @@ export function Overview({
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-stack md:grid-cols-3 xl:grid-cols-5">
-        {loading
-          ? kpis.map((k) => <KpiCard key={k.id} loading />)
-          : (empty ? emptyKpis : kpis).map((k) => <KpiCard key={k.id} kpi={k} />)}
-      </div>
+      <section aria-labelledby={kpiHeadingId}>
+        <h2 id={kpiHeadingId} className="sr-only">
+          Key figures
+        </h2>
+        <div className="grid grid-cols-2 gap-stack md:grid-cols-3 xl:grid-cols-5">
+          {loading
+            ? kpis.map((k) => <KpiCard key={k.id} loading announce={false} />)
+            : (empty ? emptyKpis : kpis).map((k) => <KpiCard key={k.id} kpi={k} />)}
+        </div>
+      </section>
 
       <div className="grid grid-cols-1 gap-stack lg:grid-cols-3">
         <div className="min-w-0 lg:col-span-2">
-          <ClaimsVolumeChart data={empty ? [] : weeklyVolume} state={childState} onRetry={onRetry} />
+          <ClaimsVolumeChart data={empty ? [] : shownWeeks} year={weeklyVolumeYear} state={childState} announce={false} onRetry={onRetry} />
         </div>
         <div className="min-w-0">
-          <NeedsAttentionList items={empty ? [] : needsAttention} state={childState} onRetry={onRetry} />
+          <NeedsAttentionList items={empty ? [] : needsAttention} state={childState} announce={false} onRetry={onRetry} />
         </div>
       </div>
 
-      <ActivityFeed events={empty ? [] : recentActivity} state={childState} onRetry={onRetry} />
+      <ActivityFeed events={empty ? [] : recentActivity} state={childState} announce={false} onRetry={onRetry} />
     </div>
   )
 }

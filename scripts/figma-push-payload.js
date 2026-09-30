@@ -34,7 +34,7 @@ function leaves(node, path = []) {
 }
 
 // Colour value → { alias: '<figma variable name>', collection? } or { hex }.
-function color(value, mode) {
+function color(value, _mode) {
   if (!value.startsWith('{')) return { hex: value }
   const ref = value.slice(1, -1)
   const [head, ...rest] = ref.split('.')

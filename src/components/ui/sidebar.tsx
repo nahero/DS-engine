@@ -100,6 +100,9 @@ function SidebarProvider({
         event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
         (event.metaKey || event.ctrlKey)
       ) {
+        // Never while typing: the key belongs to the field (Ctrl+B is bold in rich text).
+        const target = event.target as HTMLElement | null
+        if (target?.closest("input, textarea, select, [contenteditable]:not([contenteditable='false'])")) return
         event.preventDefault()
         toggleSidebar()
       }

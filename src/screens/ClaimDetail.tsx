@@ -1,11 +1,13 @@
 import { useMemo, useRef, useState } from 'react'
-import { CircleAlert, SearchX } from 'lucide-react'
+import { SearchX } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { PageHeader } from '@/components/app/PageHeader'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AUTHORITY_LIMIT, getClaimDetail } from '@/data/claim-detail'
+import { currentUser } from '@/data/current-user'
 import { formatMoney } from '@/data/claims'
 import type { Actor, AuditEvent, ClaimDetail as ClaimDetailData, ClaimFlag, ClaimStatus } from '@/data/types'
 import { AgentSummary } from '@/components/review/AgentSummary'
@@ -17,12 +19,15 @@ import { CoverageChecks } from '@/components/review/CoverageChecks'
 import { DocumentList, type DocumentHighlight } from '@/components/review/DocumentList'
 import { ExtractedFieldsTable } from '@/components/review/ExtractedFieldsTable'
 import { PayoutBreakdown } from '@/components/review/PayoutBreakdown'
+import { StateBlock } from '@/components/review/StateBlock'
+import type { ViewState } from '@/components/review/shared'
+import { routes } from '@/lib/routes'
 import { derivePayout, maskIban, type FieldCorrection } from '@/components/review/claim-utils'
 
-export type ClaimDetailState = 'default' | 'loading' | 'error'
+export type ClaimDetailState = Extract<ViewState, 'default' | 'loading' | 'error'>
 
 /** The signed-in handler: author of every action on this screen. */
-const ME = { kind: 'person', name: 'Emily Carter' } as const satisfies Actor
+const ME = { kind: 'person', name: currentUser.name } as const satisfies Actor
 
 type TabId = 'fields' | 'documents' | 'coverage' | 'audit'
 
@@ -43,15 +48,19 @@ export function ClaimDetail({ claimId, state = 'default' }: { claimId: string; s
   if (view === 'loading') return <LoadingView />
   if (view === 'error') {
     return (
-      <div className="p-inset">
-        <div role="alert" className="flex flex-col items-center gap-2 rounded-surface border bg-card px-inset py-16 text-center">
-          <CircleAlert aria-hidden="true" className="size-5 text-status-danger-fg" />
-          <h1 className="text-body font-medium text-fg">Couldn’t load claim {claimId}</h1>
-          <p className="text-caption text-fg-muted">The claim didn’t load. Check your connection and try again.</p>
-          <Button variant="outline" size="sm" onClick={() => setRetried(true)}>
-            Retry
-          </Button>
-        </div>
+      <div className={pageClass}>
+        <PageHeader title={claimId} titleClassName="font-mono" />
+        <StateBlock
+          kind="error"
+          framed
+          title={`Couldn’t load claim ${claimId}`}
+          description="The claim didn’t load. Check your connection and try again."
+          action={
+            <Button variant="outline" size="sm" onClick={() => setRetried(true)}>
+              Retry
+            </Button>
+          }
+        />
       </div>
     )
   }
@@ -59,13 +68,20 @@ export function ClaimDetail({ claimId, state = 'default' }: { claimId: string; s
   const detail = getClaimDetail(claimId)
   if (!detail) {
     return (
-      <div className="flex flex-col items-center gap-stack p-inset py-24 text-center">
-        <SearchX aria-hidden="true" className="size-8 text-fg-muted" />
-        <h1 className="text-heading-md font-medium tracking-tight text-fg">Claim {claimId} not found</h1>
-        <p className="max-w-prose text-body text-fg-muted">It may have been removed, or the number may be mistyped.</p>
-        <Button asChild variant="outline">
-          <a href="#claims-queue">Back to queue</a>
-        </Button>
+      <div className={pageClass}>
+        <PageHeader title="Claim not found" />
+        <StateBlock
+          kind="empty"
+          framed
+          icon={SearchX}
+          title={`No claim ${claimId}`}
+          description="It may have been removed, or the number may be mistyped."
+          action={
+            <Button asChild variant="outline">
+              <a href={routes.queue}>Back to queue</a>
+            </Button>
+          }
+        />
       </div>
     )
   }

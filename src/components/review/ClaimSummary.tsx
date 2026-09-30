@@ -6,8 +6,7 @@ import { formatDate } from '@/data/claims'
 import type { Claim } from '@/data/types'
 import { maskPolicyNo } from './claim-utils'
 import { SlaIndicator } from './SlaIndicator'
-
-const NBSP = '\u00A0'
+import { NBSP } from './shared'
 
 function Item({ label, children }: { label: string; children: React.ReactNode }) {
   return (
