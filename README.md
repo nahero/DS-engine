@@ -1,5 +1,7 @@
 # DS-Engine
 
+[![Checks and deploy](https://github.com/nahero/DS-engine/actions/workflows/deploy.yml/badge.svg)](https://github.com/nahero/DS-engine/actions/workflows/deploy.yml)
+
 A design system built end to end, from Figma variables to a working product UI, with an AI-assisted workflow (Claude Code). The concept product is **ClaimDesk**, an insurance claims admin where an AI agent pre-processes claims and a human handler reviews, corrects and approves them.
 
 Every part is public:
@@ -11,6 +13,7 @@ Every part is public:
 | **Figma: working file** (screens, DS components, decision notes) | [DS-Engine-Main](https://www.figma.com/design/LbYcGPXhnrMBahsdvBJ2HI/DS-Engine-Main) (view only) |
 | **Figma: library** (Obra shadcn kit + DS variable collections) | [Obra shadcn kit, team library](https://www.figma.com/design/dbk2ali9ax6GIGOOXNr2gp/Obra-shadcn-ui-kit) (view only) |
 | **Design-system docs** | [`docs/design-system/`](docs/design-system/) |
+| **Decision records** | [`docs/decisions/`](docs/decisions/) |
 | **AI mistakes log** | [`docs/ai-log.md`](docs/ai-log.md) |
 
 ```
@@ -45,7 +48,7 @@ Figma variables ⇄ DTCG JSON → Style Dictionary → CSS variables → shadcn/
   - brand: `data-theme`;
   - density: `data-density`.
 - **Tailwind only exposes tokens.** The default palette, type scale, radii and shadows are removed, so `bg-blue-500`-style classes don't exist. The `ui-review` skill flags arbitrary values. shadcn's variable names are a thin adapter onto semantic tokens.
-- **WCAG contrast is checked on every build** ([`scripts/check-contrast.js`](scripts/check-contrast.js)): 46 text and non-text pairs × 2 brands × light/dark. Any failure fails the build.
+- **WCAG contrast is checked on every build** ([`scripts/check-contrast.js`](scripts/check-contrast.js)): 47 text and non-text pairs × 2 brands × light/dark. Any failure fails the build.
 - **Code ↔ Figma sync** without the Enterprise-only Variables API:
   - scripts run through the Figma MCP (Plugin API): export primitives, push the DS collections, and a read-only parity check ([`scripts/figma-verify.js`](scripts/figma-verify.js));
   - last check: all 77 DS variables plus the kit adapter match code.
@@ -54,12 +57,33 @@ Figma variables ⇄ DTCG JSON → Style Dictionary → CSS variables → shadcn/
 
 ## 📚 Storybook
 
+- **Every component has stories**: 53 components, 54 story files, 400+ stories. CI fails if a component has none (`scripts/check-stories.js`).
+- **Every state:** default, variants, focus, disabled, invalid, loading, empty, error, long content, missing data.
 - **Foundations/Tokens** renders every token layer straight from the token files (semantic colours, primitives, brand themes, component tokens, density, typography, radius/shadow, motion), so docs can't drift from code.
 - **Toolbar switches** for theme (light/dark), brand, density and reduced motion: the same attributes the app uses.
-- **Accessibility addon (axe) set to fail on violations.**
-- **Component stories** for the app shell, review components and the Overview screen, covering default, loading, empty, error and long-content states.
-- Stories for the restyled shadcn primitives and the Claims queue / Claim detail components are next.
-- Built and deployed with the app on every push to `main`.
+- **Stories are tests.** Each story runs in Chromium through Vitest (`@storybook/addon-vitest`), twice: light + comfortable, and dark + compact. An accessibility violation or a failed interaction check fails the build.
+- **Interaction tests for the key flows:**
+  - bulk approve only for High confidence;
+  - filter chips;
+  - queue keyboard navigation;
+  - inline correction with Enter/Esc and focus return;
+  - senior approval;
+  - citation → document;
+  - PII reveal logged in the audit trail.
+
+## ✅ Quality gates (CI)
+
+Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.yml)). Pull requests run the same checks.
+
+| Gate | What it enforces |
+|---|---|
+| Token drift | Generated `tokens.css` / `tokens.ts` match the JSON source |
+| Contrast | 47 text and non-text colour pairs × 2 brands × light/dark meet WCAG AA |
+| Lint | oxlint, warnings are errors |
+| Typecheck | `tsc -b`, strict |
+| Story coverage | Every component has a stories file |
+| Unit tests | 73 Vitest tests on domain logic: needs-attention sort, payout and authority limit, filters, PII masking, data invariants |
+| Story tests | 826 browser tests: every story in two theme/density modes, with axe and interaction checks |
 
 ## 📊 The dashboard (ClaimDesk)
 
@@ -93,12 +117,14 @@ Three screens, built from the Figma designs with shadcn/ui on Radix and 1,000 de
 - Semantic HTML first, full keyboard support, visible focus, labels on every input.
 - Status is always shown with text or an icon, never colour alone.
 - Checks:
-  - axe in Storybook;
-  - axe runs on every screen in light and dark during development;
-  - token contrast in CI.
+  - axe runs in every story test (light and dark), so a violation fails CI;
+  - token contrast in CI;
+  - axe on every screen in light and dark during development.
 - Rules and keyboard map: [`docs/design-system/accessibility.md`](docs/design-system/accessibility.md).
 
 ## 🤖 AI-assisted workflow
+
+- **Decisions are recorded, not remembered:** [`docs/decisions/`](docs/decisions/) (context, decision, consequences).
 
 - Built with **Claude Code**, driven by written rules rather than one-off prompts:
   - [`CLAUDE.md`](CLAUDE.md): always-on hard rules (tokens only, accessibility, data display, docs updates);
@@ -109,7 +135,7 @@ Three screens, built from the Figma designs with shadcn/ui on Radix and 1,000 de
 
 ## Stack
 
-Vite · React 19 · TypeScript · Tailwind CSS v4 · shadcn/ui (Radix) · TanStack Table · Recharts · Style Dictionary (DTCG) · Storybook 10 (a11y, themes) · Geist · oxlint · GitHub Actions → GitHub Pages
+Vite · React 19 · TypeScript · Vitest + Playwright (Chromium) · Tailwind CSS v4 · shadcn/ui (Radix) · TanStack Table · Recharts · Style Dictionary (DTCG) · Storybook 10 (a11y, themes) · Geist · oxlint · GitHub Actions → GitHub Pages
 
 ## Repo map
 
@@ -122,7 +148,7 @@ src/components/app/   app shell (sidebar, header, display menu)
 src/components/review/ domain components (KPI card, claims table, extracted field row, payout…)
 src/screens/          Overview, Claims queue, Claim detail
 src/foundations/      token documentation stories
-docs/                 design-system docs + AI log
+docs/                 design-system docs, decision records, AI log
 ```
 
 ## Run locally
@@ -132,6 +158,7 @@ npm ci
 npm run dev            # app at http://localhost:5173/DS-engine/
 npm run storybook      # Storybook at http://localhost:6006
 npm run build:tokens   # rebuild tokens + contrast check
+npm test               # unit tests + every story as a browser test
 ```
 
 ## Constraints and trade-offs

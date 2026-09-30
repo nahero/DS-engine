@@ -303,7 +303,7 @@
   --ds-color-chart-2: var(--ds-color-amber-400);
   --ds-color-chart-3: var(--ds-color-green-400);
   --ds-color-chart-4: var(--ds-color-violet-400);
-  --ds-color-highlight-citation-bg: var(--ds-color-violet-900);
+  --ds-color-highlight-citation-bg: var(--ds-color-violet-950);
   --ds-color-highlight-citation-border: var(--ds-color-violet-500);
   --ds-color-bg-accent: var(--ds-brand-dark-accent);
   --ds-color-fg-on-action: var(--ds-brand-dark-primary-fg);

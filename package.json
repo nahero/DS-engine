@@ -14,8 +14,9 @@
     "typecheck": "tsc -b",
     "test": "vitest run",
     "test:unit": "vitest run --project unit",
-    "test:stories": "vitest run --project storybook",
-    "test:coverage": "vitest run --project unit --coverage"
+    "test:stories": "vitest run --project storybook --project storybook-dark",
+    "test:coverage": "vitest run --project unit --coverage",
+    "check:stories": "node scripts/check-stories.js"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

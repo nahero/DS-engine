@@ -3,6 +3,9 @@ import { withThemeByClassName } from '@storybook/addon-themes'
 import '../src/styles/globals.css'
 import { TooltipProvider } from '../src/components/ui/tooltip'
 
+// Set by vitest.config.ts for the dark + compact test pass; undefined in normal Storybook.
+const STORY_MODE = import.meta.env.VITE_STORY_MODE as string | undefined
+
 const withDensity: Decorator = (Story, context) => {
   const density = context.globals.density ?? 'comfortable'
   const root = document.documentElement
@@ -80,7 +83,7 @@ const preview: Preview = {
   },
   initialGlobals: {
     brand: 'default',
-    density: 'comfortable',
+    density: STORY_MODE === 'dark-compact' ? 'compact' : 'comfortable',
     motion: 'system',
   },
   decorators: [
@@ -95,7 +98,7 @@ const preview: Preview = {
     withMotion,
     withThemeByClassName({
       themes: { light: '', dark: 'dark' },
-      defaultTheme: 'light',
+      defaultTheme: STORY_MODE === 'dark-compact' ? 'dark' : 'light',
     }),
   ],
 }

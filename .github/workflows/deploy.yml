@@ -44,6 +44,7 @@ jobs:
         run: git diff --exit-code src/styles/tokens.css src/styles/tokens.ts
       - run: npm run lint -- --deny-warnings
       - run: npm run typecheck
+      - run: npm run check:stories
       - run: npm run test:unit
       - run: npm run test:stories
 

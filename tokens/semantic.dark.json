@@ -183,7 +183,7 @@
     "highlight": {
       "citation": {
         "bg": {
-          "$value": "{color.violet.900}"
+          "$value": "{color.violet.950}"
         },
         "border": {
           "$value": "{color.violet.500}"

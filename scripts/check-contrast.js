@@ -29,7 +29,7 @@ const pairs = [
     [`action.${a}.fg`, `action.${a}.hover`, TEXT],
   ]),
   ...['info', 'success', 'warning', 'danger', 'neutral'].map((s) => [`status.${s}.fg`, `status.${s}.bg`, TEXT]),
-  ['fg.default', 'highlight.citation.bg', TEXT],
+  ...['default', 'muted'].map((fg) => [`fg.${fg}`, 'highlight.citation.bg', TEXT]),
   ...['canvas', 'surface'].map((bg) => ['border.focus', `bg.${bg}`, NON_TEXT]),
   ['border.strong', 'bg.surface', NON_TEXT],
   ...['high', 'medium', 'low'].map((c) => [`confidence.${c}`, 'bg.surface', NON_TEXT]),

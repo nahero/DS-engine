@@ -67,3 +67,15 @@ Notable things AI got wrong, how they were caught, and the fix.
 - **How it was caught:** Measuring `scrollWidth` at 375px in the browser, then walking overflow ancestors.
 - **Fix:** Scroll containers (`ExtractedFieldsTable`, tabs list) are `relative`.
 - **Lesson:** Any `overflow-x-auto` wrapper that contains `sr-only` content needs to be a positioned element.
+
+## Rules without enforcement drifted
+- **What went wrong:** CLAUDE.md required stories for every component and axe-clean stories, but 35 of 48 components had none after two screens were built "stories later", and CI only checked tokens and the build. The AI followed the instruction of the moment over the standing rule without flagging the growing gap.
+- **How it was caught:** A review of what outside reviewers would check (rules vs repo).
+- **Fix:** `scripts/check-stories.js` (fails on any component without stories), Vitest + `@storybook/addon-vitest` (every story is a test, a11y violations fail), and CI gates deploy on lint, typecheck, story coverage, unit and story tests. Decision 0008.
+- **Lesson:** A rule that isn't checked by a machine is a wish. When a request contradicts a standing rule, say so and record the debt.
+
+## Parallel agents broke each other's test run
+- **What went wrong:** While one agent refactored components, the test-infrastructure agent's first story run failed 21 of 76 stories. Half the failures came from a missing `TooltipProvider` that only the app mounted, not Storybook.
+- **How it was caught:** The failing story list in the infrastructure agent's report.
+- **Fix:** A global `TooltipProvider` decorator in `.storybook/preview.tsx`; the full suite was re-run after both agents finished (76/76).
+- **Lesson:** Stories must render in the same providers as the app; run the whole suite only once parallel work has landed.

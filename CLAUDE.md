@@ -10,7 +10,10 @@ Project context, status and decisions live in the Obsidian vault: `/Users/igor/D
 ## Commands
 - `npm run dev`: app dev server (base `/DS-engine/`)
 - `npm run build`: typecheck + app build to `dist/`
-- `npm run lint`: oxlint
+- `npm run lint`: oxlint (CI runs `--deny-warnings`)
+- `npm run typecheck`: `tsc -b`
+- `npm test`: Vitest, both projects. `npm run test:unit`: domain logic (`src/**/*.test.ts`). `npm run test:stories`: every story in Chromium; addon-a11y violations and play-function `expect`s fail it
+- `npm run check:stories`: fails if a component has no sibling `*.stories.tsx`
 - `npm run storybook` / `npm run build-storybook`: CI builds Storybook into `dist/storybook`
 - `npm run build:tokens`: `tokens/**/*.json` → `src/styles/tokens.css` + `tokens.ts`, then WCAG contrast check (commit the result; CI fails if it drifts or contrast fails)
 - Add shadcn components: `npx shadcn@latest add <name>`
@@ -24,6 +27,8 @@ Project context, status and decisions live in the Obsidian vault: `/Users/igor/D
 - **Data-heavy UI:** right-align numbers, tabular figures, truncate with full value available, design for 1,000 rows and missing fields.
 - After adding or changing a component, update `docs/design-system/components.md`.
 - Log notable AI mistakes (yours included) in `docs/ai-log.md`: what went wrong, how it was caught, fix.
+- Notable decisions get a record in `docs/decisions/` (context, decision, consequences); never edit an old one, supersede it.
+- CI (`.github/workflows/deploy.yml`) blocks deploy on: token drift, contrast, lint, typecheck, story coverage, unit tests, story tests. Run the same locally before committing.
 
 ## Pointers
 - Tokens: `docs/design-system/tokens.md`, motion: `docs/design-system/motion.md`
