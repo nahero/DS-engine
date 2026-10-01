@@ -18,7 +18,7 @@
     "test:coverage": "vitest run --project unit --coverage",
     "check:stories": "node scripts/check-stories.js",
     "check:tests": "node scripts/check-tests.js",
-    "test:components": "vitest run --project components",
+    "test:components": "vitest run --project components --project components-dark",
     "e2e": "playwright test",
     "e2e:update": "playwright test --update-snapshots"
   },

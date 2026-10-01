@@ -12,8 +12,9 @@ Project context, status and decisions live in the Obsidian vault: `/Users/igor/D
 - `npm run build`: typecheck + app build to `dist/`
 - `npm run lint`: oxlint (CI runs `--deny-warnings`)
 - `npm run typecheck`: `tsc -b`
-- `npm test`: Vitest, both projects. `npm run test:unit`: domain logic (`src/**/*.test.ts`). `npm run test:stories`: every story in Chromium; addon-a11y violations and play-function `expect`s fail it
-- `npm run check:stories`: fails if a component has no sibling `*.stories.tsx`
+- `npm test`: all Vitest projects. `npm run test:unit`: logic (`src/**/*.test.ts`). `npm run test:components`: feature components and screens (`*.browser.test.tsx`, Chromium, light + dark/compact, axe). `npm run test:stories`: every story in Chromium (axe), light + dark/compact
+- `npm run e2e`: Playwright against the built app: flows, routing, keyboard, axe per screen, visual regression (Linux baselines; `update-screenshots` workflow regenerates them)
+- `npm run check:stories` / `npm run check:tests`: fail if a component has no stories / a feature component or screen has no `*.browser.test.tsx`
 - `npm run storybook` / `npm run build-storybook`: CI builds Storybook into `dist/storybook`
 - `npm run build:tokens`: `tokens/**/*.json` → `src/styles/tokens.css` + `tokens.ts`, then WCAG contrast check (commit the result; CI fails if it drifts or contrast fails)
 - Add shadcn components: `npx shadcn@latest add <name>`
@@ -22,7 +23,8 @@ Project context, status and decisions live in the Obsidian vault: `/Users/igor/D
 - **Tokens only.** No hardcoded colors, spacing, radii, font sizes or shadows. Use semantic tokens; never primitives in components.
 - **Never edit `src/styles/tokens.css`, `src/styles/tokens.ts` or `tokens/figma/*`.** They are generated (the last from Figma). Change hand-owned `tokens/*.json` or re-export from Figma, then rebuild.
 - **Reuse before creating.** Check `src/components/ui/` and `docs/design-system/components.md` first. Build on shadcn/Radix, never from scratch when a primitive exists.
-- **Every component** gets Storybook stories covering all states (default, hover/focus, disabled, loading, empty, error, long content) in light/dark and both densities.
+- **Where code goes:** `components/ui` (shadcn primitives), `components/patterns` (design-system composites, mirrored in Figma; may import `ui`, `lib`, data *types* only), `components/layout` (app shell), `features/<domain>` (feature components), `screens` (pages, no stories), `lib` (shared logic and formatting).
+- **Stories document, tests test.** Every component in ui / patterns / layout / features gets stories for its states (default, focus, disabled, loading, empty, error, long content, missing data); no multi-step flows in stories. Feature components and screens get `*.browser.test.tsx` for behaviour and flows; cross-screen journeys go in `e2e/`.
 - **Accessibility:** semantic elements, full keyboard support, visible focus, labels on all inputs, status never communicated by color alone. Stories must pass addon-a11y.
 - **Data-heavy UI:** right-align numbers, tabular figures, truncate with full value available, design for 1,000 rows and missing fields.
 - After adding or changing a component, update `docs/design-system/components.md`.

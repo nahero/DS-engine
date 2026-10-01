@@ -79,3 +79,15 @@ Notable things AI got wrong, how they were caught, and the fix.
 - **How it was caught:** The failing story list in the infrastructure agent's report.
 - **Fix:** A global `TooltipProvider` decorator in `.storybook/preview.tsx`; the full suite was re-run after both agents finished (76/76).
 - **Lesson:** Stories must render in the same providers as the app; run the whole suite only once parallel work has landed.
+
+## Storybook turned into a test harness
+- **What went wrong:** To enforce "every component has tests", the AI made every story a test and put multi-step flows (bulk approve, inline correction, senior approval) into story play functions, plus screen stories. Storybook grew to about 400 stories, many of them tests rather than documentation.
+- **How it was caught:** The human asked which stories were documentation and which were there only as a place to test.
+- **Fix:** Storybook sections follow the code (Foundations, UI, Patterns, Layout, Claims); stories show states only. Flows moved to Vitest browser tests next to components and Playwright end-to-end tests. `check:tests` gates feature components and screens. Decision 0009.
+- **Lesson:** Choose the right tool for each gate. Coverage pressure pushed tests into the docs tool because it was already wired up.
+
+## Coverage script counted its own test files
+- **What went wrong:** After `*.browser.test.tsx` files were added next to components, `check-stories.js` treated them as components without stories.
+- **How it was caught:** The orchestrator's full local gate run listed a test file as missing stories.
+- **Fix:** The script skips `*.test.tsx`.
+- **Lesson:** When a new file kind lands in an existing folder, re-run every check that scans the folder.

@@ -13,7 +13,7 @@ const missing = []
 let checked = 0
 for (const dir of DIRS) {
   for (const file of fs.readdirSync(dir)) {
-    if (!file.endsWith('.tsx') || file.endsWith('.stories.tsx')) continue
+    if (!file.endsWith('.tsx') || file.endsWith('.stories.tsx') || file.endsWith('.test.tsx')) continue
     const rel = path.join(dir, file)
     if (COVERED_ELSEWHERE[rel]) continue
     checked++

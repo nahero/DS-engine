@@ -24,6 +24,43 @@ function storybookProject(name: string, mode: 'light-comfortable' | 'dark-compac
   }
 }
 
+// Component and screen tests (src/**/*.browser.test.tsx) in real Chromium. TEST_MODE is read by src/test/setup.ts.
+function componentsProject(name: string, mode: 'light-comfortable' | 'dark-compact') {
+  return {
+    extends: true,
+    define: { 'import.meta.env.VITE_TEST_MODE': JSON.stringify(mode) },
+    // Pre-bundle everything the tests import so Vite never re-optimises (and reloads the page) mid-run.
+    optimizeDeps: {
+      include: [
+        'react',
+        'react/jsx-dev-runtime',
+        'react-dom',
+        'react-dom/client',
+        'radix-ui',
+        'lucide-react',
+        'recharts',
+        'class-variance-authority',
+        'cn',
+        'axe-core',
+        '@tanstack/react-table',
+        'vitest-browser-react',
+      ],
+    },
+    test: {
+      name,
+      include: ['src/**/*.browser.test.tsx'],
+      setupFiles: ['src/test/setup.ts'],
+      browser: {
+        enabled: true,
+        headless: true,
+        provider: playwright({}),
+        viewport: { width: 1280, height: 800 },
+        instances: [{ browser: 'chromium' as const }],
+      },
+    },
+  }
+}
+
 export default mergeConfig(
   viteConfig,
   defineConfig({
@@ -40,6 +77,9 @@ export default mergeConfig(
         storybookProject('storybook', 'light-comfortable'),
         // Same stories again in the other corner of the matrix: dark + compact (contrast and density bugs live here).
         storybookProject('storybook-dark', 'dark-compact'),
+        componentsProject('components', 'light-comfortable'),
+        // Same tests again in dark + compact.
+        componentsProject('components-dark', 'dark-compact'),
       ],
       coverage: {
         provider: 'v8',

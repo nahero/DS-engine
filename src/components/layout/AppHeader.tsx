@@ -73,7 +73,7 @@ export function AppHeader({
       <search className="order-last basis-full md:order-none md:basis-auto md:w-64 lg:w-96">
         <div className="relative">
           <label htmlFor="app-header-search" className="sr-only">
-            Search claims
+            Search all claims
           </label>
           <Search
             aria-hidden="true"

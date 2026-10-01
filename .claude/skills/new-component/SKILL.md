@@ -1,6 +1,6 @@
 ---
 name: new-component
-description: Build or rework a UI component in DS-Engine (shadcn/Radix base, semantic tokens only, matched to the Obra Figma kit, full-state Storybook stories, a11y clean, components.md updated). Use for any new component in src/components/ui or src/components/review, or when changing an existing one's API or styling.
+description: Build or rework a UI component in DS-Engine (shadcn/Radix base, semantic tokens only, matched to the Obra Figma kit, full-state Storybook stories, a11y clean, components.md updated). Use for any new component in src/components/{ui,patterns,layout} or src/features/*, or when changing an existing one's API or styling.
 ---
 
 # New component
@@ -22,7 +22,7 @@ Read `docs/design-system/figma.md` first for file keys, kit component names and 
 ## 3. Build on a primitive
 - If shadcn has it: `npx shadcn@latest add <name>`. Otherwise compose Radix primitives. Never from scratch when a primitive exists.
 - The CLI writes `import { cn } from "cn"`. Change it to `import { cn } from "@/lib/utils"`: that instance knows our token utility names; the bare package drops `text-label` and doesn't merge `rounded-control`. New utility names (text size, radius, shadow, spacing) must be added to `src/lib/utils.ts`.
-- Project composites go in `src/components/review/`, generic ones in `src/components/ui/`.
+- shadcn primitives go in `src/components/ui/`; design-system composites (reusable, mirrored in Figma) in `src/components/patterns/`; the app shell in `src/components/layout/`; components built for one domain in `src/features/<domain>/`. Patterns never import from `features` or runtime values from `data`.
 - New npm dependency not under Stack in the vault overview (`Projects/DS-Engine/overview.md`) → ask first.
 
 ## 4. Style with tokens only
@@ -36,7 +36,8 @@ Read `docs/design-system/figma.md` first for file keys, kit component names and 
 - Semantic element, full keyboard support, visible `:focus-visible` ring, label or `aria-label`, status never by colour alone. See `docs/design-system/accessibility.md`.
 - New text/boundary colour role → add pairs to `scripts/check-contrast.js`.
 
-## 6. Stories (`<name>.stories.tsx` next to the component)
+## 6. Stories and tests (`<name>.stories.tsx` next to the component)
+- Stories show states, not flows. Behaviour and multi-step flows of a feature component go in `<Name>.browser.test.tsx` (Vitest browser mode, `src/test/render.tsx`, `src/test/axe.ts`).
 - One story per state: Default, Hover/Focus (use `parameters.pseudo` if available, else a play function that focuses), Disabled, Loading, Empty, Error, Long content (long labels, 1,000 rows for tables), Missing data where relevant. Plus every variant and size.
 - Light/dark and both densities come from the toolbar; check each. Reduced motion via the Motion toolbar if it animates.
 - `npm run storybook`: Accessibility panel must show no violations.

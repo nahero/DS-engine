@@ -57,19 +57,28 @@ Figma variables ⇄ DTCG JSON → Style Dictionary → CSS variables → shadcn/
 
 ## 📚 Storybook
 
-- **Every component has stories**: 53 components, 54 story files, 400+ stories. CI fails if a component has none (`scripts/check-stories.js`).
+The component catalogue. **Stories show states; tests check behaviour** ([decision 0009](docs/decisions/0009-stories-document-tests-test.md)).
+
+- **Sections follow the code:**
+  - **Foundations:** every token layer, rendered from the token files;
+  - **UI:** shadcn primitives restyled to tokens;
+  - **Patterns:** design-system composites mirrored in Figma;
+  - **Layout:** the app shell;
+  - **Claims:** feature components, kept for reuse in future screens.
+- **Every component has stories:** 50 components, 355 stories. CI fails if a component has none.
 - **Every state:** default, variants, focus, disabled, invalid, loading, empty, error, long content, missing data.
-- **Foundations/Tokens** renders every token layer straight from the token files (semantic colours, primitives, brand themes, component tokens, density, typography, radius/shadow, motion), so docs can't drift from code.
 - **Toolbar switches** for theme (light/dark), brand, density and reduced motion: the same attributes the app uses.
-- **Stories are tests.** Each story runs in Chromium through Vitest (`@storybook/addon-vitest`), twice: light + comfortable, and dark + compact. An accessibility violation or a failed interaction check fails the build.
-- **Interaction tests for the key flows:**
-  - bulk approve only for High confidence;
-  - filter chips;
-  - queue keyboard navigation;
-  - inline correction with Enter/Esc and focus return;
-  - senior approval;
-  - citation → document;
-  - PII reveal logged in the audit trail.
+- **The catalogue is tested too.** Every story runs in Chromium twice, in light + comfortable and dark + compact, with axe. A violation fails the build.
+
+## 🧪 Tests
+
+| Layer | Tool | What | Count |
+|---|---|---|---|
+| Unit | Vitest | Domain logic: needs-attention sort, payout and authority limit, filters, PII masking, formatting, data invariants | 73 |
+| Stories | Vitest + `@storybook/addon-vitest`, Chromium | Every story renders, axe-clean, in 2 theme/density modes | 710 |
+| Component | Vitest browser mode + `vitest-browser-react`, Chromium | Feature components and screens: bulk approve rule, filters, keyboard navigation, inline correction, senior approval, refer, citations, PII reveal, period select; axe in 2 modes | 374 |
+| End-to-end | Playwright | Built app: the claim review journey, routing and focus, keyboard-only path, axe on every screen × light/dark × desktop/mobile, no sideways scroll on mobile | 65 |
+| Visual | Playwright `toHaveScreenshot` | 3 screens × 2 modes, Linux baselines from CI | 6 |
 
 ## ✅ Quality gates (CI)
 
@@ -81,9 +90,10 @@ Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.y
 | Contrast | 47 text and non-text colour pairs × 2 brands × light/dark meet WCAG AA |
 | Lint | oxlint, warnings are errors |
 | Typecheck | `tsc -b`, strict |
-| Story coverage | Every component has a stories file |
-| Unit tests | 73 Vitest tests on domain logic: needs-attention sort, payout and authority limit, filters, PII masking, data invariants |
-| Story tests | 826 browser tests: every story in two theme/density modes, with axe and interaction checks |
+| Story coverage | Every component has stories |
+| Test coverage | Every feature component and screen has component tests |
+| Unit, story and component tests | All of the above, in Chromium |
+| End-to-end + visual | Playwright against the production build |
 
 ## 📊 The dashboard (ClaimDesk)
 
@@ -116,10 +126,10 @@ Three screens, built from the Figma designs with shadcn/ui on Radix and 1,000 de
 - Target: **WCAG 2.2 AA**.
 - Semantic HTML first, full keyboard support, visible focus, labels on every input.
 - Status is always shown with text or an icon, never colour alone.
-- Checks:
-  - axe runs in every story test (light and dark), so a violation fails CI;
-  - token contrast in CI;
-  - axe on every screen in light and dark during development.
+- Checks, all in CI:
+  - axe in every story and component test (light and dark);
+  - axe on every screen × light/dark × desktop/mobile in end-to-end tests;
+  - token contrast.
 - Rules and keyboard map: [`docs/design-system/accessibility.md`](docs/design-system/accessibility.md).
 
 ## 🤖 AI-assisted workflow
@@ -135,7 +145,7 @@ Three screens, built from the Figma designs with shadcn/ui on Radix and 1,000 de
 
 ## Stack
 
-Vite · React 19 · TypeScript · Vitest + Playwright (Chromium) · Tailwind CSS v4 · shadcn/ui (Radix) · TanStack Table · Recharts · Style Dictionary (DTCG) · Storybook 10 (a11y, themes) · Geist · oxlint · GitHub Actions → GitHub Pages
+Vite · React 19 · TypeScript · Vitest (browser mode) + Playwright (Chromium) · axe-core · Tailwind CSS v4 · shadcn/ui (Radix) · TanStack Table · Recharts · Style Dictionary (DTCG) · Storybook 10 (a11y, themes) · Geist · oxlint · GitHub Actions → GitHub Pages
 
 ## Repo map
 
@@ -143,10 +153,14 @@ Vite · React 19 · TypeScript · Vitest + Playwright (Chromium) · Tailwind CSS
 tokens/               DTCG JSON (source); tokens/figma/ = exported from Figma
 scripts/              contrast check, Figma export / push / verify
 src/styles/           generated tokens.css + globals.css (Tailwind theme, shadcn adapter)
-src/components/ui/    shadcn primitives, restyled to tokens
-src/components/app/   app shell (sidebar, header, display menu)
-src/components/review/ domain components (KPI card, claims table, extracted field row, payout…)
-src/screens/          Overview, Claims queue, Claim detail
+src/components/ui/        shadcn primitives, restyled to tokens          (Storybook: UI)
+src/components/patterns/  design-system composites, mirrored in Figma   (Storybook: Patterns)
+src/components/layout/    app shell: sidebar, header, display menu      (Storybook: Layout)
+src/features/claims/      claims feature components + their tests       (Storybook: Claims)
+src/screens/              Overview, Claims queue, Claim detail (tested, not storied)
+src/lib/                  formatting, claim logic, routes
+src/test/                 component-test helpers (render, axe)
+e2e/                      Playwright end-to-end, accessibility and visual specs
 src/foundations/      token documentation stories
 docs/                 design-system docs, decision records, AI log
 ```
@@ -158,7 +172,8 @@ npm ci
 npm run dev            # app at http://localhost:5173/DS-engine/
 npm run storybook      # Storybook at http://localhost:6006
 npm run build:tokens   # rebuild tokens + contrast check
-npm test               # unit tests + every story as a browser test
+npm test               # unit, story and component tests
+npm run e2e            # Playwright end-to-end (visual checks run on CI Linux)
 ```
 
 ## Constraints and trade-offs

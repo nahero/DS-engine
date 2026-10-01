@@ -46,10 +46,53 @@ jobs:
       - run: npm run typecheck
       - run: npm run check:stories
       - run: npm run test:unit
+      - run: npm run check:tests
+      - run: npm run test:components
       - run: npm run test:stories
 
-  build:
+  e2e:
     needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - id: playwright
+        run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+      - name: Install Chromium (with system dependencies)
+        run: npx playwright install --with-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Install system dependencies only (browser cached)
+        run: npx playwright install-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+      - name: Enable visual regression when baselines are committed
+        run: |
+          if [ -d e2e/visual.spec.ts-snapshots ]; then
+            echo "VISUAL=1" >> "$GITHUB_ENV"
+          else
+            echo "No baselines in e2e/visual.spec.ts-snapshots; visual regression skipped. Run the Update screenshots workflow."
+          fi
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  build:
+    needs: [checks, e2e]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
