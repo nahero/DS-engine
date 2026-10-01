@@ -44,7 +44,7 @@ export default mergeConfig(
       coverage: {
         provider: 'v8',
         reporter: ['text', 'html'],
-        include: ['src/data/**', 'src/components/review/*-utils.ts'],
+        include: ['src/data/**', 'src/lib/*.ts', 'src/features/claims/*-utils.ts'],
         exclude: ['**/*.test.ts', '**/*.stories.*'],
       },
     },

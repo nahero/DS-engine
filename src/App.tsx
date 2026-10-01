@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Construction } from 'lucide-react'
 
-import { AppShell } from '@/components/app/AppShell'
-import { PageHeader } from '@/components/app/PageHeader'
-import { StateBlock } from '@/components/review/StateBlock'
+import { AppShell } from '@/components/layout/AppShell'
+import { PageHeader } from '@/components/patterns/PageHeader'
+import { StateBlock } from '@/components/patterns/StateBlock'
 import { Button } from '@/components/ui/button'
 import { routes } from '@/lib/routes'
 import { ClaimDetail } from '@/screens/ClaimDetail'

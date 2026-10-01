@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { derivePayout } from '@/components/review/claim-utils'
-import { AUTHORITY_LIMIT, getClaimDetail } from './claim-detail'
+import { derivePayout } from '@/lib/claim-logic'
+import { AUTHORITY_LIMIT } from '@/lib/claim-logic'
+import { getClaimDetail } from './claim-detail'
 import { claims } from './claims'
 
 describe('getClaimDetail', () => {

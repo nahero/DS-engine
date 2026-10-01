@@ -1,9 +1,9 @@
 // Story coverage check: every component file needs a sibling *.stories.tsx. Exits 1 and lists the gaps.
-// A component file is a .tsx in src/components/{ui,app,review} or src/screens that isn't itself a story.
+// A component file is a .tsx in src/components/{ui,patterns,layout} or src/features/claims that isn't itself a story.
 import fs from 'node:fs'
 import path from 'node:path'
 
-const DIRS = ['src/components/ui', 'src/components/app', 'src/components/review', 'src/screens']
+const DIRS = ['src/components/ui', 'src/components/patterns', 'src/components/layout', 'src/features/claims']
 // Covered by another component's stories (named here so the exception is explicit).
 const COVERED_ELSEWHERE = {
   'src/components/ui/spinner.tsx': 'button.stories.tsx (Loading)',

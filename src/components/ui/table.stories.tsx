@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect, userEvent } from 'storybook/test'
-import { claims, formatMoney } from '@/data/claims'
+import { claims } from '@/data/claims'
+import { formatMoney } from '@/lib/format'
 import { Badge } from './badge'
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from './table'
 

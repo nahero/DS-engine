@@ -1,4 +1,6 @@
-import { confidenceLevel, formatDate, formatMoney, getClaim } from './claims'
+import { AUTHORITY_LIMIT } from '@/lib/claim-logic'
+import { confidenceLevel, formatDate, formatMoney } from '@/lib/format'
+import { getClaim } from './claims'
 import type {
   AuditEvent,
   Claim,
@@ -11,9 +13,6 @@ import type {
 } from './types'
 
 const SARAH_ID = 'CLM-2026-004817'
-
-/** Handler authority in EUR: above this a claim needs senior approval. */
-export const AUTHORITY_LIMIT = 10000
 
 const DEFAULT_POLICY_PERIOD = { start: '2026-01-01', end: '2026-12-31' }
 
