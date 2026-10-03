@@ -1,0 +1,45 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Introduction" />
+
+# DS-Engine
+
+A design system built end to end, from Figma variables to a working product UI. The concept product is **ClaimDesk**, an insurance claims admin where an AI agent pre-processes claims and a human handler reviews, corrects and approves them. This catalogue documents every component the app uses, in every state.
+
+```
+Figma variables ⇄ DTCG JSON → Style Dictionary → CSS variables → shadcn/ui → Storybook + app
+```
+
+## What is where
+
+- **Foundations**: every token layer (primitive, semantic, component, density, motion, brand), rendered from the token files.
+- **UI**: shadcn/ui primitives, restyled with semantic tokens only.
+- **Patterns**: design-system composites that are mirrored as components in Figma (confidence indicator, extracted field row, payout breakdown).
+- **Layout**: the app shell (sidebar, header, page frame).
+- **Claims**: feature components for the claims domain, kept here for reuse in future screens.
+
+## How to use it
+
+Four toolbar switches change the same attributes the app uses:
+
+- **Theme**: light / dark, sets the `.dark` class on `<html>`.
+- **Brand**: default / purple, sets `data-theme`.
+- **Density**: comfortable / compact, sets `data-density`.
+- **Motion**: system / reduced, sets `data-motion`.
+
+Stories show states; behaviour is tested. Flows live in `*.browser.test.tsx` next to feature components and screens, and in `e2e/` for cross-screen journeys. Every story also runs in Chromium with axe, in light and in dark + compact.
+
+## Rules in short
+
+- Tokens only: no hardcoded colours, spacing, radii, font sizes or shadows.
+- Semantic tokens in components, never primitives.
+- Status is never communicated by colour alone: always an icon or label too.
+- Missing data shows "—" plus a label that says what is missing.
+
+## Links
+
+- [Live app](https://nahero.github.io/DS-engine/)
+- [Repository](https://github.com/nahero/DS-engine)
+- [Decision records](https://github.com/nahero/DS-engine/blob/main/docs/decisions/README.md)
+- [Design-system docs](https://github.com/nahero/DS-engine/blob/main/docs/design-system/tokens.md)
+- [AI mistakes log](https://github.com/nahero/DS-engine/blob/main/docs/ai-log.md)

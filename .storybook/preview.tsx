@@ -42,6 +42,11 @@ const preview: Preview = {
     a11y: {
       test: 'error',
     },
+    options: {
+      storySort: {
+        order: ['Introduction', 'Foundations', 'UI', 'Patterns', 'Layout', 'Claims'],
+      },
+    },
   },
   globalTypes: {
     brand: {

@@ -14,6 +14,8 @@ Every part is public:
 | **Figma: library** (Obra shadcn kit + DS variable collections) | [Obra shadcn kit, team library](https://www.figma.com/design/dbk2ali9ax6GIGOOXNr2gp/Obra-shadcn-ui-kit) (view only) |
 | **Design-system docs** | [`docs/design-system/`](docs/design-system/) |
 | **Decision records** | [`docs/decisions/`](docs/decisions/) |
+| **Case study** (Figma v1 → v2 → code → tested, with images) | [`docs/case-study.md`](docs/case-study.md) |
+| **How I work with AI** | [`docs/how-i-work-with-ai.md`](docs/how-i-work-with-ai.md) |
 | **AI mistakes log** | [`docs/ai-log.md`](docs/ai-log.md) |
 
 ```
@@ -94,6 +96,8 @@ Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.y
 | Test coverage | Every feature component and screen has component tests |
 | Unit, story and component tests | All of the above, in Chromium |
 | End-to-end + visual | Playwright against the production build |
+| Bundle budget | First-load JS ≤ 145 kB gzip, and the chart library must stay out of it |
+| Lighthouse | Performance ≥ 0.9 (mobile Overview ≥ 0.85), accessibility = 1, best practices ≥ 0.95, on 3 screens × mobile/desktop |
 
 ## 📊 The dashboard (ClaimDesk)
 
@@ -120,6 +124,21 @@ Three screens, built from the Figma designs with shadcn/ui on Radix and 1,000 de
   - status is never shown by colour alone;
   - a missing value shows "—" with a label.
 - **Display menu** in the header (sliders icon): switch theme, brand and density live.
+
+## ⚡ Performance
+
+- **Screens load on demand** (`React.lazy`). The chart library and the 1,000-row dataset are only fetched by the screens that use them.
+- **First-load JS: 277.7 kB → 130.4 kB gzip.** The app's own entry file is 22.9 kB.
+- **Lighthouse** (median of 3 runs, production build):
+
+| Screen | Desktop performance | Mobile performance | Accessibility | Best practices |
+|---|---|---|---|---|
+| Overview | 100 | 89 | 100 | 100 |
+| Claims queue | 100 | 94 | 100 | 100 |
+| Claim detail | 100 | 94 | 100 | 100 |
+
+- Mobile Overview is the one exception below 90: under Lighthouse's 4× CPU throttling the chart costs about 0.8 s to render. It is asserted at ≥ 0.85 and recorded in [decision 0010](docs/decisions/0010-performance-budgets.md).
+- Budgets are enforced in CI ([`scripts/check-bundle.js`](scripts/check-bundle.js), [`lighthouserc.json`](lighthouserc.json)).
 
 ## ♿ Accessibility
 

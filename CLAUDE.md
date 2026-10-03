@@ -30,7 +30,7 @@ Project context, status and decisions live in the Obsidian vault: `/Users/igor/D
 - After adding or changing a component, update `docs/design-system/components.md`.
 - Log notable AI mistakes (yours included) in `docs/ai-log.md`: what went wrong, how it was caught, fix.
 - Notable decisions get a record in `docs/decisions/` (context, decision, consequences); never edit an old one, supersede it.
-- CI (`.github/workflows/deploy.yml`) blocks deploy on: token drift, contrast, lint, typecheck, story coverage, unit tests, story tests. Run the same locally before committing.
+- CI (`.github/workflows/deploy.yml`) blocks deploy on: token drift, contrast, lint, typecheck, story coverage, test coverage, unit / component / story tests, Playwright end-to-end (axe, visual regression), bundle budget (`npm run check:bundle`) and Lighthouse (`npm run lighthouse`). Run the same locally before committing.
 
 ## Pointers
 - Tokens: `docs/design-system/tokens.md`, motion: `docs/design-system/motion.md`

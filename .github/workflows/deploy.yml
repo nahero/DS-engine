@@ -81,6 +81,15 @@ jobs:
             echo "No baselines in e2e/visual.spec.ts-snapshots; visual regression skipped. Run the Update screenshots workflow."
           fi
       - run: npx playwright test
+      - run: npm run check:bundle
+      - run: npm run lighthouse
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse
+          path: .lighthouseci/
+          if-no-files-found: ignore
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

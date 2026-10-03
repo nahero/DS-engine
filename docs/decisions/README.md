@@ -13,3 +13,4 @@ Short records of decisions that shaped the system: context, what was decided, wh
 | [0007](0007-hash-routing.md) | Hash routing instead of a router dependency | 2026-09-29 |
 | [0008](0008-stories-are-tests.md) | Stories are tests: Vitest + Storybook, accessibility fails the build | 2026-09-30 |
 | [0009](0009-stories-document-tests-test.md) | Stories document, tests test; Storybook sections follow folders | 2026-10-01 |
+| [0010](0010-performance-budgets.md) | Performance budgets in CI: lazy screens, bundle budget, Lighthouse | 2026-10-03 |

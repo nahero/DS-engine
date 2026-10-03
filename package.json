@@ -20,7 +20,9 @@
     "check:tests": "node scripts/check-tests.js",
     "test:components": "vitest run --project components --project components-dark",
     "e2e": "playwright test",
-    "e2e:update": "playwright test --update-snapshots"
+    "e2e:update": "playwright test --update-snapshots",
+    "lighthouse": "node scripts/lighthouse.js",
+    "check:bundle": "node scripts/check-bundle.js"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
@@ -38,6 +40,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.63.0",
     "@storybook/addon-a11y": "^10.6.0",
     "@storybook/addon-docs": "^10.6.0",

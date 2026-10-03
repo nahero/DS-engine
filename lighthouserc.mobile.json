@@ -1,0 +1,74 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "http://localhost:4173/DS-engine/?page=overview#overview",
+        "http://localhost:4173/DS-engine/?page=claims-queue#claims-queue",
+        "http://localhost:4173/DS-engine/?page=claim-detail#claim-CLM-2026-004817"
+      ],
+      "numberOfRuns": 3,
+      "startServerCommand": "npx vite preview --port 4173 --strictPort",
+      "startServerReadyPattern": "Local",
+      "startServerReadyTimeout": 30000,
+      "settings": {
+        "chromeFlags": "--no-sandbox --headless=new"
+      }
+    },
+    "assert": {
+      "assertMatrix": [
+        {
+          "matchingUrlPattern": ".*page=overview.*",
+          "assertions": {
+            "categories:performance": [
+              "error",
+              {
+                "minScore": 0.85
+              }
+            ],
+            "categories:accessibility": [
+              "error",
+              {
+                "minScore": 1
+              }
+            ],
+            "categories:best-practices": [
+              "error",
+              {
+                "minScore": 0.95
+              }
+            ]
+          },
+          "aggregationMethod": "median"
+        },
+        {
+          "matchingUrlPattern": ".*page=(claims-queue|claim-detail).*",
+          "assertions": {
+            "categories:performance": [
+              "error",
+              {
+                "minScore": 0.9
+              }
+            ],
+            "categories:accessibility": [
+              "error",
+              {
+                "minScore": 1
+              }
+            ],
+            "categories:best-practices": [
+              "error",
+              {
+                "minScore": 0.95
+              }
+            ]
+          },
+          "aggregationMethod": "median"
+        }
+      ]
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci/mobile"
+    }
+  }
+}
