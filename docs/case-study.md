@@ -87,7 +87,7 @@ Nothing deploys unless every gate passes: token drift, contrast, lint, typecheck
 
 - Screens load on demand; the chart library and the claims dataset stay out of the first load.
 - First-load JS went from 277.7 kB to 130.4 kB gzip.
-- Lighthouse: desktop 100 on all three screens; mobile 89 / 94 / 94; accessibility and best practices 100 everywhere. Budgets run in CI ([0010](decisions/0010-performance-budgets.md)).
+- Lighthouse: desktop 100 on all three screens; mobile 89 / 94 / 94; accessibility and best practices 100 everywhere. Budgets run in CI ([0010](decisions/0010-performance-budgets.md), [0011](decisions/0011-gate-on-metrics-not-scores.md)).
 
 ## 9. Constraints
 

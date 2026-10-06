@@ -91,3 +91,9 @@ Notable things AI got wrong, how they were caught, and the fix.
 - **How it was caught:** The orchestrator's full local gate run listed a test file as missing stories.
 - **Fix:** The script skips `*.test.tsx`.
 - **Lesson:** When a new file kind lands in an existing folder, re-run every check that scans the folder.
+
+## A performance gate with a one-point margin blocked a deploy
+- **What went wrong:** The AI set the mobile Lighthouse performance gate at 0.85 for a page that measured 0.88–0.89 locally. On the CI runner it scored 0.84 and the deploy was skipped. The report upload also silently produced nothing, because the artifact step ignores hidden folders (`.lighthouseci/`).
+- **How it was caught:** The first CI run after the push failed; the orchestrator had flagged the risk before the result came in.
+- **Fix:** Mobile performance score is a warning; hard gates are metric budgets with headroom (LCP, blocking time, layout shift) set from the numbers measured in CI. `include-hidden-files: true` on the artifact step. Decision 0011.
+- **Lesson:** Gate on things that are deterministic or have real margin. Measure on the machine that enforces the gate before choosing the threshold.

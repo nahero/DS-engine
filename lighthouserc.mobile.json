@@ -42,6 +42,18 @@
               {
                 "maxNumericValue": 0.1
               }
+            ],
+            "largest-contentful-paint": [
+              "error",
+              {
+                "maxNumericValue": 4000
+              }
+            ],
+            "total-blocking-time": [
+              "error",
+              {
+                "maxNumericValue": 600
+              }
             ]
           },
           "aggregationMethod": "median"
@@ -71,6 +83,18 @@
               "error",
               {
                 "maxNumericValue": 0.1
+              }
+            ],
+            "largest-contentful-paint": [
+              "error",
+              {
+                "maxNumericValue": 4000
+              }
+            ],
+            "total-blocking-time": [
+              "error",
+              {
+                "maxNumericValue": 600
               }
             ]
           },
