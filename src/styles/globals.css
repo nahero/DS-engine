@@ -237,8 +237,8 @@
   --chart-5: var(--ds-color-highlight-citation-border);
   --sidebar: var(--ds-color-bg-surface);
   --sidebar-foreground: var(--ds-color-fg-default);
-  --sidebar-primary: var(--ds-color-action-primary-base);
-  --sidebar-primary-foreground: var(--ds-color-action-primary-fg);
+  --sidebar-primary: var(--ds-color-nav-active-bg);
+  --sidebar-primary-foreground: var(--ds-color-nav-active-fg);
   --sidebar-accent: var(--ds-color-bg-accent);
   --sidebar-accent-foreground: var(--ds-color-fg-accent);
   --sidebar-border: var(--ds-color-border-default);

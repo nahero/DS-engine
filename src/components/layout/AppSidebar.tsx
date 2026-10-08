@@ -95,7 +95,7 @@ export function AppSidebar({
         <div className="flex min-h-8 items-center gap-2 py-1.5 pr-2 pl-2.5">
           <span
             aria-hidden="true"
-            className="flex size-8 shrink-0 items-center justify-center rounded-control bg-inverse text-fg-inverse"
+            className="flex size-8 shrink-0 items-center justify-center rounded-control bg-action-primary text-action-primary-fg"
           >
             <Shield className="size-4" />
           </span>

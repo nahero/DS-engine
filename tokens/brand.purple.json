@@ -16,10 +16,37 @@
         "$value": "{color.purple.500}"
       },
       "accent": {
-        "$value": "{color.purple.50}"
+        "$value": "{color.purple.100}"
       },
       "accent-fg": {
         "$value": "{color.purple.900}"
+      },
+      "canvas": {
+        "$value": "{color.neutral.100}"
+      },
+      "subtle": {
+        "$value": "{color.purple.50}"
+      },
+      "border": {
+        "$value": "{color.purple.200}"
+      },
+      "border-strong": {
+        "$value": "{color.purple.500}"
+      },
+      "secondary": {
+        "$value": "{color.purple.100}"
+      },
+      "secondary-hover": {
+        "$value": "{color.purple.200}"
+      },
+      "secondary-fg": {
+        "$value": "{color.purple.900}"
+      },
+      "nav-active": {
+        "$value": "{color.purple.400}"
+      },
+      "nav-active-fg": {
+        "$value": "{color.purple.950}"
       }
     },
     "dark": {
@@ -40,6 +67,33 @@
       },
       "accent-fg": {
         "$value": "{color.purple.100}"
+      },
+      "canvas": {
+        "$value": "{color.neutral.950}"
+      },
+      "subtle": {
+        "$value": "{color.neutral.900}"
+      },
+      "border": {
+        "$value": "{color.neutral.700}"
+      },
+      "border-strong": {
+        "$value": "{color.purple.400}"
+      },
+      "secondary": {
+        "$value": "{color.purple.900}"
+      },
+      "secondary-hover": {
+        "$value": "{color.purple.800}"
+      },
+      "secondary-fg": {
+        "$value": "{color.purple.100}"
+      },
+      "nav-active": {
+        "$value": "{color.purple.400}"
+      },
+      "nav-active-fg": {
+        "$value": "{color.purple.950}"
       }
     }
   }

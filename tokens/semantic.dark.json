@@ -3,7 +3,7 @@
     "$type": "color",
     "bg": {
       "canvas": {
-        "$value": "{color.neutral.950}"
+        "$value": "{brand.dark.canvas}"
       },
       "surface": {
         "$value": "{color.neutral.800}"
@@ -12,7 +12,7 @@
         "$value": "{color.neutral.950}"
       },
       "subtle": {
-        "$value": "{color.neutral.900}"
+        "$value": "{brand.dark.subtle}"
       },
       "inverse": {
         "$value": "{color.neutral.50}"
@@ -43,10 +43,10 @@
     },
     "border": {
       "default": {
-        "$value": "{color.neutral.700}"
+        "$value": "{brand.dark.border}"
       },
       "strong": {
-        "$value": "{color.neutral.500}"
+        "$value": "{brand.dark.border-strong}"
       },
       "focus": {
         "$value": "{brand.dark.focus}"
@@ -66,13 +66,13 @@
       },
       "secondary": {
         "base": {
-          "$value": "{color.neutral.700}"
+          "$value": "{brand.dark.secondary}"
         },
         "hover": {
-          "$value": "{color.neutral.600}"
+          "$value": "{brand.dark.secondary-hover}"
         },
         "fg": {
-          "$value": "{color.neutral.100}"
+          "$value": "{brand.dark.secondary-fg}"
         }
       },
       "danger": {
@@ -187,6 +187,16 @@
         },
         "border": {
           "$value": "{color.violet.500}"
+        }
+      }
+    },
+    "nav": {
+      "active": {
+        "bg": {
+          "$value": "{brand.dark.nav-active}"
+        },
+        "fg": {
+          "$value": "{brand.dark.nav-active-fg}"
         }
       }
     }

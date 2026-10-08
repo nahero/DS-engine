@@ -17,17 +17,20 @@ for (const theme of ['light', 'dark'] as const) {
   })
 }
 
-test.describe('axe, brand purple', () => {
-  for (const theme of ['light', 'dark'] as const) {
-    test(`#claims-queue ${theme}`, async ({ page }) => {
-      await disableAnimations(page)
-      await setDisplay(page, { theme, brand: 'purple' })
-      await page.goto('#claims-queue')
-      await expect(page.getByRole('heading', { level: 1, name: 'Claims queue' })).toBeVisible()
-      await expectNoA11yViolations(page)
-    })
-  }
-})
+// The purple brand changes page background, borders, control outlines and the active nav item, so it gets the full matrix.
+for (const theme of ['light', 'dark'] as const) {
+  test.describe(`axe, brand purple, ${theme}`, () => {
+    for (const hash of PAGES) {
+      test(`#${hash}`, async ({ page }) => {
+        await disableAnimations(page)
+        await setDisplay(page, { theme, brand: 'purple' })
+        await page.goto(`#${hash}`)
+        await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+        await expectNoA11yViolations(page)
+      })
+    }
+  })
+}
 
 test.describe('axe, compact density', () => {
   test('#claim-CLM-2026-004817 dark', async ({ page }) => {
