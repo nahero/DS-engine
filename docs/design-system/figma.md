@@ -6,7 +6,7 @@ Read this before any Figma work; update it after any session that changes the fi
 | File | Key | Role |
 |---|---|---|
 | Obra shadcn ui kit (community edition), team copy | `dbk2ali9ax6GIGOOXNr2gp` | Library: kit components + all variable collections. Published to the team ("New Team", Pro). |
-| DS-Engine-Main | `LbYcGPXhnrMBahsdvBJ2HI` | Working file: designs built from library instances. Pages: `Page 1`, `Insurance admin` (`26:50`, v1, frozen), `Insurance admin v2 — DS components` (`50:32`), `DS components` (`50:856`). |
+| DS-Engine-Main | `LbYcGPXhnrMBahsdvBJ2HI` | Working file: designs built from library instances. Pages: `Page 1`, `Insurance admin` (`26:50`, v1, frozen), `Insurance admin v2 — DS components` (`50:32`, frozen), `DS components` (`50:856`), `Insurance admin v3 — Purple brand` (`172:1667`, current). |
 
 Access: Figma MCP (`plugin:figma:figma`), `whoami` = igor023@gmail.com, Full seat. Load the `figma-use` skill before `use_figma`.
 
@@ -62,7 +62,11 @@ Other relevant pages: Alert Dialog `1953:9001`, Field `1953:9016`, Input `1953:9
 | `60:4629` | DS `Extracted field row` set | `ExtractedFieldRow.tsx` |
 | `59:1981` | DS `Payout breakdown` set | `PayoutBreakdown.tsx` |
 
-v1 (`26:50`) is kept as-is to show progress; changes go to v2.
+| `172:1667` page | v3: clone of v2 with `DS Brand` → Purple. Overview `172:1668`, Claims queue `172:1760`, Claim detail `172:1712`; brand notes `172:1976/1979/1982` | Purple brand in code (`tokens/brand.purple.json`) |
+
+v1 (`26:50`) and v2 (`50:32`) are kept as-is to show progress; changes go to v3.
+
+v3 overrides on instance sublayers (bound to DS Semantic): active nav item `nav/active/bg` + `nav/active/fg`, nav and header icons `icon/accent`, product mark `action/primary/base`, avatar `avatar/bg` + `avatar/fg`, chart segments stroked with `chart-line/1–4`, queue policyholder bold and claimed medium (the kit has no bold mono style), claim # and LOB `fg/muted`.
 
 Screens 02 and 03 are clones of 01: shell = `Sidebar` + `Main` (`Header`, `Body`); screen content lives in `Body`. Modes set explicitly per frame (DS Semantic Light, DS Density Comfortable, DS Brand Default).
 
@@ -73,3 +77,4 @@ Screens 02 and 03 are clones of 01: shell = `Sidebar` + `Main` (`Header`, `Body`
 - Kit slots (Card, Breadcrumb) keep placeholder children: remove them before appending.
 - TEXT props can't bind to text inside nested kit instances: expose the nested instance instead (`isExposedInstance`).
 - A variant set's default is the top-left variant by position.
+- After the library is re-published, check bindings on existing frames: some pointed at stale copies of variables and didn't follow a mode switch until rebound to the current ones (seen on `bg/canvas`, `bg/subtle`, kit `general/border|secondary|muted`).
