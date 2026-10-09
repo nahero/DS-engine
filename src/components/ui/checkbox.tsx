@@ -13,7 +13,7 @@ function Checkbox({
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "group peer size-4 shrink-0 rounded-inner border border-input bg-surface shadow-raised transition-shadow outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-status-danger-border data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-primary-foreground dark:bg-transparent dark:data-[state=checked]:bg-primary dark:data-[state=indeterminate]:bg-primary",
+        "group peer size-4 shrink-0 rounded-inner border border-input bg-surface shadow-raised transition-shadow outline-none focus-visible:border-ring data-[state=unchecked]:hover:border-border-hover focus-visible:ring-3 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-status-danger-border data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-primary-foreground dark:bg-transparent dark:data-[state=checked]:bg-primary dark:data-[state=indeterminate]:bg-primary",
         className
       )}
       {...props}

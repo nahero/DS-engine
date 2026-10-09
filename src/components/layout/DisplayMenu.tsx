@@ -25,7 +25,7 @@ export function DisplayMenu({ settings }: DisplayMenuProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" aria-label="Display settings">
-          <SlidersHorizontal aria-hidden="true" />
+          <SlidersHorizontal aria-hidden="true" className="text-icon-accent" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">

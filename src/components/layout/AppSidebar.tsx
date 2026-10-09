@@ -126,7 +126,7 @@ export function AppSidebar({
                               aria-current={isActive ? "page" : undefined}
                               aria-label={hasCount ? `${item.label}, ${item.count} ${item.countLabel}` : undefined}
                             >
-                              <item.icon aria-hidden="true" />
+                              <item.icon aria-hidden="true" className="text-icon-accent" />
                               <span>{item.label}</span>
                             </a>
                           </SidebarMenuButton>

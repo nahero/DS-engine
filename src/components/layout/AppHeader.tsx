@@ -46,7 +46,7 @@ export function AppHeader({
       {...props}
     >
       <div className="flex min-w-0 flex-1 items-center gap-2">
-        <SidebarTrigger className="shrink-0" />
+        <SidebarTrigger className="shrink-0 text-icon-accent" />
         <Breadcrumb aria-label="Breadcrumb" className="min-w-0">
           <BreadcrumbList className="flex-nowrap">
             {breadcrumb.map((entry, index) => {
@@ -90,7 +90,7 @@ export function AppHeader({
 
       <div className="flex shrink-0 items-center gap-2 md:gap-stack">
         <UnavailableButton variant="outline" size="icon" aria-label="Notifications">
-          <Bell aria-hidden="true" />
+          <Bell aria-hidden="true" className="text-icon-accent" />
         </UnavailableButton>
         <DisplayMenu settings={displaySettings} />
         <UserAvatar name={currentUser.name} initials={currentUser.initials} />

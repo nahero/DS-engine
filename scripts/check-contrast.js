@@ -33,6 +33,9 @@ const pairs = [
   ...['canvas', 'surface'].map((bg) => ['border.focus', `bg.${bg}`, NON_TEXT]),
   ...['surface', 'canvas'].map((bg) => ['border.strong', `bg.${bg}`, NON_TEXT]),
   ['nav.active.fg', 'nav.active.bg', TEXT],
+  ...['surface', 'canvas'].map((bg) => ['border.hover', `bg.${bg}`, NON_TEXT]),
+  ...['bg.surface', 'bg.canvas', 'nav.active.bg', 'bg.accent'].map((bg) => ['icon.accent', bg, NON_TEXT]),
+  ['avatar.fg', 'avatar.bg', TEXT],
   ...['high', 'medium', 'low'].map((c) => [`confidence.${c}`, 'bg.surface', NON_TEXT]),
   ...['1', '2', '3', '4'].map((c) => [`chart.${c}`, 'bg.surface', NON_TEXT]),
   // Confidence labels are text in status foregrounds, on cards and on the low-confidence (warning) row.

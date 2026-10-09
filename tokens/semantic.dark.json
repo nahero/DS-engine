@@ -50,6 +50,9 @@
       },
       "focus": {
         "$value": "{brand.dark.focus}"
+      },
+      "hover": {
+        "$value": "{brand.dark.border-hover}"
       }
     },
     "action": {
@@ -198,6 +201,19 @@
         "fg": {
           "$value": "{brand.dark.nav-active-fg}"
         }
+      }
+    },
+    "icon": {
+      "accent": {
+        "$value": "{brand.dark.icon}"
+      }
+    },
+    "avatar": {
+      "bg": {
+        "$value": "{brand.dark.avatar}"
+      },
+      "fg": {
+        "$value": "{brand.dark.avatar-fg}"
       }
     }
   }

@@ -70,6 +70,10 @@
   --color-fg-on-action: var(--ds-color-fg-on-action);
   --color-border-strong: var(--ds-color-border-strong);
   --color-border-focus: var(--ds-color-border-focus);
+  --color-border-hover: var(--ds-color-border-hover);
+  --color-icon-accent: var(--ds-color-icon-accent);
+  --color-avatar: var(--ds-color-avatar-bg);
+  --color-avatar-fg: var(--ds-color-avatar-fg);
   --color-action-primary: var(--ds-color-action-primary-base);
   --color-action-primary-hover: var(--ds-color-action-primary-hover);
   --color-action-primary-fg: var(--ds-color-action-primary-fg);

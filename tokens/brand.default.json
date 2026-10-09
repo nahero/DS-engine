@@ -47,6 +47,18 @@
       },
       "nav-active-fg": {
         "$value": "{color.black}"
+      },
+      "border-hover": {
+        "$value": "{color.neutral.500}"
+      },
+      "icon": {
+        "$value": "{color.black}"
+      },
+      "avatar": {
+        "$value": "{color.neutral.100}"
+      },
+      "avatar-fg": {
+        "$value": "{color.neutral.700}"
       }
     },
     "dark": {
@@ -94,6 +106,18 @@
       },
       "nav-active-fg": {
         "$value": "{color.white}"
+      },
+      "border-hover": {
+        "$value": "{color.neutral.500}"
+      },
+      "icon": {
+        "$value": "{color.white}"
+      },
+      "avatar": {
+        "$value": "{color.neutral.900}"
+      },
+      "avatar-fg": {
+        "$value": "{color.neutral.400}"
       }
     }
   }

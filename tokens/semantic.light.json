@@ -51,6 +51,10 @@
       },
       "focus": {
         "$value": "{brand.light.focus}"
+      },
+      "hover": {
+        "$value": "{brand.light.border-hover}",
+        "$description": "Control outline on hover. Same as border.strong in the default brand."
       }
     },
     "action": {
@@ -202,6 +206,21 @@
         }
       },
       "$description": "Active navigation item. Same as the accent tint in the default brand; a brand can make it stronger than hover."
+    },
+    "icon": {
+      "accent": {
+        "$value": "{brand.light.icon}"
+      },
+      "$description": "Navigation and header icons. Text colour in the default brand; a brand can tint them."
+    },
+    "avatar": {
+      "bg": {
+        "$value": "{brand.light.avatar}"
+      },
+      "fg": {
+        "$value": "{brand.light.avatar-fg}"
+      },
+      "$description": "Initials avatar."
     }
   }
 }

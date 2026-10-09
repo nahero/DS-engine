@@ -238,6 +238,10 @@
   --ds-brand-light-secondary-fg: var(--ds-color-neutral-900);
   --ds-brand-light-nav-active: var(--ds-color-neutral-100);
   --ds-brand-light-nav-active-fg: var(--ds-color-black);
+  --ds-brand-light-border-hover: var(--ds-color-neutral-500);
+  --ds-brand-light-icon: var(--ds-color-black);
+  --ds-brand-light-avatar: var(--ds-color-neutral-100);
+  --ds-brand-light-avatar-fg: var(--ds-color-neutral-700);
   --ds-brand-dark-primary: var(--ds-color-neutral-200);
   --ds-brand-dark-primary-hover: var(--ds-color-neutral-300);
   --ds-brand-dark-primary-fg: var(--ds-color-neutral-950);
@@ -253,6 +257,10 @@
   --ds-brand-dark-secondary-fg: var(--ds-color-neutral-100);
   --ds-brand-dark-nav-active: var(--ds-color-neutral-900);
   --ds-brand-dark-nav-active-fg: var(--ds-color-white);
+  --ds-brand-dark-border-hover: var(--ds-color-neutral-500);
+  --ds-brand-dark-icon: var(--ds-color-white);
+  --ds-brand-dark-avatar: var(--ds-color-neutral-900);
+  --ds-brand-dark-avatar-fg: var(--ds-color-neutral-400);
   --ds-row-height: var(--ds-space-12);
   --ds-color-bg-canvas: var(--ds-brand-light-canvas);
   --ds-color-bg-subtle: var(--ds-brand-light-subtle);
@@ -262,6 +270,7 @@
   --ds-color-border-default: var(--ds-brand-light-border);
   --ds-color-border-strong: var(--ds-brand-light-border-strong);
   --ds-color-border-focus: var(--ds-brand-light-focus);
+  --ds-color-border-hover: var(--ds-brand-light-border-hover); /** Control outline on hover. Same as border.strong in the default brand. */
   --ds-color-action-primary-base: var(--ds-brand-light-primary);
   --ds-color-action-primary-hover: var(--ds-brand-light-primary-hover);
   --ds-color-action-primary-fg: var(--ds-brand-light-primary-fg);
@@ -270,6 +279,9 @@
   --ds-color-action-secondary-fg: var(--ds-brand-light-secondary-fg);
   --ds-color-nav-active-bg: var(--ds-brand-light-nav-active);
   --ds-color-nav-active-fg: var(--ds-brand-light-nav-active-fg);
+  --ds-color-icon-accent: var(--ds-brand-light-icon);
+  --ds-color-avatar-bg: var(--ds-brand-light-avatar);
+  --ds-color-avatar-fg: var(--ds-brand-light-avatar-fg);
   --ds-card-bg: var(--ds-color-bg-surface);
   --ds-card-radius: var(--ds-radius-surface);
   --ds-card-padding: var(--ds-space-inset);
@@ -327,6 +339,7 @@
   --ds-color-border-default: var(--ds-brand-dark-border);
   --ds-color-border-strong: var(--ds-brand-dark-border-strong);
   --ds-color-border-focus: var(--ds-brand-dark-focus);
+  --ds-color-border-hover: var(--ds-brand-dark-border-hover);
   --ds-color-action-primary-base: var(--ds-brand-dark-primary);
   --ds-color-action-primary-hover: var(--ds-brand-dark-primary-hover);
   --ds-color-action-primary-fg: var(--ds-brand-dark-primary-fg);
@@ -335,6 +348,9 @@
   --ds-color-action-secondary-fg: var(--ds-brand-dark-secondary-fg);
   --ds-color-nav-active-bg: var(--ds-brand-dark-nav-active);
   --ds-color-nav-active-fg: var(--ds-brand-dark-nav-active-fg);
+  --ds-color-icon-accent: var(--ds-brand-dark-icon);
+  --ds-color-avatar-bg: var(--ds-brand-dark-avatar);
+  --ds-color-avatar-fg: var(--ds-brand-dark-avatar-fg);
 }
 
 [data-density="compact"] {
@@ -355,21 +371,25 @@
   --ds-brand-light-canvas: var(--ds-color-neutral-100);
   --ds-brand-light-subtle: var(--ds-color-purple-50);
   --ds-brand-light-border: var(--ds-color-purple-200);
-  --ds-brand-light-border-strong: var(--ds-color-purple-500);
   --ds-brand-light-secondary: var(--ds-color-purple-100);
   --ds-brand-light-secondary-hover: var(--ds-color-purple-200);
   --ds-brand-light-secondary-fg: var(--ds-color-purple-900);
-  --ds-brand-light-nav-active: var(--ds-color-purple-400);
-  --ds-brand-light-nav-active-fg: var(--ds-color-purple-950);
+  --ds-brand-light-nav-active: var(--ds-color-purple-200);
+  --ds-brand-light-border-hover: var(--ds-color-purple-500);
+  --ds-brand-light-icon: var(--ds-color-purple-600);
+  --ds-brand-light-avatar: var(--ds-color-purple-200);
+  --ds-brand-light-avatar-fg: var(--ds-color-purple-900);
   --ds-brand-dark-primary: var(--ds-color-purple-400);
   --ds-brand-dark-primary-hover: var(--ds-color-purple-300);
   --ds-brand-dark-focus: var(--ds-color-purple-400);
   --ds-brand-dark-accent: var(--ds-color-purple-950);
   --ds-brand-dark-accent-fg: var(--ds-color-purple-100);
-  --ds-brand-dark-border-strong: var(--ds-color-purple-400);
   --ds-brand-dark-secondary: var(--ds-color-purple-900);
   --ds-brand-dark-secondary-hover: var(--ds-color-purple-800);
   --ds-brand-dark-secondary-fg: var(--ds-color-purple-100);
-  --ds-brand-dark-nav-active: var(--ds-color-purple-400);
-  --ds-brand-dark-nav-active-fg: var(--ds-color-purple-950);
+  --ds-brand-dark-nav-active: var(--ds-color-purple-900);
+  --ds-brand-dark-border-hover: var(--ds-color-purple-400);
+  --ds-brand-dark-icon: var(--ds-color-purple-400);
+  --ds-brand-dark-avatar: var(--ds-color-purple-900);
+  --ds-brand-dark-avatar-fg: var(--ds-color-purple-100);
 }
