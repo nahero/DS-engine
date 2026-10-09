@@ -171,16 +171,30 @@
     },
     "chart": {
       "1": {
-        "$value": "{color.blue.400}"
+        "$value": "{brand.dark.chart-1}"
       },
       "2": {
-        "$value": "{color.amber.400}"
+        "$value": "{brand.dark.chart-2}"
       },
       "3": {
-        "$value": "{color.green.400}"
+        "$value": "{brand.dark.chart-3}"
       },
       "4": {
-        "$value": "{color.violet.400}"
+        "$value": "{brand.dark.chart-4}"
+      }
+    },
+    "chart-line": {
+      "1": {
+        "$value": "{brand.dark.chart-line-1}"
+      },
+      "2": {
+        "$value": "{brand.dark.chart-line-2}"
+      },
+      "3": {
+        "$value": "{brand.dark.chart-line-3}"
+      },
+      "4": {
+        "$value": "{brand.dark.chart-line-4}"
       }
     },
     "highlight": {

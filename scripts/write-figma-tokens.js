@@ -2,9 +2,19 @@
 // Usage: node scripts/write-figma-tokens.js <export.json>
 import fs from 'node:fs'
 
-const [input] = process.argv.slice(2)
-if (!input) throw new Error('Usage: node scripts/write-figma-tokens.js <export.json>')
+// --merge: the export holds only some tokens (e.g. newly added hues); merge them into the existing file.
+const args = process.argv.slice(2)
+const mergeMode = args.includes('--merge')
+const [input] = args.filter((a) => a !== '--merge')
+if (!input) throw new Error('Usage: node scripts/write-figma-tokens.js <export.json> [--merge]')
 const exported = JSON.parse(fs.readFileSync(input, 'utf8'))
+const deepMerge = (target, source) => {
+  for (const [key, value] of Object.entries(source)) {
+    const isGroup = typeof value === 'object' && value !== null && !Array.isArray(value) && !('$value' in value)
+    target[key] = isGroup ? deepMerge(target[key] ?? {}, value) : value
+  }
+  return target
+}
 
 // $-keys first, then numeric keys ascending. JS always puts integer keys (space.4) before
 // any string key, so fractional steps (space.1-5) and $type land after them; SD doesn't care.
@@ -22,6 +32,7 @@ function order(node) {
 fs.mkdirSync('tokens/figma', { recursive: true })
 for (const [name, tokens] of Object.entries(exported)) {
   const file = `tokens/figma/${name}.json`
-  fs.writeFileSync(file, JSON.stringify(order(tokens), null, 2) + '\n')
+  const next = mergeMode && fs.existsSync(file) ? deepMerge(JSON.parse(fs.readFileSync(file, 'utf8')), tokens) : tokens
+  fs.writeFileSync(file, JSON.stringify(order(next), null, 2) + '\n')
   console.log(`Wrote ${file}`)
 }

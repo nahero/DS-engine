@@ -94,6 +94,13 @@ function describeWeeks(data: WeeklyVolume[], year?: number) {
   return `Claims per week, ${range}${year ? ` ${year}` : ''}`
 }
 
+const chartLine: Record<LineOfBusiness, string> = {
+  Motor: 'var(--chart-line-1)',
+  Property: 'var(--chart-line-2)',
+  Health: 'var(--chart-line-3)',
+  Travel: 'var(--chart-line-4)',
+}
+
 function summarise(data: WeeklyVolume[]) {
   const first = data[0]
   const last = data[data.length - 1]
@@ -126,7 +133,7 @@ function VolumeTooltip({
       <ul className="grid gap-1.5">
         {rows.map((p) => (
           <li key={p.dataKey} className="flex items-center gap-2">
-            <span aria-hidden="true" className="size-2.5 shrink-0 rounded-inner" style={{ backgroundColor: chartConfig[p.dataKey].color }} />
+            <span aria-hidden="true" className="size-2.5 shrink-0 rounded-inner outline-1 outline-solid" style={{ backgroundColor: chartConfig[p.dataKey].color, outlineColor: chartLine[p.dataKey] }} />
             <span className="flex-1 text-muted-foreground">{chartConfig[p.dataKey].label}</span>
             <span className="font-medium text-foreground tabular-nums">{fmt(p.value)}</span>
           </li>
@@ -145,7 +152,7 @@ function Legend() {
     <ul aria-label="Lines of business" className="flex flex-wrap items-center gap-x-4 gap-y-1">
       {SERIES.map((key) => (
         <li key={key} className="flex items-center gap-1 text-caption text-fg-muted">
-          <span aria-hidden="true" className="size-2 shrink-0 rounded-inner" style={{ backgroundColor: chartConfig[key].color }} />
+          <span aria-hidden="true" className="size-2 shrink-0 rounded-inner outline-1 outline-solid" style={{ backgroundColor: chartConfig[key].color, outlineColor: chartLine[key] }} />
           {chartConfig[key].label}
         </li>
       ))}
@@ -244,8 +251,8 @@ export function ClaimsVolumeChart({
                       dataKey={key}
                       stackId="volume"
                       fill={chartConfig[key].color}
-                      // Card-coloured stroke reads as a small gap between stacked segments.
-                      stroke="var(--card)"
+                      // Outline token: the card colour in the default brand (reads as a gap), a darker line where fills are light.
+                      stroke={chartLine[key]}
                       strokeWidth={CHART_GEOMETRY.strokeWidth}
                       maxBarSize={CHART_GEOMETRY.maxBarSize}
                       shape={shapes[key]}

@@ -238,6 +238,10 @@
   --chart-2: var(--ds-color-chart-2);
   --chart-3: var(--ds-color-chart-3);
   --chart-4: var(--ds-color-chart-4);
+  --chart-line-1: var(--ds-color-chart-line-1);
+  --chart-line-2: var(--ds-color-chart-line-2);
+  --chart-line-3: var(--ds-color-chart-line-3);
+  --chart-line-4: var(--ds-color-chart-line-4);
   --chart-5: var(--ds-color-highlight-citation-border);
   --sidebar: var(--ds-color-bg-surface);
   --sidebar-foreground: var(--ds-color-fg-default);

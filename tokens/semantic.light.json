@@ -174,17 +174,32 @@
     "chart": {
       "$description": "Categorical data series (charts). Order: 1 blue, 2 amber, 3 green, 4 violet — adjacent series differ in hue and lightness. Never the only cue: legends and labels carry meaning.",
       "1": {
-        "$value": "{color.blue.600}"
+        "$value": "{brand.light.chart-1}"
       },
       "2": {
-        "$value": "{color.amber.600}"
+        "$value": "{brand.light.chart-2}"
       },
       "3": {
-        "$value": "{color.green.600}"
+        "$value": "{brand.light.chart-3}"
       },
       "4": {
-        "$value": "{color.violet.600}"
+        "$value": "{brand.light.chart-4}"
       }
+    },
+    "chart-line": {
+      "1": {
+        "$value": "{brand.light.chart-line-1}"
+      },
+      "2": {
+        "$value": "{brand.light.chart-line-2}"
+      },
+      "3": {
+        "$value": "{brand.light.chart-line-3}"
+      },
+      "4": {
+        "$value": "{brand.light.chart-line-4}"
+      },
+      "$description": "Outline of a chart mark. Same as the card surface in the default brand (reads as a gap); a brand with light fills sets a darker line so each mark keeps 3:1."
     },
     "highlight": {
       "citation": {

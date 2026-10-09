@@ -59,6 +59,30 @@
       },
       "avatar-fg": {
         "$value": "{color.purple.900}"
+      },
+      "chart-1": {
+        "$value": "{color.indigo.400}"
+      },
+      "chart-2": {
+        "$value": "{color.teal.400}"
+      },
+      "chart-3": {
+        "$value": "{color.lime.400}"
+      },
+      "chart-4": {
+        "$value": "{color.amber.400}"
+      },
+      "chart-line-1": {
+        "$value": "{color.indigo.600}"
+      },
+      "chart-line-2": {
+        "$value": "{color.teal.600}"
+      },
+      "chart-line-3": {
+        "$value": "{color.lime.600}"
+      },
+      "chart-line-4": {
+        "$value": "{color.amber.600}"
       }
     },
     "dark": {
@@ -118,6 +142,30 @@
       },
       "avatar-fg": {
         "$value": "{color.purple.100}"
+      },
+      "chart-1": {
+        "$value": "{color.indigo.400}"
+      },
+      "chart-2": {
+        "$value": "{color.teal.400}"
+      },
+      "chart-3": {
+        "$value": "{color.lime.400}"
+      },
+      "chart-4": {
+        "$value": "{color.amber.400}"
+      },
+      "chart-line-1": {
+        "$value": "{color.neutral.800}"
+      },
+      "chart-line-2": {
+        "$value": "{color.neutral.800}"
+      },
+      "chart-line-3": {
+        "$value": "{color.neutral.800}"
+      },
+      "chart-line-4": {
+        "$value": "{color.neutral.800}"
       }
     }
   }

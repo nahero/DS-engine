@@ -83,7 +83,7 @@ const columns: ClaimColumn[] = [
       <a
         href={routes.claim(row.original.id)}
         tabIndex={-1}
-        className="rounded-inner font-mono text-caption whitespace-nowrap text-fg underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring"
+        className="rounded-inner font-mono text-caption whitespace-nowrap text-fg-muted underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring"
       >
         {row.original.id}
       </a>
@@ -93,9 +93,9 @@ const columns: ClaimColumn[] = [
     id: 'policyholder',
     header: 'Policyholder',
     enableSorting: false,
-    cell: ({ row }) => <TruncatedText text={row.original.policyholder} className="max-w-36" />,
+    cell: ({ row }) => <TruncatedText text={row.original.policyholder} className="max-w-36 font-semibold" />,
   },
-  { id: 'lob', header: 'LOB', enableSorting: false, cell: ({ row }) => row.original.lob },
+  { id: 'lob', header: 'LOB', enableSorting: false, cell: ({ row }) => <span className="text-fg-muted">{row.original.lob}</span> },
   {
     id: 'lossDate',
     header: 'Loss date',
@@ -146,7 +146,7 @@ const columns: ClaimColumn[] = [
     sortFn: sortFn_basic,
     sortDescFirst: false,
     meta: { align: 'right' },
-    cell: ({ row }) => <span className="tabular-nums">{formatMoney(row.original.claimed)}</span>,
+    cell: ({ row }) => <span className="font-semibold tabular-nums">{formatMoney(row.original.claimed)}</span>,
   },
   {
     id: 'handler',

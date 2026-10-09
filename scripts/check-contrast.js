@@ -37,7 +37,6 @@ const pairs = [
   ...['bg.surface', 'bg.canvas', 'nav.active.bg', 'bg.accent'].map((bg) => ['icon.accent', bg, NON_TEXT]),
   ['avatar.fg', 'avatar.bg', TEXT],
   ...['high', 'medium', 'low'].map((c) => [`confidence.${c}`, 'bg.surface', NON_TEXT]),
-  ...['1', '2', '3', '4'].map((c) => [`chart.${c}`, 'bg.surface', NON_TEXT]),
   // Confidence labels are text in status foregrounds, on cards and on the low-confidence (warning) row.
   ...['success', 'warning', 'danger'].flatMap((s) => ['bg.surface', 'status.warning.bg'].map((bg) => [`status.${s}.fg`, bg, TEXT])),
 ]
@@ -83,8 +82,21 @@ for (const [mode, files] of Object.entries(MODES)) {
     }
   }
 }
+// Chart marks: the fill or its outline must reach 3:1 on the card (light fills carry a darker outline).
+for (const [mode, files] of Object.entries(MODES)) {
+  const tree = merge(files)
+  const surface = resolve(tree, 'color.bg.surface')
+  for (const n of ['1', '2', '3', '4']) {
+    const [fill, line] = [resolve(tree, `color.chart.${n}`), resolve(tree, `color.chart-line.${n}`)]
+    const best = Math.max(ratio(fill, surface), ratio(line, surface))
+    if (best < NON_TEXT) {
+      failures++
+      console.error(`✗ ${mode}: chart.${n} fill (${fill}) and outline (${line}) on bg.surface (${surface}) = ${best.toFixed(2)}:1, needs ${NON_TEXT}:1`)
+    }
+  }
+}
 if (failures) {
   console.error(`${failures} contrast failure(s). Fix in tokens/semantic.*.json, not in tokens/figma/.`)
   process.exit(1)
 }
-console.log(`Contrast OK: ${pairs.length} pairs × ${Object.keys(MODES).length} modes`)
+console.log(`Contrast OK: ${pairs.length} pairs + 4 chart marks × ${Object.keys(MODES).length} modes`)

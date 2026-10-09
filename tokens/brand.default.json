@@ -59,6 +59,30 @@
       },
       "avatar-fg": {
         "$value": "{color.neutral.700}"
+      },
+      "chart-1": {
+        "$value": "{color.blue.600}"
+      },
+      "chart-2": {
+        "$value": "{color.amber.600}"
+      },
+      "chart-3": {
+        "$value": "{color.green.600}"
+      },
+      "chart-4": {
+        "$value": "{color.violet.600}"
+      },
+      "chart-line-1": {
+        "$value": "{color.white}"
+      },
+      "chart-line-2": {
+        "$value": "{color.white}"
+      },
+      "chart-line-3": {
+        "$value": "{color.white}"
+      },
+      "chart-line-4": {
+        "$value": "{color.white}"
       }
     },
     "dark": {
@@ -118,6 +142,30 @@
       },
       "avatar-fg": {
         "$value": "{color.neutral.400}"
+      },
+      "chart-1": {
+        "$value": "{color.blue.400}"
+      },
+      "chart-2": {
+        "$value": "{color.amber.400}"
+      },
+      "chart-3": {
+        "$value": "{color.green.400}"
+      },
+      "chart-4": {
+        "$value": "{color.violet.400}"
+      },
+      "chart-line-1": {
+        "$value": "{color.neutral.800}"
+      },
+      "chart-line-2": {
+        "$value": "{color.neutral.800}"
+      },
+      "chart-line-3": {
+        "$value": "{color.neutral.800}"
+      },
+      "chart-line-4": {
+        "$value": "{color.neutral.800}"
       }
     }
   }
