@@ -4,6 +4,7 @@
       "url": [
         "http://localhost:4173/DS-engine/?page=overview#overview",
         "http://localhost:4173/DS-engine/?page=claims-queue#claims-queue",
+        "http://localhost:4173/DS-engine/?page=my-assigned#my-assigned",
         "http://localhost:4173/DS-engine/?page=claim-detail#claim-CLM-2026-004817"
       ],
       "numberOfRuns": 3,

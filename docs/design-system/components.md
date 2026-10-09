@@ -33,9 +33,15 @@ Storybook sections follow the folders: **UI** (`components/ui`), **Patterns** (`
 | UnavailableButton | `components/patterns/UnavailableButton.tsx` | Button + Tooltip | — | Done: demo-only controls (Export, bell). `aria-disabled`, stays focusable, tooltip "Not available in this demo" opens on focus | Yes (`*.stories.tsx` next to the component) |
 | UserAvatar | `components/patterns/UserAvatar.tsx` (name/initials props; layout passes `data/current-user.ts`) | shadcn Avatar | `Avatar` | Done: `decorative` hides it, otherwise `role="img"` named after the user | Yes (`*.stories.tsx` next to the component) |
 | useDisplaySettings | `lib/use-display-settings.ts` | — | — | Sets `.dark`, `data-theme`, `data-density` on `<html>`, persisted; `index.html` applies it before paint | — |
+| StageIndicator | `components/patterns/StageIndicator.tsx` | Five segments + text label | — (Figma pending) | Done: accessible name "Stage 3 of 5: Assessment" | Yes |
+| NextAction | `components/patterns/NextAction.tsx` | Lucide icon per kind + verb phrase, TruncatedText or `wrap` | — (Figma pending) | Done: 9 kinds; `await` is muted | Yes |
+| StatFilter | `components/patterns/StatFilter.tsx` | Toggle button (`aria-pressed`), tabular count + label | — (Figma pending) | Done: default / danger / warning tone with icon, zero stays operable | Yes |
+| Worklist | `features/claims/Worklist.tsx` (logic in `lib/worklist.ts`) | List of link rows in three groups, container-query layout | — (Figma pending) | Done: Act now / Ready for you / Waiting on others (collapsible), ↑/↓ j/k, loading / empty / all caught up / error, missing and below-deductible amounts | Yes |
+| UpdatesPanel | `features/claims/UpdatesPanel.tsx` | Card + list | — (Figma pending) | Done: new events first, "Show all" | Yes |
+| FollowUpList | `features/claims/FollowUpList.tsx` | Card + list, Button | — (Figma pending) | Done: overdue → today → upcoming, Done and Snooze 2 d with live announcement | Yes |
 | Toast | `components/ui/` | shadcn Sonner | `Sonner` | Planned | — |
 
-Screens (`screens/`: Overview, ClaimsQueue, ClaimDetail) have no stories; they are covered by `*.browser.test.tsx` and Playwright `e2e/`. Routing is hash-based in `App.tsx`; hrefs come from `lib/routes.ts` (`#overview`, `#claims-queue`, `#claim-<id>`). Shared: `lib/view-state.ts` (`NBSP`, `ViewState`), `lib/format.ts`, `lib/claim-logic.ts`. Missing data reads "—" + "Missing"; "Not applicable" is only for SLA on closed claims.
+Screens (`screens/`: Overview, ClaimsQueue, ClaimDetail, MyAssigned) have no stories; they are covered by `*.browser.test.tsx` and Playwright `e2e/`. Routing is hash-based in `App.tsx`; hrefs come from `lib/routes.ts` (`#overview`, `#claims-queue`, `#my-assigned`, `#claim-<id>`). Shared: `lib/view-state.ts` (`NBSP`, `ViewState`), `lib/format.ts`, `lib/claim-logic.ts`. Missing data reads "—" + "Missing"; "Not applicable" is only for SLA on closed claims.
 shadcn primitives restyled to tokens (card, badge, input, select, sidebar, sheet, breadcrumb, dropdown-menu, avatar, skeleton, tooltip, chart, table, checkbox, pagination, tabs, alert): all have stories. Coverage is enforced by `npm run check:stories` in CI; every story also runs as a browser test (a11y + interactions) in light/comfortable and dark/compact.
 
 ## Figma → code mapping

@@ -11,9 +11,11 @@ import { routes } from '@/lib/routes'
 // Each screen is its own chunk: the entry only carries the shell, Recharts and the claims data load with their screens.
 const loadOverview = () => import('@/screens/Overview').then((m) => ({ default: m.Overview }))
 const loadClaimsQueue = () => import('@/screens/ClaimsQueue').then((m) => ({ default: m.ClaimsQueue }))
+const loadMyAssigned = () => import('@/screens/MyAssigned').then((m) => ({ default: m.MyAssigned }))
 const loadClaimDetail = () => import('@/screens/ClaimDetail').then((m) => ({ default: m.ClaimDetail }))
 const Overview = React.lazy(loadOverview)
 const ClaimsQueue = React.lazy(loadClaimsQueue)
+const MyAssigned = React.lazy(loadMyAssigned)
 const ClaimDetail = React.lazy(loadClaimDetail)
 
 const NBSP = '\u00a0'
@@ -45,7 +47,7 @@ function routeFromHash(current: Route): Route {
 }
 
 // Start fetching the first route's chunk while the shell is still booting, instead of after its first render.
-const initialLoad = { overview: loadOverview, 'claims-queue': loadClaimsQueue, 'claim-detail': loadClaimDetail }[
+const initialLoad = { overview: loadOverview, 'claims-queue': loadClaimsQueue, 'my-assigned': loadMyAssigned, 'claim-detail': loadClaimDetail }[
   routeFromHash({ page: 'overview' }).page
 ]
 void initialLoad?.()
@@ -129,6 +131,8 @@ export default function App() {
           <Overview />
         ) : page === 'claims-queue' ? (
           <ClaimsQueue />
+        ) : page === 'my-assigned' ? (
+          <MyAssigned />
         ) : (
           <ComingSoon title={meta.title} />
         )}

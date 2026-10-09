@@ -97,3 +97,9 @@ Notable things AI got wrong, how they were caught, and the fix.
 - **How it was caught:** The first CI run after the push failed; the orchestrator had flagged the risk before the result came in.
 - **Fix:** Mobile performance score is a warning; hard gates are metric budgets with headroom (LCP, blocking time, layout shift) set from the numbers measured in CI. `include-hidden-files: true` on the artifact step. Decision 0011.
 - **Lesson:** Gate on things that are deterministic or have real margin. Measure on the machine that enforces the gate before choosing the threshold.
+
+## The caseload couldn't show two states the page was designed for
+- **What went wrong:** The plan for "My assigned" promised an agent-failed claim and a missing amount in the list. The agent that built the data found that no open claim of the current user was agent-failed and that the payout logic never returned a missing amount, and (correctly) reported it instead of overriding base data. Without follow-up, two designed states would have existed only in tests.
+- **How it was caught:** The agent's report listed both as spec gaps.
+- **Fix:** One generated claim is curated as agent-failed in `claims.ts`; agent-failed claims have no deductible in `claim-detail.ts`, which gives the "Deductible missing" payout and a missing amount in the worklist. A third case surfaced in review: €0.00 payable on claims below the deductible now says "Below deductible".
+- **Lesson:** Mock data is part of the design. Check that every state in the plan is reachable with the data before building the screen.

@@ -182,8 +182,19 @@ function generateClaims(): Claim[] {
   return rows
 }
 
+/**
+ * Curation of the generated rows (deterministic): Emily Carter's caseload on "My assigned" needs one open claim the
+ * agent failed on, and the seed produces none for her. CLM-2026-004633 (her In review, Property, SLA 3 d, not a Figma
+ * row) gets the same shape as every generated "Agent failed" claim: flag set, no confidence score.
+ */
+const AGENT_FAILED_CURATED_ID = 'CLM-2026-004633'
+
+function curate(rows: Claim[]): Claim[] {
+  return rows.map((c) => (c.id === AGENT_FAILED_CURATED_ID ? { ...c, flag: 'Agent failed', confidence: null } : c))
+}
+
 /** 1,000 claims: the 12 rows designed in Figma first, then 988 seeded rows with descending ids. Deterministic. */
-export const claims: Claim[] = [...figmaClaims, ...generateClaims()]
+export const claims: Claim[] = [...figmaClaims, ...curate(generateClaims())]
 
 let index: Map<string, Claim> | null = null
 

@@ -27,6 +27,9 @@ export const NotApplicable: Story = { args: { days: null } }
 
 export const LongOverdue: Story = { args: { days: -128 } }
 
+/** `label` names the clock ("Decision due in 3 d", "First contact overdue 2 d"); icon and colour still follow `days`. */
+export const NamedClock: Story = { args: { days: -2, label: 'First contact overdue 2 d' } }
+
 export const AllVariants: Story = {
   render: () => (
     <ul className="flex flex-col gap-3">

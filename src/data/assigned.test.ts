@@ -55,6 +55,8 @@ describe('assignedClaims', () => {
       expect(count((c) => c.flag === flag), flag).toBeGreaterThanOrEqual(1)
     }
     expect(count((c) => c.policyholder.length > 35)).toBeGreaterThanOrEqual(1)
+    expect(count((c) => c.flag === 'Agent failed')).toBe(1)
+    expect(count((c) => c.payable === null)).toBe(1)
     expect(count((c) => c.confidence === null)).toBeGreaterThanOrEqual(1)
     expect(count((c) => c.confidence !== null && c.confidence < 70)).toBeGreaterThanOrEqual(1)
     expect(count((c) => c.waiting?.on === 'senior approver')).toBeGreaterThanOrEqual(1)
@@ -92,6 +94,7 @@ describe('assignedClaims', () => {
   })
 
   it('puts the intended claims in their groups', () => {
+    expect(groupOf('CLM-2026-004633')).toBe('ready')
     expect(groupOf('CLM-2026-004821')).toBe('act-now')
     expect(groupOf('CLM-2026-004484')).toBe('act-now')
     expect(groupOf('CLM-2026-004321')).toBe('act-now')
@@ -113,6 +116,7 @@ describe('assignedClaims', () => {
     expect(textOf('CLM-2026-004303')).toBe('Send for senior approval')
     expect(textOf('CLM-2026-004732')).toBe('Decide payout €996.34')
     expect(textOf('CLM-2026-004743')).toBe('Call the policyholder (first contact)')
+    expect(textOf('CLM-2026-004633')).toBe('Enter fields manually (agent failed)')
   })
 
   it('spreads the claims over the stages', () => {

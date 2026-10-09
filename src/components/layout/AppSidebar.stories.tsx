@@ -35,7 +35,7 @@ const meta = {
       story: { inline: false, iframeHeight: 640 },
       description: {
         component:
-          'Primary navigation. shadcn `Sidebar` (offcanvas, becomes a sheet below 768px). Figma Overview `28:434`. Counts are read out as part of the link name ("Claims queue, 128 awaiting"). Ctrl/Cmd+B toggles it.',
+          'Primary navigation. shadcn `Sidebar` (offcanvas, becomes a sheet below 768px). Figma Overview `28:434`. Counts are read out as part of the link name ("Claims queue, 711 awaiting"). Ctrl/Cmd+B toggles it.',
       },
     },
   },

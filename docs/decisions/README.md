@@ -16,3 +16,4 @@ Short records of decisions that shaped the system: context, what was decided, wh
 | [0010](0010-performance-budgets.md) | Performance budgets in CI: lazy screens, bundle budget, Lighthouse | 2026-10-03 |
 | [0011](0011-gate-on-metrics-not-scores.md) | Gate mobile performance on metric budgets, not the Lighthouse score | 2026-10-06 |
 | [0012](0012-brand-layer-widened.md) | A brand can restyle surfaces, borders, navigation, icons and charts | 2026-10-09 |
+| [0013](0013-worklist-by-next-action.md) | "My assigned" is a worklist organised by next action | 2026-10-09 |

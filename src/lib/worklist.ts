@@ -62,6 +62,31 @@ export function daysBetween(from: string, to: string): number {
   return dayNumber(to) - dayNumber(from)
 }
 
+/** The calendar date `days` after `iso` (negative = before), as `YYYY-MM-DD`. */
+export function addDays(iso: string, days: number): string {
+  return new Date((dayNumber(iso) + days) * 86_400_000).toISOString().slice(0, 10)
+}
+
+function instant(iso: string): number {
+  if (iso.length <= 10) return Date.parse(`${iso}T00:00:00Z`)
+  return Date.parse(/(Z|[+-]\d\d:?\d\d)$/.test(iso) ? iso : `${iso}Z`)
+}
+
+/**
+ * How long ago `at` was, relative to `now` (both ISO date-times read as the same clock):
+ * `Just now` · `12 min ago` · `2 h ago` (same day) · `Yesterday` · `3 d ago` · `12 Sep` (a week or more).
+ */
+export function relativeTime(at: string, now: string): string {
+  const minutes = Math.floor((instant(now) - instant(at)) / 60_000)
+  if (minutes < 1) return minutes < 0 ? formatShortDate(at) : 'Just now'
+  if (minutes < 60) return `${minutes} min ago`
+  const days = daysBetween(at, now)
+  if (days === 0) return `${Math.floor(minutes / 60)} h ago`
+  if (days === 1) return 'Yesterday'
+  if (days < 7) return `${days} d ago`
+  return formatShortDate(at)
+}
+
 /** `2 Oct`: short form for inline wording (no year, no zero padding). */
 export function formatShortDate(iso: string): string {
   const [, m, d] = iso.slice(0, 10).split('-').map(Number)

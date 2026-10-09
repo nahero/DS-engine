@@ -19,6 +19,35 @@ The product is a concept **insurance claims admin**: an AI agent pre-processes i
 - **Actions:** Approve (primary), Refer (secondary, needs a reason), Correct (per field). Destructive actions confirm.
 - **Audit trail:** chronological, agent and human events distinguished by label and icon, not colour.
 
+## Worklist (My assigned)
+The handler's own caseload. It answers "what do I do next, and what am I waiting for?". Logic lives in `src/lib/worklist.ts`.
+
+- **Groups, in order:**
+  - **Act now:** it is my move, and the deadline is today or past, a follow-up is due, or something just came back.
+  - **Ready for you:** my move, not urgent.
+  - **Waiting on others:** collapsed by default.
+- **Row anatomy:** policyholder (bold) + "New" marker · claim # and line of business (muted) · next action · deadline · stage · payable amount (bold, right-aligned) · the whole row opens the claim.
+- **Next-action vocabulary** (always a verb phrase, with an icon):
+
+| Situation | Text |
+|---|---|
+| New claim | Call the policyholder (first contact) |
+| Agent failed | Enter fields manually (agent failed) |
+| Fields to fix | Verify 2 low-confidence fields, 1 missing |
+| Payable above the handler's limit | Send for senior approval |
+| Ready to decide | Decide payout €5,950.00 |
+| Approved | Release payment €360.00 |
+| Something came back | Review new document: discharge letter · Review senior approval decision · Review policyholder reply |
+| Waiting, follow-up due | Chase discharge letter · follow-up 2 Oct |
+| Waiting | Awaiting discharge letter from policyholder · since 3 d · Awaiting senior approval · sent 2 d ago |
+
+- **Deadlines name the clock:** "First contact due in 1 d", "Decision overdue 2 d", "Payment due today".
+- **Stage:** five steps with a text label (Assigned, Coverage, Assessment, Decision, Payment).
+- **Today strip:** four counts that toggle a filter (Overdue, Due today, Ready for you, Waiting on others) and one workload line. No charts.
+- **Side panels:** "Since you were last here" (events on my claims, new first) and "Follow-ups" (dated reminders: Done, Snooze 2 d).
+- **No decisions inline.** Approve, deny and refer happen on the claim, next to the evidence.
+- **States:** loading, no claims assigned, all caught up (only waiting claims left), error, missing amount ("—" + "Missing").
+
 ## Confidence
 - Always shown as **number + label + icon** (e.g. `92% · High`), colour (`confidence.*`) is a secondary cue.
 - Bands (placeholder until product decision): high ≥ 90%, medium 70–89%, low < 70%.

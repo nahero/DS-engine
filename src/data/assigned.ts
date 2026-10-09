@@ -8,6 +8,9 @@ export type { AssignedClaim, AssignedEvent, AssignedFollowUp, AssignedWaiting } 
 /** The mock "today" of the worklist. Every relative date (follow-ups, events, "since 3 d") derives from it. */
 export const ASSIGNED_TODAY = '2026-09-29'
 
+/** The mock "now" of the worklist: ASSIGNED_TODAY at 09:30. Relative times ("2 h ago") count from it. */
+export const ASSIGNED_NOW = `${ASSIGNED_TODAY}T09:30:00`
+
 /** Work-item extras that the generated claims don't have. Hand-authored per claim and consistent with its status and flag. */
 interface Extras {
   /** ISO date the claim came to this handler. */
@@ -82,8 +85,8 @@ const CASELOAD: readonly (readonly [id: string, extras: Extras])[] = [
   }],
   // Act now · New, overdue 5 d (most overdue on the list): first contact. High confidence, nothing to verify.
   ['CLM-2026-004769', { assignedAt: '2026-09-24' }],
-  // Ready · New with no confidence score, first contact due in 1 d.
-  ['CLM-2026-004756', { assignedAt: '2026-09-27' }],
+  // Ready · In review, the agent failed (no fields extracted, no score), decision due in 3 d, deductible unknown so the amount is missing.
+  ['CLM-2026-004633', { assignedAt: '2026-09-27' }],
   // Ready · In review, no flags, payout above authority and not yet sent: "Send for senior approval".
   ['CLM-2026-004303', { assignedAt: '2026-09-25' }],
   // Ready · In review, high confidence, within authority: "Decide payout".

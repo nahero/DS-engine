@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { disableAnimations, expectNoA11yViolations, setDisplay } from './fixtures.ts'
 
-const PAGES = ['overview', 'claims-queue', 'claim-CLM-2026-004817', 'claim-CLM-2026-004819', 'reports']
+const PAGES = ['overview', 'claims-queue', 'my-assigned', 'claim-CLM-2026-004817', 'claim-CLM-2026-004819', 'reports']
 
 for (const theme of ['light', 'dark'] as const) {
   test.describe(`axe, ${theme}`, () => {

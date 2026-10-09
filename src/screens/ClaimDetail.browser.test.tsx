@@ -111,6 +111,15 @@ describe('ClaimDetail', () => {
       await expectNoA11yViolations(container)
     })
 
+    it('agent failed: the deductible is unknown, so the payout says it is missing and shows no payable amount', async () => {
+      const { container } = await renderClaim('CLM-2026-004633')
+      await expect.element(payout()).toMatchTextContent('Deductible')
+      await expect.element(payout()).toMatchTextContent('Missing')
+      await expect.element(payout()).toMatchTextContent('Can’t calculate until deductible is confirmed')
+      await expect.element(payout()).toMatchTextContent('Payable—Missing')
+      await expectNoA11yViolations(container)
+    })
+
     it('low confidence: a missing field is stated, and the coverage tab flags the loss date', async () => {
       const { container, getByText } = await renderClaim('CLM-2026-004821')
       expect(getByText('Missing').elements().length).toBeGreaterThan(0)

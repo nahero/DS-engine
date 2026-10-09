@@ -2,6 +2,7 @@
 export const routes = {
   overview: '#overview',
   queue: '#claims-queue',
+  myAssigned: '#my-assigned',
   claim: (id: string) => '#claim-' + id,
   /** Any other page by its sidebar id (`#reports`). */
   page: (id: string) => '#' + id,

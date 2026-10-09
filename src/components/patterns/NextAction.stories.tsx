@@ -72,6 +72,18 @@ export const LongContent: Story = {
   },
 }
 
+/** `wrap`: the text breaks onto more lines instead of being cut off. Plain text, no focus stop; for rows that are one link. */
+export const Wrapping: Story = {
+  args: { kind: 'await', text: 'Awaiting signed payment authorisation from policyholder · since 4 d', wrap: true },
+  decorators: [
+    (Story) => (
+      <div className="w-64">
+        <Story />
+      </div>
+    ),
+  ],
+}
+
 export const AllKinds: Story = {
   name: 'All kinds',
   render: () => (

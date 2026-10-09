@@ -40,6 +40,14 @@ describe('getClaimDetail', () => {
     expect(detail.agentSummary.recommendation).toBe('Manual review required')
   })
 
+  it('leaves the deductible of an agent-failed claim unknown, so the payable amount is missing', () => {
+    for (const failed of claims.filter((c) => c.flag === 'Agent failed' && c.status !== 'Denied')) {
+      const detail = getClaimDetail(failed.id)!
+      expect(detail.payout.deductible, failed.id).toBeNull()
+      expect(derivePayout(detail.payout), failed.id).toMatchObject({ missing: 'deductible', payable: null })
+    }
+  })
+
   it('is deterministic', () => {
     for (const id of ['CLM-2026-004817', claims[20].id, claims[500].id]) {
       expect(getClaimDetail(id)).toEqual(getClaimDetail(id))

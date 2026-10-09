@@ -14,6 +14,7 @@ import {
 
 import { UserAvatar } from "@/components/patterns/UserAvatar"
 import { currentUser } from "@/data/current-user"
+import { navCounts } from "@/data/nav-counts"
 import { routes } from "@/lib/routes"
 import {
   Sidebar,
@@ -46,9 +47,9 @@ const navGroups: NavGroup[] = [
     label: "Claims",
     items: [
       { id: "overview", href: routes.overview, label: "Overview", icon: LayoutDashboard },
-      { id: "claims-queue", href: routes.queue, label: "Claims queue", icon: Inbox, count: 128, countLabel: "awaiting" },
-      { id: "my-assigned", href: routes.page("my-assigned"), label: "My assigned", icon: UserCheck, count: 17, countLabel: "open" },
-      { id: "referred", href: routes.page("referred"), label: "Referred", icon: Forward, count: 9, countLabel: "pending" },
+      { id: "claims-queue", href: routes.queue, label: "Claims queue", icon: Inbox, count: navCounts.queue, countLabel: "awaiting" },
+      { id: "my-assigned", href: routes.myAssigned, label: "My assigned", icon: UserCheck, count: navCounts.myAssigned, countLabel: "open" },
+      { id: "referred", href: routes.page("referred"), label: "Referred", icon: Forward, count: navCounts.referred, countLabel: "pending" },
     ],
   },
   {

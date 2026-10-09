@@ -353,7 +353,8 @@ function genericDetail(claim: Claim): ClaimDetail {
   const payable = Math.min(Math.max(claim.claimed - deductible, 0), limit)
   const payout: Payout = {
     claimed: claim.claimed,
-    deductible,
+    // The agent could not read the policy schedule of a failed claim: the deductible, and so the payable amount, is unknown.
+    deductible: claim.flag === 'Agent failed' ? null : deductible,
     limit,
     ...(claim.status === 'Denied' ? { denied: DENIAL_REASONS[n % DENIAL_REASONS.length] } : {}),
   }

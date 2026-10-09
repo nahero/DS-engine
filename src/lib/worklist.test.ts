@@ -1,12 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import type { AssignedClaim } from '@/data/types'
 import {
+  addDays,
   compareWorklist,
   daysBetween,
   deadlineKind,
   deadlineLabel,
   formatShortDate,
   nextAction,
+  relativeTime,
   stageOf,
   summarise,
   worklistGroup,
@@ -56,6 +58,23 @@ describe('dates', () => {
   it('formats a short date without year or padding', () => {
     expect(formatShortDate('2026-10-02')).toBe('2 Oct')
     expect(formatShortDate('2026-09-29T08:00:00')).toBe('29 Sep')
+  })
+  it('adds days across month ends', () => {
+    expect(addDays('2026-09-29', 2)).toBe('2026-10-01')
+    expect(addDays('2026-10-01', -1)).toBe('2026-09-30')
+    expect(addDays('2026-12-31', 1)).toBe('2027-01-01')
+  })
+  it('words the age of an event', () => {
+    const now = '2026-09-29T09:30:00'
+    expect(relativeTime('2026-09-29T09:29:40', now)).toBe('Just now')
+    expect(relativeTime('2026-09-29T09:05:00', now)).toBe('25 min ago')
+    expect(relativeTime('2026-09-29T07:30:00', now)).toBe('2 h ago')
+    expect(relativeTime('2026-09-29T06:00:00', now)).toBe('3 h ago')
+    expect(relativeTime('2026-09-28T23:50:00', now)).toBe('Yesterday')
+    expect(relativeTime('2026-09-28T09:40:00', now)).toBe('Yesterday')
+    expect(relativeTime('2026-09-26T15:10:00', now)).toBe('3 d ago')
+    expect(relativeTime('2026-09-20T15:10:00', now)).toBe('20 Sep')
+    expect(relativeTime('2026-09-29T10:00:00', now)).toBe('29 Sep')
   })
 })
 
