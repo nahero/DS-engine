@@ -20,7 +20,7 @@ Source of truth: DTCG JSON in `tokens/`. `npm run build:tokens` turns it into `s
 ## Naming
 - Pattern: `<category>.<role>.<variant>.<state>`, e.g. `color.action.primary.hover`, `color.status.warning.bg`. Names describe a **role**, never a value or scale step: `font.weight.heading`, not `font.weight.medium`. Reusing a primitive's path overwrites it (see `docs/ai-log.md`, font weight collision).
 - Component tokens: `<component>.<property>`, e.g. `card.bg`, `dialog.radius` (CSS: `--ds-card-bg`).
-- Colour roles: `bg.*` (canvas, surface, surface-raised, subtle, inverse, accent), `fg.*` (default, muted, subtle, inverse, on-action, accent), `border.*` (default, strong, focus), `action.{primary,secondary,danger}.{base,hover,fg}`, `status.{info,success,warning,danger,neutral}.{bg,fg,border}`, `confidence.{high,medium,low}` (marks only, 3:1; confidence text uses `status.*.fg`), `chart.1–4` (categorical series: blue, amber, green, violet), `highlight.citation.{bg,border}`.
+- Colour roles: `bg.*` (canvas, surface, surface-raised, subtle, inverse, accent), `fg.*` (default, muted, subtle, inverse, on-action, accent), `border.*` (default, strong, hover, focus), `action.{primary,secondary,danger}.{base,hover,fg}`, `status.{info,success,warning,danger,neutral}.{bg,fg,border}`, `confidence.{high,medium,low}` (marks only, 3:1; confidence text uses `status.*.fg`), `chart.1–4` and `chart-line.1–4` (categorical series and their outlines), `nav.active.{bg,fg}`, `icon.accent`, `avatar.{bg,fg}`, `highlight.citation.{bg,border}`.
 - Size roles: `radius.{inner,control,surface,overlay}`, `shadow.{raised,overlay}`, `font.size.{label,caption,body,body-lg,heading-sm,heading-md,heading-lg,display}`, `control.height` (36px comfortable = kit Large, 32px compact = kit Default), `row.height`, `space.{inset,stack,cell}`.
 - New utility names for text size, radius, shadow or spacing must also be registered in `src/lib/utils.ts`, or `cn()` mis-merges them.
 
@@ -93,5 +93,24 @@ The Obra kit's values are the starting point; these differences live in our sema
 - **From Figma**: `sync-tokens` skill.
 - New role: add it to both `semantic.light.json` and `semantic.dark.json`, map a utility in `globals.css`, add pairs to `scripts/check-contrast.js` if it carries text or a boundary, update this file.
 
-## Brand accent
-`brand.*.accent` / `accent-fg` → `bg.accent` / `fg.accent` → shadcn `--accent` and `--sidebar-accent`. Used for menu hover, the active sidebar item and selected table rows. Default brand keeps these neutral (same as `bg.subtle`), Purple uses purple 50/900 (light) and 950/100 (dark).
+## Brand layer
+A brand (`tokens/brand.<name>.json`) sets these roles, each with a light and a dark value. Semantic tokens alias them, so a brand never touches components. The Default brand keeps the kit's neutral look.
+
+| Brand role | Semantic token | Used for | Purple (light / dark) |
+|---|---|---|---|
+| `primary`, `primary-hover`, `primary-fg` | `action.primary.*` | Primary buttons, logo mark | purple 600 / 700, white · purple 400 / 300 |
+| `focus` | `border.focus` | Focus ring | purple 500 · 400 |
+| `canvas` | `bg.canvas` | Page background | neutral 100 · neutral 950 |
+| `subtle` | `bg.subtle` | Hover, table header, skeleton | purple 50 · neutral 900 |
+| `accent`, `accent-fg` | `bg.accent`, `fg.accent` | Selected rows, menu hover | purple 100 / 900 · purple 950 / 100 |
+| `border` | `border.default` | Cards, dividers, outline buttons | purple 200 · neutral 700 |
+| `border-strong` | `border.strong` | Control outlines (3:1) | neutral 500 in both |
+| `border-hover` | `border.hover` | Control outline on hover | purple 500 · 400 |
+| `secondary`, `secondary-hover`, `secondary-fg` | `action.secondary.*` | Secondary buttons and badges | purple 100 / 200 / 900 · purple 900 / 800 / 100 |
+| `nav-active`, `nav-active-fg` | `nav.active.bg/fg` → `--sidebar-primary*` | Active sidebar item | purple 200, black · purple 900, white |
+| `icon` | `icon.accent` | Sidebar and header icons | purple 600 · 400 |
+| `avatar`, `avatar-fg` | `avatar.bg/fg` | Initials avatar | purple 200 / 900 · purple 900 / 100 |
+| `chart-1…4` | `chart.1–4` | Chart fills | indigo, teal, lime, amber 400 in both |
+| `chart-line-1…4` | `chart-line.1–4` → `--chart-line-N` | Chart mark outline | same hues at 600 · card colour |
+
+Chart marks: the fill or its outline must reach 3:1 on the card. Default fills pass on their own, so their outline is the card colour (it reads as a gap). Purple's light fills carry a darker outline.

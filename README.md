@@ -50,7 +50,7 @@ Figma variables ⇄ DTCG JSON → Style Dictionary → CSS variables → shadcn/
   - brand: `data-theme`;
   - density: `data-density`.
 - **Tailwind only exposes tokens.** The default palette, type scale, radii and shadows are removed, so `bg-blue-500`-style classes don't exist. The `ui-review` skill flags arbitrary values. shadcn's variable names are a thin adapter onto semantic tokens.
-- **WCAG contrast is checked on every build** ([`scripts/check-contrast.js`](scripts/check-contrast.js)): 47 text and non-text pairs × 2 brands × light/dark. Any failure fails the build.
+- **WCAG contrast is checked on every build** ([`scripts/check-contrast.js`](scripts/check-contrast.js)): 52 text and non-text pairs plus the chart marks × 2 brands × light/dark. Any failure fails the build.
 - **Code ↔ Figma sync** without the Enterprise-only Variables API:
   - scripts run through the Figma MCP (Plugin API): export primitives, push the DS collections, and a read-only parity check ([`scripts/figma-verify.js`](scripts/figma-verify.js));
   - last check: all 77 DS variables plus the kit adapter match code.
@@ -89,7 +89,7 @@ Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.y
 | Gate | What it enforces |
 |---|---|
 | Token drift | Generated `tokens.css` / `tokens.ts` match the JSON source |
-| Contrast | 47 text and non-text colour pairs × 2 brands × light/dark meet WCAG AA |
+| Contrast | 52 text and non-text colour pairs plus chart marks × 2 brands × light/dark meet WCAG AA |
 | Lint | oxlint, warnings are errors |
 | Typecheck | `tsc -b`, strict |
 | Story coverage | Every component has stories |
