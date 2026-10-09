@@ -140,3 +140,58 @@ export interface ClaimDetail {
   agentSummary: { recommendation: string; notes: string[] }
   audit: AuditEvent[]
 }
+
+// ---------------------------------------------------------------------------
+// My assigned: a handler's caseload with work-item extras
+// ---------------------------------------------------------------------------
+
+/** Who a claim is waiting on when the next step is not the handler's. */
+export type WaitingOn = 'policyholder' | 'provider' | 'senior approver'
+
+export interface AssignedWaiting {
+  on: WaitingOn
+  /** ISO date (YYYY-MM-DD) the request was sent. */
+  since: string
+  /** Lower-case noun phrase: `discharge letter`, `senior approval`. */
+  what: string
+}
+
+export interface AssignedFollowUp {
+  id: string
+  /** ISO date (YYYY-MM-DD). */
+  due: string
+  /** `Chase discharge letter` */
+  note: string
+}
+
+export type AssignedEventKind =
+  | 'document-received'
+  | 'approval-returned'
+  | 'policyholder-replied'
+  | 'sla-warning'
+  | 'reopened'
+
+export interface AssignedEvent {
+  id: string
+  /** ISO date-time. */
+  at: string
+  kind: AssignedEventKind
+  text: string
+  /** Happened since the handler was last here. */
+  isNew: boolean
+}
+
+/** A claim on a handler's worklist: the base claim plus values derived from its detail and hand-authored work-item extras. */
+export type AssignedClaim = Claim & {
+  /** Amount to pay (EUR, cents), derived from the claim detail; null = cannot be calculated. */
+  payable: number | null
+  /** Extracted fields with a confidence below 70. */
+  lowConfidenceFields: number
+  /** Extracted fields without a value. */
+  missingFields: number
+  /** ISO date (YYYY-MM-DD) the claim came to this handler. */
+  assignedAt: string
+  waiting?: AssignedWaiting
+  followUp?: AssignedFollowUp
+  lastEvent?: AssignedEvent
+}
