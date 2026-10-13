@@ -13,7 +13,7 @@ const SCREENS: { name: string; hash: string; heading: string; pending?: boolean 
   { name: 'overview', hash: 'overview', heading: 'Overview' },
   { name: 'claims-queue', hash: 'claims-queue', heading: 'Claims queue' },
   { name: 'claim-detail', hash: 'claim-CLM-2026-004817', heading: 'CLM-2026-004817' },
-  { name: 'my-assigned', hash: 'my-assigned', heading: 'My assigned', pending: true },
+  { name: 'my-assigned', hash: 'my-assigned', heading: 'My assigned' },
 ]
 
 const MODES: { name: string; display: DisplayOptions }[] = [
