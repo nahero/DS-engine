@@ -67,7 +67,7 @@ The component catalogue. **Stories show states; tests check behaviour** ([decisi
   - **Patterns:** design-system composites mirrored in Figma;
   - **Layout:** the app shell;
   - **Claims:** feature components, kept for reuse in future screens.
-- **Every component has stories:** 50 components, 355 stories. CI fails if a component has none.
+- **Every component has stories:** 56 components, 415 stories. CI fails if a component has none.
 - **Every state:** default, variants, focus, disabled, invalid, loading, empty, error, long content, missing data.
 - **Toolbar switches** for theme (light/dark), brand, density and reduced motion: the same attributes the app uses.
 - **The catalogue is tested too.** Every story runs in Chromium twice, in light + comfortable and dark + compact, with axe. A violation fails the build.
@@ -76,11 +76,11 @@ The component catalogue. **Stories show states; tests check behaviour** ([decisi
 
 | Layer | Tool | What | Count |
 |---|---|---|---|
-| Unit | Vitest | Domain logic: needs-attention sort, payout and authority limit, filters, PII masking, formatting, data invariants | 73 |
-| Stories | Vitest + `@storybook/addon-vitest`, Chromium | Every story renders, axe-clean, in 2 theme/density modes | 710 |
-| Component | Vitest browser mode + `vitest-browser-react`, Chromium | Feature components and screens: bulk approve rule, filters, keyboard navigation, inline correction, senior approval, refer, citations, PII reveal, period select; axe in 2 modes | 374 |
-| End-to-end | Playwright | Built app: the claim review journey, routing and focus, keyboard-only path, axe on every screen × light/dark × desktop/mobile, no sideways scroll on mobile | 65 |
-| Visual | Playwright `toHaveScreenshot` | 3 screens × 2 modes, Linux baselines from CI | 6 |
+| Unit | Vitest | Domain logic: needs-attention sort, worklist grouping and next actions, payout and authority limit, filters, PII masking, formatting, data invariants | 139 |
+| Stories | Vitest + `@storybook/addon-vitest`, Chromium | Every story renders, axe-clean, in 2 theme/density modes | 830 |
+| Component | Vitest browser mode + `vitest-browser-react`, Chromium | Feature components and screens: bulk approve rule, filters, keyboard navigation, inline correction, senior approval, refer, citations, PII reveal, period select, worklist filters and follow-ups; axe in 2 modes | 544 |
+| End-to-end | Playwright | Built app: the claim review journey, routing and focus, keyboard-only path, axe on every screen × both brands × light/dark × desktop/mobile, no sideways scroll on mobile | 95 |
+| Visual | Playwright `toHaveScreenshot` | 4 screens × 2 modes, Linux baselines from CI | 8 |
 
 ## ✅ Quality gates (CI)
 
@@ -101,11 +101,15 @@ Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.y
 
 ## 📊 The dashboard (ClaimDesk)
 
-Three screens, built from the Figma designs with shadcn/ui on Radix and 1,000 deliberately messy mock claims (long names, missing fields, overdue SLAs).
+Four screens, built with shadcn/ui on Radix and 1,000 deliberately messy mock claims (long names, missing fields, overdue SLAs).
 
 - **[Overview](https://nahero.github.io/DS-engine/)**
   - KPIs, claims volume by line of business (Recharts, categorical chart tokens, screen-reader data table);
   - "Needs attention" list and recent agent/handler activity.
+- **[My assigned](https://nahero.github.io/DS-engine/#my-assigned)** ([decision 0013](docs/decisions/0013-worklist-by-next-action.md))
+  - One handler's caseload as a worklist, grouped by whose move it is: Act now, Ready for you, Waiting on others.
+  - Every row states the next action in words ("Verify 2 low-confidence fields", "Send for senior approval") and names the deadline (first contact, decision, payment).
+  - Four counts that filter the list, "Since you were last here", and dated follow-ups with Done and Snooze.
 - **[Claims queue](https://nahero.github.io/DS-engine/#claims-queue)**
   - Sorted by "needs attention" (overdue → agent failed → low confidence → missing data).
   - Filters shown as removable chips, sortable columns with `aria-sort`, pagination for 1,000 rows.
