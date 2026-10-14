@@ -61,12 +61,18 @@ Other relevant pages: Alert Dialog `1953:9001`, Field `1953:9016`, Input `1953:9
 | `55:61` | DS `Confidence indicator` set (page `DS components`) | `ConfidenceIndicator.tsx` |
 | `60:4629` | DS `Extracted field row` set | `ExtractedFieldRow.tsx` |
 | `59:1981` | DS `Payout breakdown` set | `PayoutBreakdown.tsx` |
-
-| `172:1667` page | v3: clone of v2 with `DS Brand` → Purple. Overview `172:1668`, Claims queue `172:1760`, Claim detail `172:1712`; brand notes `172:1976/1979/1982` | Purple brand in code (`tokens/brand.purple.json`) |
+| `177:5059` | DS `Stage indicator` set (`Step` 1–5) | `StageIndicator.tsx` |
+| `177:5114` | DS `Next action` set (`Kind`: 9 kinds; TEXT prop `Text`) | `NextAction.tsx` |
+| `177:5200` | DS `Stat filter` set (`State` Default/Hover/Pressed/Focus/Disabled × `Tone` Default/Danger/Warning; TEXT props `Count`, `Label`) | `StatFilter.tsx` |
+| `172:1667` page | v3: clone of v2 with `DS Brand` → Purple. Overview `172:1668`, Claims queue `172:1760`, Claim detail `172:1712`, My assigned `180:3301`; notes `172:1976/1979/1982`, `184:3784` | Purple brand in code (`tokens/brand.purple.json`); My assigned `src/screens/MyAssigned.tsx` |
 
 v1 (`26:50`) and v2 (`50:32`) are kept as-is to show progress; changes go to v3.
 
 v3 overrides on instance sublayers (bound to DS Semantic): active nav item `nav/active/bg` + `nav/active/fg`, nav and header icons `icon/accent`, product mark `action/primary/base`, avatar `avatar/bg` + `avatar/fg`, chart segments stroked with `chart-line/1–4`, queue policyholder bold and claimed medium (the kit has no bold mono style), claim # and LOB `fg/muted`.
+
+v3 matches the code shell: header sidebar toggle (`Icon Button` ghost, `panel-left`) and Display settings (`Icon Button` outline, `sliders-horizontal`), both `icon/accent`; sidebar counts 711 / 17 / 17; Overview "Show data table" ghost button; queue subtitle "711 awaiting review". My assigned (`180:3301`) is a clone of the queue frame using the three DS sets above; the SLA label and group headers are layout frames (no kit component).
+
+Known Figma-vs-code differences: header search is centred (code: next to the actions); Stat filter focus ring is a layer, not an effect; no tabular figures on the Stat filter count (Plugin API can't set font features); Done/Snooze buttons lack the code's negative margin.
 
 Screens 02 and 03 are clones of 01: shell = `Sidebar` + `Main` (`Header`, `Body`); screen content lives in `Body`. Modes set explicitly per frame (DS Semantic Light, DS Density Comfortable, DS Brand Default).
 
