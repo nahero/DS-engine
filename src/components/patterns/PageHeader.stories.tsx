@@ -8,7 +8,7 @@ import { PageHeader } from './PageHeader'
 const meta = {
   title: 'Patterns/PageHeader',
   component: PageHeader,
-  args: { title: 'Claims queue', subtitle: '128 claims awaiting review' },
+  args: { title: 'Claims queue', subtitle: '711 claims awaiting review' },
   parameters: {
     docs: {
       description: {

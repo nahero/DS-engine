@@ -21,7 +21,7 @@ type NavItem = { id: string; label: string; icon: typeof Inbox; count?: number; 
 
 const items: NavItem[] = [
   { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-  { id: 'queue', label: 'Claims queue', icon: Inbox, count: 128, countLabel: 'awaiting' },
+  { id: 'queue', label: 'Claims queue', icon: Inbox, count: 711, countLabel: 'awaiting' },
   { id: 'assigned', label: 'My assigned', icon: UserCheck, count: 17, countLabel: 'open' },
   { id: 'referred', label: 'Referred', icon: Forward, count: 9, countLabel: 'pending' },
 ]

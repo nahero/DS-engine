@@ -1,9 +1,10 @@
 import { currentUser } from './current-user'
+import { navCounts } from './nav-counts'
 import type { ActivityEvent, Kpi, NeedsAttentionItem, WeeklyVolume } from './types'
 
 export const kpis: Kpi[] = [
   { id: 'open', label: 'Open claims', value: '1,284', hint: { icon: 'trend-up', text: '+4.2% vs last period' } },
-  { id: 'awaiting', label: 'Awaiting review', value: '128', hint: { icon: 'queue', text: 'In queue for a handler' } },
+  { id: 'awaiting', label: 'Awaiting review', value: navCounts.queue.toLocaleString('en-US'), hint: { icon: 'queue', text: 'In queue for a handler' } },
   { id: 'time', label: 'Avg time to decision', value: '3.4 d', hint: { icon: 'target', text: 'Target 5 d · within target' } },
   { id: 'auto', label: 'Agent auto-approved', value: '61%', hint: { icon: 'percent', text: 'of claims this period' } },
   { id: 'sla', label: 'SLA breaches', value: '7', hint: { icon: 'overdue', text: 'Overdue' }, tone: 'danger' },
