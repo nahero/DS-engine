@@ -13,10 +13,7 @@ export function UserAvatar({
   className?: string
 }) {
   return (
-    <Avatar
-      className={className}
-      {...(decorative ? { 'aria-hidden': true } : { role: 'img', 'aria-label': name })}
-    >
+    <Avatar className={className} {...(decorative ? { 'aria-hidden': true } : { role: 'img', 'aria-label': name })}>
       <AvatarFallback aria-hidden="true">{initials}</AvatarFallback>
     </Avatar>
   )

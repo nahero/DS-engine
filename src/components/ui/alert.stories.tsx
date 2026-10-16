@@ -73,12 +73,14 @@ export const LongContent: Story = {
   render: (args) => (
     <Alert {...args} variant="destructive">
       <CircleAlert aria-hidden="true" />
-      <AlertTitle>Error: Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC could not be matched</AlertTitle>
+      <AlertTitle>
+        Error: Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC could not be matched
+      </AlertTitle>
       <AlertDescription>
         <p>
           The policyholder name on the submitted loss adjuster report does not match any policy in the register. Check the policy number
-          POL-MTR-2026-0048213, confirm the legal entity name with the broker, and resubmit the claim with the corrected documents attached. If the
-          policy was renewed under a different entity, link the new policy before approving any payout.
+          POL-MTR-2026-0048213, confirm the legal entity name with the broker, and resubmit the claim with the corrected documents attached.
+          If the policy was renewed under a different entity, link the new policy before approving any payout.
         </p>
       </AlertDescription>
     </Alert>

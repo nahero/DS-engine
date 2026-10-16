@@ -20,7 +20,8 @@ const SHAPES = {
   fontFamily: (v) => typeof v === 'string' || (Array.isArray(v) && v.every((s) => typeof s === 'string')),
   fontWeight: (v) => typeof v === 'number' || typeof v === 'string',
   number: (v) => typeof v === 'number',
-  shadow: (v) => (Array.isArray(v) ? v : [v]).every((s) => s && color(s.color) && ['offsetX', 'offsetY', 'blur', 'spread'].every((k) => dim(s[k]))),
+  shadow: (v) =>
+    (Array.isArray(v) ? v : [v]).every((s) => s && color(s.color) && ['offsetX', 'offsetY', 'blur', 'spread'].every((k) => dim(s[k]))),
 }
 // Expected type of a reference found at a member of a composite value.
 const MEMBER_TYPE = { color: 'color', offsetX: 'dimension', offsetY: 'dimension', blur: 'dimension', spread: 'dimension' }
@@ -28,7 +29,7 @@ const MEMBER_TYPE = { color: 'color', offsetX: 'dimension', offsetY: 'dimension'
 // Every {reference} in a value, with the type it must have (null = any, e.g. inside a font stack string).
 function refsIn(value, type, member) {
   if (typeof value === 'string') {
-    if (isRef(value)) return [{ name: value.slice(1, -1), type: member ? MEMBER_TYPE[member] ?? null : type }]
+    if (isRef(value)) return [{ name: value.slice(1, -1), type: member ? (MEMBER_TYPE[member] ?? null) : type }]
     return [...value.matchAll(REFS)].map((m) => ({ name: m[1], type: null }))
   }
   if (Array.isArray(value)) return value.flatMap((v) => refsIn(v, type, member))
@@ -72,7 +73,9 @@ export function validate(sources) {
   // Mode groups: the first file is the default mode; the others replace it in their own build block.
   // Brand names follow sd.config.js, which only builds `brand.[a-z0-9-]+.json`.
   const brand = (f) => path.basename(f).match(/^brand\.([a-z0-9-]+)\.json$/)?.[1]
-  for (const f of files) if (/^brand\./.test(path.basename(f)) && !brand(f)) fail(f, '-', 'brand file names must be brand.[a-z0-9-]+.json (sd.config.js ignores others)')
+  for (const f of files)
+    if (/^brand\./.test(path.basename(f)) && !brand(f))
+      fail(f, '-', 'brand file names must be brand.[a-z0-9-]+.json (sd.config.js ignores others)')
   const groups = [
     ['tokens/semantic.light.json', 'tokens/semantic.dark.json'],
     ['tokens/density.comfortable.json', 'tokens/density.compact.json'],
@@ -116,16 +119,27 @@ export function validate(sources) {
       for (const ref of refsIn(t.value, t.type)) {
         const err = resolve(ref.name, [k])
         if (err) fail(t.file, k, `${err} (mode ${mode})`)
-        else if (ref.type && all[ref.name].type !== ref.type) fail(t.file, k, `needs a ${ref.type} but {${ref.name}} is a ${all[ref.name].type} (mode ${mode})`)
+        else if (ref.type && all[ref.name].type !== ref.type)
+          fail(t.file, k, `needs a ${ref.type} but {${ref.name}} is a ${all[ref.name].type} (mode ${mode})`)
       }
     }
   }
-  return { problems: [...new Set(problems)], count: Object.values(flat).reduce((n, f) => n + Object.keys(f.tokens).length, 0), modes: modes.length }
+  return {
+    problems: [...new Set(problems)],
+    count: Object.values(flat).reduce((n, f) => n + Object.keys(f.tokens).length, 0),
+    modes: modes.length,
+  }
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const DIR = 'tokens'
-  const files = [...fs.readdirSync(DIR).filter((f) => f.endsWith('.json')).map((f) => path.join(DIR, f)), path.join(DIR, 'figma', 'primitive.json')]
+  const files = [
+    ...fs
+      .readdirSync(DIR)
+      .filter((f) => f.endsWith('.json'))
+      .map((f) => path.join(DIR, f)),
+    path.join(DIR, 'figma', 'primitive.json'),
+  ]
   const { problems, count, modes } = validate(Object.fromEntries(files.map((f) => [f, JSON.parse(fs.readFileSync(f, 'utf8'))])))
   if (problems.length) {
     console.error(`Token validation failed (${problems.length}):\n${problems.map((p) => `  ${p}`).join('\n')}`)

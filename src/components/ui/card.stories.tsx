@@ -99,15 +99,21 @@ export const LongContent: Story = {
   render: (args) => (
     <Card {...args}>
       <CardHeader>
-        <CardTitle as="h2" className="truncate" title="Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC">
+        <CardTitle
+          as="h2"
+          className="truncate"
+          title="Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC"
+        >
           Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC
         </CardTitle>
-        <CardDescription className="truncate">CLM-2026-004819 · Policy POL-PRP-2026-0048213 · Loss date outside policy period</CardDescription>
+        <CardDescription className="truncate">
+          CLM-2026-004819 · Policy POL-PRP-2026-0048213 · Loss date outside policy period
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <p className="text-body text-fg">
-          The adjuster report describes water damage across three floors of the warehouse. The agent flagged the loss date as outside the policy period and
-          referred the claim to underwriting for a coverage decision before any payout is approved.
+          The adjuster report describes water damage across three floors of the warehouse. The agent flagged the loss date as outside the
+          policy period and referred the claim to underwriting for a coverage decision before any payout is approved.
         </p>
       </CardContent>
     </Card>

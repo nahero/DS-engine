@@ -21,10 +21,7 @@ function describe(actor: Actor): { Icon: LucideIcon; label: string } {
 export function ActorBadge({ actor, className }: { actor: Actor; className?: string }) {
   const { Icon, label } = describe(actor)
   return (
-    <Badge
-      variant={actor.kind === 'agent' ? 'secondary' : 'outline'}
-      className={cn('max-w-full min-w-0 shrink font-semibold', className)}
-    >
+    <Badge variant={actor.kind === 'agent' ? 'secondary' : 'outline'} className={cn('max-w-full min-w-0 shrink font-semibold', className)}>
       <Icon aria-hidden="true" className="shrink-0" />
       <TruncatedText text={label} />
     </Badge>

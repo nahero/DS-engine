@@ -71,7 +71,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Radix dropdown menu. Arrow keys, Home/End and typeahead move between items; Esc closes and returns focus to the trigger. Icon-only triggers need an `aria-label`.',
+        component:
+          'Radix dropdown menu. Arrow keys, Home/End and typeahead move between items; Esc closes and returns focus to the trigger. Icon-only triggers need an `aria-label`.',
       },
     },
   },

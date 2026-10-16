@@ -119,8 +119,8 @@ export const LongLabel: Story = {
     <div className="flex max-w-xs items-start gap-2">
       <Checkbox id="cb-long" className="mt-0.5" />
       <label htmlFor="cb-long" className={labelClass}>
-        I confirm that the loss adjuster report, the repair estimate and the police report for Montgomery-Whitfield-Featherstonehaugh Property Holdings
-        have been received and reviewed
+        I confirm that the loss adjuster report, the repair estimate and the police report for Montgomery-Whitfield-Featherstonehaugh
+        Property Holdings have been received and reviewed
       </label>
     </div>
   ),

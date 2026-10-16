@@ -57,7 +57,10 @@ function ClaimsTable({
           data.map((c) => (
             <TableRow key={c.id} data-state={c.id === selectedId ? 'selected' : undefined}>
               <TableCell>
-                <a href={`#${c.id}`} className="font-mono text-fg underline-offset-4 hover:underline focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none">
+                <a
+                  href={`#${c.id}`}
+                  className="font-mono text-fg underline-offset-4 hover:underline focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none"
+                >
                   {c.id}
                 </a>
               </TableCell>
@@ -98,7 +101,13 @@ export const Default: Story = {
 }
 
 export const Sorted: Story = {
-  render: () => <ClaimsTable data={[...rows].sort((a, b) => b.claimed - a.claimed)} sortedBy="claimed" caption="Claims by claimed amount, highest first" />,
+  render: () => (
+    <ClaimsTable
+      data={[...rows].sort((a, b) => b.claimed - a.claimed)}
+      sortedBy="claimed"
+      caption="Claims by claimed amount, highest first"
+    />
+  ),
 }
 
 export const SelectedRow: Story = {
@@ -165,7 +174,12 @@ export const WithFooter: Story = {
 // Many rows: the container scrolls vertically and is itself focusable so keyboard users can scroll it.
 export const ManyRows: Story = {
   render: () => (
-    <div role="region" aria-label="All claims" tabIndex={0} className="max-h-96 overflow-y-auto focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none">
+    <div
+      role="region"
+      aria-label="All claims"
+      tabIndex={0}
+      className="max-h-96 overflow-y-auto focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none"
+    >
       <ClaimsTable data={claims.slice(0, 200)} caption={`200 of ${claims.length.toLocaleString('en-US')} claims`} />
     </div>
   ),

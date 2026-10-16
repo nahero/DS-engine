@@ -28,12 +28,26 @@ for (const name of ['spacing', 'border radii']) {
 }
 
 const rgba = (hex) => {
-  const [r, g, b, a = 255] = hex.slice(1).match(/../g).map((x) => parseInt(x, 16))
+  const [r, g, b, a = 255] = hex
+    .slice(1)
+    .match(/../g)
+    .map((x) => parseInt(x, 16))
   return { r: r / 255, g: g / 255, b: b / 255, a: a / 255 }
 }
 const alias = (v) => ({ type: 'VARIABLE_ALIAS', id: v.id })
 
-const report = { created: [], updated: 0, literals: [], orphans: [], skipped: PAYLOAD.skipped, adapted: 0, unadapted: [], adapterBefore: {}, overlays: 0, overlayBefore: {} }
+const report = {
+  created: [],
+  updated: 0,
+  literals: [],
+  orphans: [],
+  skipped: PAYLOAD.skipped,
+  adapted: 0,
+  unadapted: [],
+  adapterBefore: {},
+  overlays: 0,
+  overlayBefore: {},
+}
 // "Collection:name" → variable; seeded with what's already in Figma so a partial payload can alias it.
 const colNameById = new Map(collections.map((c) => [c.id, c.name]))
 const pushed = new Map(variables.map((v) => [`${colNameById.get(v.variableCollectionId)}:${v.name}`, v]))

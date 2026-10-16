@@ -68,7 +68,11 @@ export const WithAction: Story = {
     icon: SearchX,
     title: 'No claims match these filters',
     description: 'Try removing a filter or searching for something else.',
-    action: <Button variant="outline" size="sm" onClick={fn()}>Clear filters</Button>,
+    action: (
+      <Button variant="outline" size="sm" onClick={fn()}>
+        Clear filters
+      </Button>
+    ),
   },
   play: async ({ canvasElement }) => {
     const button = within(canvasElement).getByRole('button', { name: 'Clear filters' })
@@ -83,7 +87,11 @@ export const ErrorWithRetry: Story = {
     framed: true,
     title: 'Couldn’t load claims',
     description: 'The claims queue didn’t load. Check your connection and try again.',
-    action: <Button variant="outline" size="sm" onClick={fn()}>Retry</Button>,
+    action: (
+      <Button variant="outline" size="sm" onClick={fn()}>
+        Retry
+      </Button>
+    ),
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
@@ -98,8 +106,7 @@ export const LongContent: Story = {
   args: {
     kind: 'error',
     framed: true,
-    title:
-      'Couldn’t load claims for Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC',
+    title: 'Couldn’t load claims for Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC',
     description:
       'The claims service returned an unexpected response while loading this list. Nothing was changed. Check your connection and try again; if the problem continues, contact your administrator and quote the reference shown in the page footer so the request can be found in the logs.',
   },

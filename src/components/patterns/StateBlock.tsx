@@ -39,7 +39,10 @@ export function StateBlock({
         className,
       )}
     >
-      <Icon aria-hidden="true" className={cn('shrink-0', size === 'sm' ? 'size-5' : 'size-6', kind === 'error' ? 'text-status-danger-fg' : 'text-fg-muted')} />
+      <Icon
+        aria-hidden="true"
+        className={cn('shrink-0', size === 'sm' ? 'size-5' : 'size-6', kind === 'error' ? 'text-status-danger-fg' : 'text-fg-muted')}
+      />
       <p className="text-body font-medium text-fg">{title}</p>
       {description && <p className="max-w-prose text-caption text-fg-muted">{description}</p>}
       {action}

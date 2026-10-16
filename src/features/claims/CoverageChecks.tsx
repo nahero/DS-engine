@@ -24,7 +24,10 @@ export function CoverageChecks({ checks, className }: { checks: CoverageCheck[];
       {checks.map((check) => {
         const { Icon, label, tone } = results[check.result]
         return (
-          <li key={check.id} className="flex flex-wrap items-start justify-between gap-x-stack gap-y-1 border-b border-border py-2 last:border-b-0">
+          <li
+            key={check.id}
+            className="flex flex-wrap items-start justify-between gap-x-stack gap-y-1 border-b border-border py-2 last:border-b-0"
+          >
             <div className="flex min-w-0 flex-1 basis-56 flex-col gap-0.5">
               <span className="text-body font-medium text-fg">{check.label}</span>
               <span className="text-caption text-fg-muted">{check.detail}</span>

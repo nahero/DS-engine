@@ -12,7 +12,15 @@ const provider = byId('provider') // 74% Medium
 const diagnosis = byId('diagnosis-code') // 58% Low
 const treatmentDate = byId('treatment-date') // missing
 const iban = byId('iban')
-const agentFailed: ExtractedField = { id: 'provider', label: 'Provider', value: null, confidence: null, source: null, agentFailed: true, kind: 'text' }
+const agentFailed: ExtractedField = {
+  id: 'provider',
+  label: 'Provider',
+  value: null,
+  confidence: null,
+  source: null,
+  agentFailed: true,
+  kind: 'text',
+}
 const correction: FieldCorrection = { original: provider.value, by: 'Emily Carter', time: '14:32' }
 
 const meta = {
@@ -34,11 +42,21 @@ const meta = {
         <caption className="sr-only">Extracted fields</caption>
         <thead>
           <tr>
-            <th scope="col" className="px-2 py-1 text-left text-caption font-medium text-fg-muted">Field</th>
-            <th scope="col" className="px-2 py-1 text-left text-caption font-medium text-fg-muted">Value</th>
-            <th scope="col" className="px-2 py-1 text-right text-caption font-medium text-fg-muted">Confidence</th>
-            <th scope="col" className="px-2 py-1 text-left text-caption font-medium text-fg-muted">Source</th>
-            <th scope="col" className="px-2 py-1 text-caption font-medium text-fg-muted"><span className="sr-only">Actions</span></th>
+            <th scope="col" className="px-2 py-1 text-left text-caption font-medium text-fg-muted">
+              Field
+            </th>
+            <th scope="col" className="px-2 py-1 text-left text-caption font-medium text-fg-muted">
+              Value
+            </th>
+            <th scope="col" className="px-2 py-1 text-right text-caption font-medium text-fg-muted">
+              Confidence
+            </th>
+            <th scope="col" className="px-2 py-1 text-left text-caption font-medium text-fg-muted">
+              Source
+            </th>
+            <th scope="col" className="px-2 py-1 text-caption font-medium text-fg-muted">
+              <span className="sr-only">Actions</span>
+            </th>
           </tr>
         </thead>
         <tbody>

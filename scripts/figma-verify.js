@@ -14,7 +14,8 @@ const label = (v) => {
   const col = colName.get(v.variableCollectionId)
   return col === 'raw tailwind colors' ? v.name : `${col}:${v.name}`
 }
-const expected = (value) => (value.alias ? (value.collection ? `${value.collection}:${value.alias}` : value.alias) : value.hex ?? value.px)
+const expected = (value) =>
+  value.alias ? (value.collection ? `${value.collection}:${value.alias}` : value.alias) : (value.hex ?? value.px)
 const actual = (value, wantNumber) => {
   if (!wantNumber) return value?.type === 'VARIABLE_ALIAS' ? label(byId.get(value.id)) : JSON.stringify(value)
   let v = value

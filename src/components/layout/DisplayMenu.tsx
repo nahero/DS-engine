@@ -1,6 +1,6 @@
-import { BookOpen, SlidersHorizontal } from "lucide-react"
+import { BookOpen, SlidersHorizontal } from 'lucide-react'
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,8 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import type { Brand, Density, DisplaySettings, Theme } from "@/lib/use-display-settings"
+} from '@/components/ui/dropdown-menu'
+import type { Brand, Density, DisplaySettings, Theme } from '@/lib/use-display-settings'
 
 type DisplayMenuProps = {
   settings: DisplaySettings

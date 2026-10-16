@@ -75,8 +75,12 @@ export function ClaimHeader({
       <header aria-busy="true" className="flex flex-wrap items-start justify-between gap-stack">
         <div role="status" className="flex flex-col gap-2">
           <span className="sr-only">Loading claim</span>
-          <Skeleton aria-hidden="true" className="w-72 text-heading-md">{NBSP}</Skeleton>
-          <Skeleton aria-hidden="true" className="w-56 text-body">{NBSP}</Skeleton>
+          <Skeleton aria-hidden="true" className="w-72 text-heading-md">
+            {NBSP}
+          </Skeleton>
+          <Skeleton aria-hidden="true" className="w-56 text-body">
+            {NBSP}
+          </Skeleton>
         </div>
         <div aria-hidden="true" className="flex gap-stack">
           <Skeleton className="h-control w-28" />
@@ -141,59 +145,59 @@ export function ClaimHeader({
         }
         subtitle={`${claim.policyholder} · ${claim.lob} claim`}
         actions={
-        <div className="flex flex-col items-start gap-1 sm:items-end">
-          {isFinal ? (
-            <p className="flex items-center gap-2 text-body text-fg-muted">
-              <Lock aria-hidden="true" className="size-4 shrink-0" />
-              This claim is {status.toLowerCase()}. No further actions are available.
-            </p>
-          ) : (
-            <>
-              <div className="flex flex-wrap items-center gap-2 sm:justify-end">
-                {status !== 'Info requested' && (
-                  <Button variant="outline" onClick={onRequestInfo}>
-                    Request info
-                  </Button>
-                )}
-                <Button
-                  ref={referTrigger}
-                  variant="secondary"
-                  aria-expanded={panel === 'refer'}
-                  aria-controls={panel === 'refer' ? panelId : undefined}
-                  onClick={() => setPanel(panel === 'refer' ? null : 'refer')}
-                >
-                  Refer
-                </Button>
-                {sentForSenior ? (
-                  <Button disabled>
-                    <Send aria-hidden="true" />
-                    Sent for senior approval
-                  </Button>
-                ) : (
-                  !approved && (
-                    <Button
-                      ref={decideTrigger}
-                      disabled={cannotDecide}
-                      aria-expanded={panel === 'decide'}
-                      aria-controls={panel === 'decide' ? panelId : undefined}
-                      onClick={() => setPanel(panel === 'decide' ? null : 'decide')}
-                    >
-                      {overAuthority && <Send aria-hidden="true" />}
-                      {decideLabel}
+          <div className="flex flex-col items-start gap-1 sm:items-end">
+            {isFinal ? (
+              <p className="flex items-center gap-2 text-body text-fg-muted">
+                <Lock aria-hidden="true" className="size-4 shrink-0" />
+                This claim is {status.toLowerCase()}. No further actions are available.
+              </p>
+            ) : (
+              <>
+                <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+                  {status !== 'Info requested' && (
+                    <Button variant="outline" onClick={onRequestInfo}>
+                      Request info
                     </Button>
-                  )
+                  )}
+                  <Button
+                    ref={referTrigger}
+                    variant="secondary"
+                    aria-expanded={panel === 'refer'}
+                    aria-controls={panel === 'refer' ? panelId : undefined}
+                    onClick={() => setPanel(panel === 'refer' ? null : 'refer')}
+                  >
+                    Refer
+                  </Button>
+                  {sentForSenior ? (
+                    <Button disabled>
+                      <Send aria-hidden="true" />
+                      Sent for senior approval
+                    </Button>
+                  ) : (
+                    !approved && (
+                      <Button
+                        ref={decideTrigger}
+                        disabled={cannotDecide}
+                        aria-expanded={panel === 'decide'}
+                        aria-controls={panel === 'decide' ? panelId : undefined}
+                        onClick={() => setPanel(panel === 'decide' ? null : 'decide')}
+                      >
+                        {overAuthority && <Send aria-hidden="true" />}
+                        {decideLabel}
+                      </Button>
+                    )
+                  )}
+                </div>
+                {sentForSenior ? (
+                  <p className="text-caption text-fg-muted">Waiting for a senior handler to decide</p>
+                ) : cannotDecide ? (
+                  <p className="text-caption text-fg-muted">Can’t approve until the payout can be calculated</p>
+                ) : (
+                  overAuthority && !approved && <p className="text-caption text-fg-muted">Needs senior approval above {authority}</p>
                 )}
-              </div>
-              {sentForSenior ? (
-                <p className="text-caption text-fg-muted">Waiting for a senior handler to decide</p>
-              ) : cannotDecide ? (
-                <p className="text-caption text-fg-muted">Can’t approve until the payout can be calculated</p>
-              ) : (
-                overAuthority && !approved && <p className="text-caption text-fg-muted">Needs senior approval above {authority}</p>
-              )}
-            </>
-          )}
-        </div>
+              </>
+            )}
+          </div>
         }
       />
 

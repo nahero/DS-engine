@@ -5,15 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-import {
-  CONFIDENCE_BANDS,
-  LINES_OF_BUSINESS,
-  STATUSES,
-  UNASSIGNED,
-  activeChips,
-  emptyFilters,
-  type ClaimFilters,
-} from './queue-utils'
+import { CONFIDENCE_BANDS, LINES_OF_BUSINESS, STATUSES, UNASSIGNED, activeChips, emptyFilters, type ClaimFilters } from './queue-utils'
 
 const ALL = 'all'
 const SEARCH_DEBOUNCE_MS = 150
@@ -36,11 +28,7 @@ function FilterSelect<T extends string>({
   className?: string
 }) {
   return (
-    <Select
-      value={value ?? ''}
-      onValueChange={(v) => onChange(v === ALL ? null : (v as T))}
-      disabled={disabled}
-    >
+    <Select value={value ?? ''} onValueChange={(v) => onChange(v === ALL ? null : (v as T))} disabled={disabled}>
       <SelectTrigger aria-label={value ? `${name}: ${value}` : name} className={cn('min-w-32 flex-1 sm:w-35 sm:flex-none', className)}>
         <SelectValue placeholder={name} />
       </SelectTrigger>
@@ -127,7 +115,14 @@ export function FilterBar({
             className="pl-8"
           />
         </div>
-        <FilterSelect name="Status" allLabel="All statuses" value={filters.status} options={STATUSES} onChange={(status) => set({ status })} disabled={disabled} />
+        <FilterSelect
+          name="Status"
+          allLabel="All statuses"
+          value={filters.status}
+          options={STATUSES}
+          onChange={(status) => set({ status })}
+          disabled={disabled}
+        />
         <FilterSelect
           name="Line of business"
           allLabel="All lines"
@@ -167,7 +162,7 @@ export function FilterBar({
                 type="button"
                 aria-label={`Remove filter ${chip.label}`}
                 onClick={() => set({ [chip.key]: chip.key === 'query' ? '' : null })}
-                className="inline-flex size-6 items-center justify-center rounded-full outline-none hover:bg-subtle focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+                className="inline-flex size-6 items-center justify-center rounded-full outline-none hover:bg-subtle focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
               >
                 <X aria-hidden="true" className="size-3" />
               </button>

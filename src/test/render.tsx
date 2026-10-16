@@ -11,9 +11,7 @@ interface Options extends Omit<RenderOptions, 'wrapper'> {
 /** Renders inside the providers the app mounts (`TooltipProvider`, optionally `SidebarProvider`), in a `<main>` landmark. */
 export async function render(ui: ReactElement, { sidebar = false, ...options }: Options = {}) {
   return renderBrowser(
-    <TooltipProvider>
-      {sidebar ? <SidebarProvider>{ui}</SidebarProvider> : <main className="bg-canvas">{ui}</main>}
-    </TooltipProvider>,
+    <TooltipProvider>{sidebar ? <SidebarProvider>{ui}</SidebarProvider> : <main className="bg-canvas">{ui}</main>}</TooltipProvider>,
     options,
   )
 }

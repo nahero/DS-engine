@@ -136,7 +136,15 @@ export function MyAssigned({ state = 'default', onRetry }: { state?: MyAssignedS
               loading ? (
                 // The real control, invisible, inside the skeleton: loading has the exact final size.
                 <Skeleton key={f.id} aria-hidden="true" className="rounded-surface">
-                  <StatFilter label={f.label} count={0} pressed={false} onPressedChange={() => {}} tone={f.tone} disabled className="invisible" />
+                  <StatFilter
+                    label={f.label}
+                    count={0}
+                    pressed={false}
+                    onPressedChange={() => {}}
+                    tone={f.tone}
+                    disabled
+                    className="invisible"
+                  />
                 </Skeleton>
               ) : (
                 <StatFilter
@@ -163,7 +171,10 @@ export function MyAssigned({ state = 'default', onRetry }: { state?: MyAssignedS
           {filter && activeLabel && (
             <p className="flex items-center gap-2 text-body text-fg">
               <span>
-                Showing: <span className="font-medium tabular-nums">{activeLabel} ({visible.length})</span>
+                Showing:{' '}
+                <span className="font-medium tabular-nums">
+                  {activeLabel} ({visible.length})
+                </span>
               </span>
               <span aria-hidden="true" className="text-fg-muted">
                 ·

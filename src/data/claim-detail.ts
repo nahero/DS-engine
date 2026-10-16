@@ -1,16 +1,7 @@
 import { AUTHORITY_LIMIT } from '@/lib/claim-logic'
 import { confidenceLevel, formatDate, formatMoney } from '@/lib/format'
 import { getClaim } from './claims'
-import type {
-  AuditEvent,
-  Claim,
-  ClaimDetail,
-  ClaimDocument,
-  CoverageCheck,
-  ExtractedField,
-  LineOfBusiness,
-  Payout,
-} from './types'
+import type { AuditEvent, Claim, ClaimDetail, ClaimDocument, CoverageCheck, ExtractedField, LineOfBusiness, Payout } from './types'
 
 const SARAH_ID = 'CLM-2026-004817'
 
@@ -26,11 +17,46 @@ function sarahDetail(claim: Claim): ClaimDetail {
     policyPeriod: DEFAULT_POLICY_PERIOD,
     fields: [
       { id: 'treatment-date', label: 'Treatment date', value: null, confidence: null, source: null, kind: 'date' },
-      { id: 'diagnosis-code', label: 'Diagnosis code', value: 'S82.6', confidence: 58, source: { doc: 'Discharge', page: 1 }, kind: 'code' },
-      { id: 'provider', label: 'Provider', value: "St. Luke's Medical Center", confidence: 74, source: { doc: 'Invoice', page: 1 }, kind: 'text' },
-      { id: 'invoiced-amount', label: 'Invoiced amount', value: formatMoney(12480), confidence: 97, source: { doc: 'Invoice', page: 1 }, kind: 'money' },
-      { id: 'policyholder', label: 'Policyholder', value: 'Sarah Mitchell', confidence: 99, source: { doc: 'FNOL', page: 1 }, kind: 'text' },
-      { id: 'loss-date', label: 'Loss date', value: formatDate('2026-09-20'), confidence: 95, source: { doc: 'FNOL', page: 2 }, kind: 'date' },
+      {
+        id: 'diagnosis-code',
+        label: 'Diagnosis code',
+        value: 'S82.6',
+        confidence: 58,
+        source: { doc: 'Discharge', page: 1 },
+        kind: 'code',
+      },
+      {
+        id: 'provider',
+        label: 'Provider',
+        value: "St. Luke's Medical Center",
+        confidence: 74,
+        source: { doc: 'Invoice', page: 1 },
+        kind: 'text',
+      },
+      {
+        id: 'invoiced-amount',
+        label: 'Invoiced amount',
+        value: formatMoney(12480),
+        confidence: 97,
+        source: { doc: 'Invoice', page: 1 },
+        kind: 'money',
+      },
+      {
+        id: 'policyholder',
+        label: 'Policyholder',
+        value: 'Sarah Mitchell',
+        confidence: 99,
+        source: { doc: 'FNOL', page: 1 },
+        kind: 'text',
+      },
+      {
+        id: 'loss-date',
+        label: 'Loss date',
+        value: formatDate('2026-09-20'),
+        confidence: 95,
+        source: { doc: 'FNOL', page: 2 },
+        kind: 'date',
+      },
       // Full (fake) IBAN; the UI masks it to `HR•• •••• •••• •••• 7730` and offers Reveal.
       { id: 'iban', label: 'IBAN', value: 'HR1210010051863000160', confidence: 92, source: { doc: 'FNOL', page: 3 }, kind: 'iban' },
     ],
@@ -41,9 +67,24 @@ function sarahDetail(claim: Claim): ClaimDetail {
       { id: 'doc-receipt', name: 'Photo of receipt', type: 'Photo', pages: 1, receivedAt: '2026-09-23' },
     ],
     coverage: [
-      { id: 'in-force', label: 'Policy in force on loss date', result: 'pass', detail: 'Loss date 20 Sep 2026 is within 01 Jan 2026 – 31 Dec 2026.' },
-      { id: 'covered', label: 'Loss type covered (Health inpatient)', result: 'pass', detail: 'Inpatient treatment is covered under this policy.' },
-      { id: 'limit', label: 'Within policy limit €50,000', result: 'pass', detail: `Claimed ${formatMoney(12480)} is below the policy limit of ${formatMoney(50000)}.` },
+      {
+        id: 'in-force',
+        label: 'Policy in force on loss date',
+        result: 'pass',
+        detail: 'Loss date 20 Sep 2026 is within 01 Jan 2026 – 31 Dec 2026.',
+      },
+      {
+        id: 'covered',
+        label: 'Loss type covered (Health inpatient)',
+        result: 'pass',
+        detail: 'Inpatient treatment is covered under this policy.',
+      },
+      {
+        id: 'limit',
+        label: 'Within policy limit €50,000',
+        result: 'pass',
+        detail: `Claimed ${formatMoney(12480)} is below the policy limit of ${formatMoney(50000)}.`,
+      },
       { id: 'treatment-date', label: 'Treatment date present', result: 'unknown', detail: 'Awaiting document' },
     ],
     payout: { claimed: 12480, deductible: 500, limit: 50000 },
@@ -59,8 +100,20 @@ function sarahDetail(claim: Claim): ClaimDetail {
     audit: [
       { id: 'ev-5', at: '2026-09-23T14:32:00', actor: { kind: 'person', name: 'Emily Carter' }, event: 'Started review' },
       { id: 'ev-4', at: '2026-09-22T09:16:00', actor: { kind: 'system' }, event: 'Assigned to Emily Carter' },
-      { id: 'ev-3', at: '2026-09-22T09:15:00', actor: { kind: 'agent' }, event: 'Flagged “Above authority limit”', detail: `Payable ${formatMoney(11980)} exceeds ${formatMoney(AUTHORITY_LIMIT)}` },
-      { id: 'ev-2', at: '2026-09-22T09:14:00', actor: { kind: 'agent' }, event: 'Extracted 7 fields from 4 documents', detail: 'Treatment date not found' },
+      {
+        id: 'ev-3',
+        at: '2026-09-22T09:15:00',
+        actor: { kind: 'agent' },
+        event: 'Flagged “Above authority limit”',
+        detail: `Payable ${formatMoney(11980)} exceeds ${formatMoney(AUTHORITY_LIMIT)}`,
+      },
+      {
+        id: 'ev-2',
+        at: '2026-09-22T09:14:00',
+        actor: { kind: 'agent' },
+        event: 'Extracted 7 fields from 4 documents',
+        detail: 'Treatment date not found',
+      },
       { id: 'ev-1', at: '2026-09-22T09:12:00', actor: { kind: 'policyholder' }, event: 'Submitted FNOL form', detail: '3 pages' },
     ],
   }
@@ -141,27 +194,97 @@ function buildFields(claim: Claim, n: number, docs: ClaimDocument[]): ExtractedF
     switch (claim.lob) {
       case 'Motor':
         return [
-          { id: 'vehicle', label: 'Vehicle registration', value: `ZG ${1000 + (n % 9000)}-${'ABCDEFGHJK'[n % 10]}${'LMNPRSTUVZ'[n % 10]}`, kind: 'code' as const, doc: 'FNOL', page: 1 },
-          { id: 'garage', label: 'Repair garage', value: GARAGES[n % GARAGES.length], kind: 'text' as const, doc: supporting.type, page: 1 },
-          { id: 'amount', label: 'Repair estimate', value: formatMoney(claim.claimed), kind: 'money' as const, doc: supporting.type, page: supporting.pages },
+          {
+            id: 'vehicle',
+            label: 'Vehicle registration',
+            value: `ZG ${1000 + (n % 9000)}-${'ABCDEFGHJK'[n % 10]}${'LMNPRSTUVZ'[n % 10]}`,
+            kind: 'code' as const,
+            doc: 'FNOL',
+            page: 1,
+          },
+          {
+            id: 'garage',
+            label: 'Repair garage',
+            value: GARAGES[n % GARAGES.length],
+            kind: 'text' as const,
+            doc: supporting.type,
+            page: 1,
+          },
+          {
+            id: 'amount',
+            label: 'Repair estimate',
+            value: formatMoney(claim.claimed),
+            kind: 'money' as const,
+            doc: supporting.type,
+            page: supporting.pages,
+          },
         ]
       case 'Property':
         return [
-          { id: 'address', label: 'Property address', value: `${1 + (n % 90)} ${STREETS[n % STREETS.length]}`, kind: 'text' as const, doc: 'FNOL', page: 1 },
+          {
+            id: 'address',
+            label: 'Property address',
+            value: `${1 + (n % 90)} ${STREETS[n % STREETS.length]}`,
+            kind: 'text' as const,
+            doc: 'FNOL',
+            page: 1,
+          },
           { id: 'cause', label: 'Cause of loss', value: CAUSES[n % CAUSES.length], kind: 'text' as const, doc: 'FNOL', page: 2 },
-          { id: 'amount', label: 'Estimated damage', value: formatMoney(claim.claimed), kind: 'money' as const, doc: supporting.type, page: supporting.pages },
+          {
+            id: 'amount',
+            label: 'Estimated damage',
+            value: formatMoney(claim.claimed),
+            kind: 'money' as const,
+            doc: supporting.type,
+            page: supporting.pages,
+          },
         ]
       case 'Health':
         return [
-          { id: 'diagnosis', label: 'Diagnosis code', value: DIAGNOSES[n % DIAGNOSES.length], kind: 'code' as const, doc: supporting.type, page: 1 },
-          { id: 'provider', label: 'Provider', value: PROVIDERS[n % PROVIDERS.length], kind: 'text' as const, doc: supporting.type, page: 1 },
-          { id: 'amount', label: 'Invoiced amount', value: formatMoney(claim.claimed), kind: 'money' as const, doc: supporting.type, page: 1 },
+          {
+            id: 'diagnosis',
+            label: 'Diagnosis code',
+            value: DIAGNOSES[n % DIAGNOSES.length],
+            kind: 'code' as const,
+            doc: supporting.type,
+            page: 1,
+          },
+          {
+            id: 'provider',
+            label: 'Provider',
+            value: PROVIDERS[n % PROVIDERS.length],
+            kind: 'text' as const,
+            doc: supporting.type,
+            page: 1,
+          },
+          {
+            id: 'amount',
+            label: 'Invoiced amount',
+            value: formatMoney(claim.claimed),
+            kind: 'money' as const,
+            doc: supporting.type,
+            page: 1,
+          },
         ]
       case 'Travel':
         return [
-          { id: 'destination', label: 'Destination', value: DESTINATIONS[n % DESTINATIONS.length], kind: 'text' as const, doc: supporting.type, page: 1 },
+          {
+            id: 'destination',
+            label: 'Destination',
+            value: DESTINATIONS[n % DESTINATIONS.length],
+            kind: 'text' as const,
+            doc: supporting.type,
+            page: 1,
+          },
           { id: 'incident', label: 'Incident type', value: INCIDENTS[n % INCIDENTS.length], kind: 'text' as const, doc: 'FNOL', page: 2 },
-          { id: 'amount', label: 'Claimed amount', value: formatMoney(claim.claimed), kind: 'money' as const, doc: supporting.type, page: supporting.pages },
+          {
+            id: 'amount',
+            label: 'Claimed amount',
+            value: formatMoney(claim.claimed),
+            kind: 'money' as const,
+            doc: supporting.type,
+            page: supporting.pages,
+          },
         ]
     }
   })()
@@ -195,7 +318,7 @@ function buildFields(claim: Claim, n: number, docs: ClaimDocument[]): ExtractedF
   })
 
   // Missing and low-confidence fields first, then ascending confidence.
-  const key = (f: ExtractedField) => (f.value === null ? -1 : f.confidence ?? 101)
+  const key = (f: ExtractedField) => (f.value === null ? -1 : (f.confidence ?? 101))
   return fields.sort((a, b) => key(a) - key(b))
 }
 
@@ -221,7 +344,12 @@ function buildCoverage(claim: Claim, period: { start: string; end: string }): Co
         ? `Loss date ${formatDate(claim.lossDate)} is before the policy period ${formatDate(period.start)} – ${formatDate(period.end)}.`
         : `Loss date ${formatDate(claim.lossDate)} is within ${formatDate(period.start)} – ${formatDate(period.end)}.`,
     },
-    { id: 'covered', label: `Loss type covered (${LOSS_TYPE[claim.lob]})`, result: 'pass', detail: `${LOSS_TYPE[claim.lob]} is covered under this policy.` },
+    {
+      id: 'covered',
+      label: `Loss type covered (${LOSS_TYPE[claim.lob]})`,
+      result: 'pass',
+      detail: `${LOSS_TYPE[claim.lob]} is covered under this policy.`,
+    },
     {
       id: 'limit',
       label: `Within policy limit ${formatMoney(limit)}`,
@@ -247,7 +375,8 @@ function buildCoverage(claim: Claim, period: { start: string; end: string }): Co
       id: 'duplicate',
       label: 'No duplicate claim found',
       result: claim.flag === 'Duplicate suspected' ? 'flag' : 'pass',
-      detail: claim.flag === 'Duplicate suspected' ? 'A similar claim exists for the same policy and loss date.' : 'No matching claim found.',
+      detail:
+        claim.flag === 'Duplicate suspected' ? 'A similar claim exists for the same policy and loss date.' : 'No matching claim found.',
     },
   ]
   return checks
@@ -297,9 +426,13 @@ function buildAudit(claim: Claim, n: number, fieldCount: number, payable: number
   const base = 8 * 60 + (n % 90)
   const events: Omit<AuditEvent, 'id'>[] = [
     { at: at(claim.reportedDate, base), actor: { kind: 'policyholder' }, event: 'Submitted FNOL form', detail: '3 pages' },
-    { at: at(claim.reportedDate, base + 2), actor: { kind: 'agent' }, ...(claim.flag === 'Agent failed'
-      ? { event: 'Failed to extract fields', detail: 'Manual review required' }
-      : { event: `Extracted ${fieldCount} fields from FNOL` }) },
+    {
+      at: at(claim.reportedDate, base + 2),
+      actor: { kind: 'agent' },
+      ...(claim.flag === 'Agent failed'
+        ? { event: 'Failed to extract fields', detail: 'Manual review required' }
+        : { event: `Extracted ${fieldCount} fields from FNOL` }),
+    },
   ]
   if (claim.flag && claim.flag !== 'Agent failed') {
     events.push({ at: at(claim.reportedDate, base + 3), actor: { kind: 'agent' }, event: `Flagged “${claim.flag}”` })
@@ -334,9 +467,7 @@ function buildAudit(claim: Claim, n: number, fieldCount: number, payable: number
     }
   }
   // Newest first.
-  return events
-    .map((e, i) => ({ ...e, id: `ev-${i + 1}` }))
-    .reverse()
+  return events.map((e, i) => ({ ...e, id: `ev-${i + 1}` })).reverse()
 }
 
 function genericDetail(claim: Claim): ClaimDetail {

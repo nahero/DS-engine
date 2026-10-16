@@ -167,7 +167,10 @@ export function nextAction(claim: AssignedClaim, today: string): NextActionResul
       return { kind: 'review-new-info', text: `Review new document: ${claim.waiting?.what ?? event.text}` }
     }
     if (event.kind === 'policyholder-replied') {
-      return { kind: 'review-new-info', text: claim.waiting ? `Review policyholder reply: ${claim.waiting.what}` : 'Review policyholder reply' }
+      return {
+        kind: 'review-new-info',
+        text: claim.waiting ? `Review policyholder reply: ${claim.waiting.what}` : 'Review policyholder reply',
+      }
     }
   }
 
@@ -238,7 +241,16 @@ export function compareWorklist(a: AssignedClaim, b: AssignedClaim): number {
 
 /** Header and strip numbers for a caseload. */
 export function summarise(claims: readonly AssignedClaim[], today: string): WorklistSummary {
-  const summary: WorklistSummary = { open: claims.length, overdue: 0, dueToday: 0, ready: 0, waiting: 0, actNow: 0, openAmount: 0, oldestDays: 0 }
+  const summary: WorklistSummary = {
+    open: claims.length,
+    overdue: 0,
+    dueToday: 0,
+    ready: 0,
+    waiting: 0,
+    actNow: 0,
+    openAmount: 0,
+    oldestDays: 0,
+  }
   let cents = 0
   for (const c of claims) {
     if (c.slaDays !== null && c.slaDays < 0) summary.overdue++

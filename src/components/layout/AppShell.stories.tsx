@@ -13,7 +13,7 @@ const Placeholder = () => (
       {['Awaiting review', 'Assigned to me', 'Referred'].map((label) => (
         <div key={label} className="flex flex-col gap-1 rounded-surface border border-border bg-surface p-inset">
           <span className="text-caption text-fg-muted">{label}</span>
-          <span className="text-heading-md font-semibold tabular-nums text-fg">--</span>
+          <span className="text-heading-md font-semibold text-fg tabular-nums">--</span>
         </div>
       ))}
     </div>

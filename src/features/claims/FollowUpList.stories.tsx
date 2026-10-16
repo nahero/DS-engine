@@ -50,7 +50,11 @@ export const LongContent: Story = {
       {
         ...assignedClaims[0],
         policyholder: 'Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC',
-        followUp: { id: 'fu-long', due: '2026-09-20', note: 'Chase the signed statement of loss and the itemised repair invoice for every affected unit' },
+        followUp: {
+          id: 'fu-long',
+          due: '2026-09-20',
+          note: 'Chase the signed statement of loss and the itemised repair invoice for every affected unit',
+        },
       },
       ...assignedClaims.slice(1),
     ],

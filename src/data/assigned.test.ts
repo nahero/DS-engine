@@ -49,10 +49,16 @@ describe('assignedClaims', () => {
     expect(count((c) => c.slaDays !== null && c.slaDays < 0)).toBeGreaterThanOrEqual(2)
     expect(count((c) => c.slaDays === 0)).toBeGreaterThanOrEqual(2)
     for (const status of ['New', 'In review', 'Info requested', 'Reopened', 'Approved'] as const) {
-      expect(count((c) => c.status === status), status).toBeGreaterThanOrEqual(1)
+      expect(
+        count((c) => c.status === status),
+        status,
+      ).toBeGreaterThanOrEqual(1)
     }
     for (const flag of ['Above authority limit', 'Awaiting document', 'Duplicate suspected', 'Loss date outside policy period'] as const) {
-      expect(count((c) => c.flag === flag), flag).toBeGreaterThanOrEqual(1)
+      expect(
+        count((c) => c.flag === flag),
+        flag,
+      ).toBeGreaterThanOrEqual(1)
     }
     expect(count((c) => c.policyholder.length > 35)).toBeGreaterThanOrEqual(1)
     expect(count((c) => c.flag === 'Agent failed')).toBe(1)

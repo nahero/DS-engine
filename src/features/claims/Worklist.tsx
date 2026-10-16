@@ -63,7 +63,10 @@ function WorklistRow({ claim, today }: { claim: AssignedClaim; today: string }) 
             href={routes.claim(claim.id)}
             data-worklist-row=""
             aria-label={rowName(claim, action.text)}
-            className={cn(rowClass, 'text-body outline-none hover:bg-subtle focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-ring')}
+            className={cn(
+              rowClass,
+              'text-body outline-none hover:bg-subtle focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-inset',
+            )}
           >
             <span className={gridClass}>
               <span className={cellClass.who}>
@@ -99,7 +102,11 @@ function WorklistRow({ claim, today }: { claim: AssignedClaim; today: string }) 
                 <NextAction {...action} wrap />
               </span>
               <span className={cellClass.deadline}>
-                <SlaIndicator days={claim.slaDays} label={deadlineLabel(claim).replace(/ d$/, NBSP_D)} className="items-start whitespace-normal" />
+                <SlaIndicator
+                  days={claim.slaDays}
+                  label={deadlineLabel(claim).replace(/ d$/, NBSP_D)}
+                  className="items-start whitespace-normal"
+                />
               </span>
               <span className={cellClass.stage}>
                 <StageIndicator {...stageOf(claim)} />
@@ -324,7 +331,10 @@ export function Worklist({
                     onClick={() => setManual(!waitingOpen)}
                     className="-ml-1 flex items-center gap-1 rounded-control px-1 outline-none hover:bg-subtle focus-visible:ring-3 focus-visible:ring-ring"
                   >
-                    <ChevronRight aria-hidden="true" className={cn('size-4 shrink-0 text-fg-muted transition-transform', waitingOpen && 'rotate-90')} />
+                    <ChevronRight
+                      aria-hidden="true"
+                      className={cn('size-4 shrink-0 text-fg-muted transition-transform', waitingOpen && 'rotate-90')}
+                    />
                     {title} · {count}
                   </button>
                 </h2>

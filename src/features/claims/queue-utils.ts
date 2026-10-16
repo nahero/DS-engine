@@ -78,4 +78,3 @@ export function sortLabel(sorting: SortingState): string {
   const active = sorting[0]
   return active ? `${SORT_LABELS[active.id] ?? active.id} (${active.desc ? 'descending' : 'ascending'})` : 'Needs attention'
 }
-

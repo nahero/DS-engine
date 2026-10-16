@@ -21,6 +21,9 @@ function run(label, cmd, args) {
   if (r.status !== 0) failures.push(`${label} failed:\n${(r.stdout + r.stderr).trim().slice(-3000)}`)
 }
 
+// Format first, so lint and the next edit see the final text. Files in .prettierignore are skipped.
+run('Format', bin('prettier'), ['--write', '--ignore-unknown', '--log-level', 'warn', rel])
+
 if (/\.(ts|tsx|js|mjs)$/.test(rel) && !rel.startsWith('.claude/')) {
   run('Lint', bin('oxlint'), ['--deny-warnings', '--report-unused-disable-directives', rel])
   run('Typecheck', bin('tsc'), ['-b'])

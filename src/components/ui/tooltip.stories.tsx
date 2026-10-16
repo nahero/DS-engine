@@ -108,7 +108,8 @@ export const LongContent: Story = {
         <Button variant="outline">Policyholder</Button>
       </TooltipTrigger>
       <TooltipContent className="max-w-64">
-        Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC, policy POL-PRP-2026-0048213, renewed 01 Jan 2026.
+        Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC, policy POL-PRP-2026-0048213,
+        renewed 01 Jan 2026.
       </TooltipContent>
     </Tooltip>
   ),

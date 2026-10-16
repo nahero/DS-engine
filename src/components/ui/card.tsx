@@ -1,26 +1,23 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from 'react'
+import { cn } from '@/lib/utils'
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="card"
-      className={cn(
-        "flex flex-col gap-stack rounded-surface border bg-card py-inset text-card-foreground",
-        className
-      )}
+      className={cn('flex flex-col gap-stack rounded-surface border bg-card py-inset text-card-foreground', className)}
       {...props}
     />
   )
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="card-header"
       className={cn(
-        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-0.5 px-inset has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-inset",
-        className
+        '@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-0.5 px-inset has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-inset',
+        className,
       )}
       {...props}
     />
@@ -29,70 +26,31 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
 
 function CardTitle({
   className,
-  as: Comp = "div",
+  as: Comp = 'div',
   ...props
-}: React.ComponentProps<"div"> & {
+}: React.ComponentProps<'div'> & {
   /** Element to render. Use a heading level when the card title should appear in the page outline. */
-  as?: "div" | "h2" | "h3" | "h4"
+  as?: 'div' | 'h2' | 'h3' | 'h4'
 }) {
+  return <Comp data-slot="card-title" className={cn('text-body-lg font-medium', className)} {...props} />
+}
+
+function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div data-slot="card-description" className={cn('text-caption text-muted-foreground', className)} {...props} />
+}
+
+function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <Comp
-      data-slot="card-title"
-      className={cn("text-body-lg font-medium", className)}
-      {...props}
-    />
+    <div data-slot="card-action" className={cn('col-start-2 row-span-2 row-start-1 self-start justify-self-end', className)} {...props} />
   )
 }
 
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-description"
-      className={cn("text-caption text-muted-foreground", className)}
-      {...props}
-    />
-  )
+function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div data-slot="card-content" className={cn('px-inset', className)} {...props} />
 }
 
-function CardAction({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-action"
-      className={cn(
-        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
-        className
-      )}
-      {...props}
-    />
-  )
+function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div data-slot="card-footer" className={cn('flex items-center px-inset [.border-t]:pt-inset', className)} {...props} />
 }
 
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-content"
-      className={cn("px-inset", className)}
-      {...props}
-    />
-  )
-}
-
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-footer"
-      className={cn("flex items-center px-inset [.border-t]:pt-inset", className)}
-      {...props}
-    />
-  )
-}
-
-export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardAction,
-  CardDescription,
-  CardContent,
-}
+export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent }

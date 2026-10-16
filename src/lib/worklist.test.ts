@@ -38,7 +38,11 @@ function claim(overrides: Partial<AssignedClaim> = {}): AssignedClaim {
   }
 }
 
-const waiting = (on: 'policyholder' | 'provider' | 'senior approver', since = '2026-09-26', what = 'discharge letter') => ({ on, since, what })
+const waiting = (on: 'policyholder' | 'provider' | 'senior approver', since = '2026-09-26', what = 'discharge letter') => ({
+  on,
+  since,
+  what,
+})
 const followUp = (due: string) => ({ id: 'fu-1', due, note: 'Chase' })
 const event = (kind: NonNullable<AssignedClaim['lastEvent']>['kind'], isNew = true, text = 'Something happened') => ({
   id: 'ev-1',
@@ -159,17 +163,24 @@ describe('nextAction', () => {
     expect(nextAction(claim({ payable: null }), TODAY)).toEqual({ kind: 'decide', text: 'Decide payout (amount missing)' })
   })
   it('release payment for an Approved claim, using the claimed amount when there is no payable', () => {
-    expect(nextAction(claim({ status: 'Approved', payable: 1234.5 }), TODAY)).toEqual({ kind: 'release-payment', text: 'Release payment €1,234.50' })
+    expect(nextAction(claim({ status: 'Approved', payable: 1234.5 }), TODAY)).toEqual({
+      kind: 'release-payment',
+      text: 'Release payment €1,234.50',
+    })
     expect(nextAction(claim({ status: 'Approved', payable: null, claimed: 80 }), TODAY).text).toBe('Release payment €80.00')
   })
   it('reviews a new document by name', () => {
-    expect(nextAction(claim({ status: 'Info requested', waiting: waiting('provider'), lastEvent: event('document-received') }), TODAY)).toEqual({
+    expect(
+      nextAction(claim({ status: 'Info requested', waiting: waiting('provider'), lastEvent: event('document-received') }), TODAY),
+    ).toEqual({
       kind: 'review-new-info',
       text: 'Review new document: discharge letter',
     })
   })
   it('falls back to the event text for a new document without a waiting entry', () => {
-    expect(nextAction(claim({ lastEvent: event('document-received', true, 'Photo of receipt') }), TODAY).text).toBe('Review new document: Photo of receipt')
+    expect(nextAction(claim({ lastEvent: event('document-received', true, 'Photo of receipt') }), TODAY).text).toBe(
+      'Review new document: Photo of receipt',
+    )
   })
   it('reviews a returned senior approval', () => {
     expect(nextAction(claim({ waiting: waiting('senior approver'), lastEvent: event('approval-returned') }), TODAY)).toEqual({
@@ -178,7 +189,12 @@ describe('nextAction', () => {
     })
   })
   it('reviews a policyholder reply', () => {
-    expect(nextAction(claim({ waiting: waiting('policyholder', '2026-09-26', 'signed statement'), lastEvent: event('policyholder-replied') }), TODAY)).toEqual({
+    expect(
+      nextAction(
+        claim({ waiting: waiting('policyholder', '2026-09-26', 'signed statement'), lastEvent: event('policyholder-replied') }),
+        TODAY,
+      ),
+    ).toEqual({
       kind: 'review-new-info',
       text: 'Review policyholder reply: signed statement',
     })
@@ -194,7 +210,10 @@ describe('nextAction', () => {
   describe('waiting on the policyholder or provider', () => {
     const base = { status: 'Info requested' as const, waiting: waiting('policyholder', '2026-09-26', 'police report') }
     it('chases when the follow-up is overdue', () => {
-      expect(nextAction(claim({ ...base, followUp: followUp('2026-09-28') }), TODAY)).toEqual({ kind: 'chase', text: 'Chase police report · follow-up 28 Sep' })
+      expect(nextAction(claim({ ...base, followUp: followUp('2026-09-28') }), TODAY)).toEqual({
+        kind: 'chase',
+        text: 'Chase police report · follow-up 28 Sep',
+      })
     })
     it('chases when the follow-up is today', () => {
       expect(nextAction(claim({ ...base, followUp: followUp('2026-09-29') }), TODAY).kind).toBe('chase')
@@ -206,13 +225,22 @@ describe('nextAction', () => {
       })
     })
     it('awaits without a follow-up, naming the provider', () => {
-      expect(nextAction(claim({ status: 'Info requested', waiting: waiting('provider', '2026-09-24', 'invoice') }), TODAY).text).toBe('Awaiting invoice from provider · since 5 d')
+      expect(nextAction(claim({ status: 'Info requested', waiting: waiting('provider', '2026-09-24', 'invoice') }), TODAY).text).toBe(
+        'Awaiting invoice from provider · since 5 d',
+      )
     })
     it('says "since today" for a request sent today', () => {
-      expect(nextAction(claim({ waiting: waiting('policyholder', TODAY, 'photos') }), TODAY).text).toBe('Awaiting photos from policyholder · since today')
+      expect(nextAction(claim({ waiting: waiting('policyholder', TODAY, 'photos') }), TODAY).text).toBe(
+        'Awaiting photos from policyholder · since today',
+      )
     })
     it('waits even when an Approved claim is on hold for a document', () => {
-      expect(nextAction(claim({ status: 'Approved', waiting: waiting('policyholder', '2026-09-25', 'bank letter'), followUp: followUp('2026-10-02') }), TODAY).kind).toBe('await')
+      expect(
+        nextAction(
+          claim({ status: 'Approved', waiting: waiting('policyholder', '2026-09-25', 'bank letter'), followUp: followUp('2026-10-02') }),
+          TODAY,
+        ).kind,
+      ).toBe('await')
     })
   })
   describe('waiting on a senior approver', () => {
@@ -221,7 +249,9 @@ describe('nextAction', () => {
         kind: 'await',
         text: 'Awaiting senior approval · sent 2 d ago',
       })
-      expect(nextAction(claim({ waiting: waiting('senior approver', TODAY, 'senior approval') }), TODAY).text).toBe('Awaiting senior approval · sent today')
+      expect(nextAction(claim({ waiting: waiting('senior approver', TODAY, 'senior approval') }), TODAY).text).toBe(
+        'Awaiting senior approval · sent today',
+      )
     })
     it('never chases, even with a due follow-up', () => {
       expect(nextAction(claim({ waiting: waiting('senior approver'), followUp: followUp('2026-09-20') }), TODAY).kind).toBe('await')
@@ -257,7 +287,9 @@ describe('worklistGroup', () => {
     expect(worklistGroup(claim({ lastEvent: event('sla-warning') }), TODAY)).toBe('ready')
   })
   it('a new document on a waiting claim brings it back into act-now', () => {
-    expect(worklistGroup(claim({ status: 'Info requested', waiting: waiting('provider'), lastEvent: event('document-received') }), TODAY)).toBe('act-now')
+    expect(
+      worklistGroup(claim({ status: 'Info requested', waiting: waiting('provider'), lastEvent: event('document-received') }), TODAY),
+    ).toBe('act-now')
   })
   it('ready when the next step is mine and not urgent', () => {
     expect(worklistGroup(claim(), TODAY)).toBe('ready')
@@ -310,6 +342,15 @@ describe('summarise', () => {
     expect(summarise(list, TODAY).oldestDays).toBe(14)
   })
   it('is all zero for an empty caseload', () => {
-    expect(summarise([], TODAY)).toEqual({ open: 0, overdue: 0, dueToday: 0, ready: 0, waiting: 0, actNow: 0, openAmount: 0, oldestDays: 0 })
+    expect(summarise([], TODAY)).toEqual({
+      open: 0,
+      overdue: 0,
+      dueToday: 0,
+      ready: 0,
+      waiting: 0,
+      actNow: 0,
+      openAmount: 0,
+      oldestDays: 0,
+    })
   })
 })

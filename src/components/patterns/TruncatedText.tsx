@@ -19,7 +19,10 @@ export function TruncatedText({ text, className }: { text: string; className?: s
             ref={ref}
             // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- only when truncated: keyboard users must reach the tooltip with the full value.
             tabIndex={truncated ? 0 : undefined}
-            className={cn('block truncate rounded-inner outline-none focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-ring', className)}
+            className={cn(
+              'block truncate rounded-inner outline-none focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-inset',
+              className,
+            )}
           >
             {text}
           </span>

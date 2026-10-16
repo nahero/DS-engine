@@ -16,7 +16,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Page links for a long list. The current page carries `aria-current="page"` and the outline style; Previous and Next have accessible names.',
+        component:
+          'Page links for a long list. The current page carries `aria-current="page"` and the outline style; Previous and Next have accessible names.',
       },
     },
   },

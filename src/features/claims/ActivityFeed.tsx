@@ -11,7 +11,8 @@ import { TruncatedText } from '@/components/patterns/TruncatedText'
 const SKELETON_ROWS = 6
 
 // Row layout shared by real rows and skeletons so loading has the final size.
-const rowClass = 'flex min-h-row flex-wrap items-center gap-x-stack gap-y-1 border-b border-border py-2 last:border-b-0 sm:flex-nowrap sm:py-0'
+const rowClass =
+  'flex min-h-row flex-wrap items-center gap-x-stack gap-y-1 border-b border-border py-2 last:border-b-0 sm:flex-nowrap sm:py-0'
 
 /** Latest agent and handler actions. Row height follows density; each row links to its claim. */
 export function ActivityFeed({
@@ -94,7 +95,7 @@ export function ActivityFeed({
                 />
                 <a
                   href={routes.claim(event.claimId)}
-                  className="ml-auto inline-flex min-h-6 shrink-0 items-center rounded-inner text-right sm:ml-0 font-mono text-caption text-fg-muted tabular-nums outline-none hover:text-fg hover:underline focus-visible:ring-3 focus-visible:ring-ring"
+                  className="ml-auto inline-flex min-h-6 shrink-0 items-center rounded-inner text-right font-mono text-caption text-fg-muted tabular-nums outline-none hover:text-fg hover:underline focus-visible:ring-3 focus-visible:ring-ring sm:ml-0"
                 >
                   {event.claimId}
                 </a>

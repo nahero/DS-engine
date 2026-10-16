@@ -42,6 +42,7 @@ jobs:
       - run: npm run build:tokens
       - name: Check generated tokens are up to date
         run: git diff --exit-code src/styles/tokens.css src/styles/tokens.ts
+      - run: npm run format:check
       - run: npm run lint -- --deny-warnings
       - run: npm run typecheck
       - run: npm run check:token-usage

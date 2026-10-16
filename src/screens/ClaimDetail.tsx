@@ -329,4 +329,3 @@ function ClaimDetailBody({ detail }: { detail: ClaimDetailData }) {
     </div>
   )
 }
-

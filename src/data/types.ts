@@ -1,14 +1,6 @@
 export type LineOfBusiness = 'Motor' | 'Property' | 'Health' | 'Travel'
 
-export type ClaimStatus =
-  | 'New'
-  | 'In review'
-  | 'Info requested'
-  | 'Approved'
-  | 'Denied'
-  | 'Paid'
-  | 'Closed'
-  | 'Reopened'
+export type ClaimStatus = 'New' | 'In review' | 'Info requested' | 'Approved' | 'Denied' | 'Paid' | 'Closed' | 'Reopened'
 
 export type ClaimFlag =
   | 'Referred for review'
@@ -21,11 +13,7 @@ export type ClaimFlag =
 /** Days until the SLA deadline: negative = overdue, 0 = due today, null = not applicable (paid, denied, closed). */
 export type SlaDays = number | null
 
-export type Actor =
-  | { kind: 'agent' }
-  | { kind: 'system' }
-  | { kind: 'policyholder' }
-  | { kind: 'person'; name: string }
+export type Actor = { kind: 'agent' } | { kind: 'system' } | { kind: 'policyholder' } | { kind: 'person'; name: string }
 
 export interface ClaimRef {
   id: string
@@ -164,12 +152,7 @@ export interface AssignedFollowUp {
   note: string
 }
 
-export type AssignedEventKind =
-  | 'document-received'
-  | 'approval-returned'
-  | 'policyholder-replied'
-  | 'sla-warning'
-  | 'reopened'
+export type AssignedEventKind = 'document-received' | 'approval-returned' | 'policyholder-replied' | 'sla-warning' | 'reopened'
 
 export interface AssignedEvent {
   id: string

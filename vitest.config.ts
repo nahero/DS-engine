@@ -34,6 +34,7 @@ function componentsProject(name: string, mode: 'light-comfortable' | 'dark-compa
       include: [
         'react',
         'react/jsx-dev-runtime',
+        'react/jsx-runtime',
         'react-dom',
         'react-dom/client',
         'radix-ui',
@@ -41,6 +42,7 @@ function componentsProject(name: string, mode: 'light-comfortable' | 'dark-compa
         'recharts',
         'class-variance-authority',
         'cn',
+        'cn/config',
         'axe-core',
         '@tanstack/react-table',
         'vitest-browser-react',

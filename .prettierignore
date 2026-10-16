@@ -1,0 +1,16 @@
+# Generated
+src/styles/tokens.css
+src/styles/tokens.ts
+tokens/figma/
+# Build output and reports
+dist/
+storybook-static/
+coverage/
+playwright-report/
+test-results/
+.lighthouseci/
+e2e/**/*-snapshots/
+package-lock.json
+# Docs keep their hand-written tables and line breaks
+*.md
+*.mdx

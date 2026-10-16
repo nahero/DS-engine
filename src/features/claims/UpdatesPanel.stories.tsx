@@ -71,17 +71,15 @@ export const LongContent: Story = {
 /** More than six events: six are shown, "Show all (N)" reveals the rest. */
 export const ManyEvents: Story = {
   args: {
-    claims: assignedClaims.map(
-      (c, i): AssignedClaim => ({
-        ...c,
-        lastEvent: c.lastEvent ?? {
-          id: `ev-extra-${i}`,
-          at: `2026-09-${String(20 + (i % 8)).padStart(2, '0')}T10:00:00`,
-          kind: 'document-received',
-          text: 'Document received',
-          isNew: i % 3 === 0,
-        },
-      }),
-    ),
+    claims: assignedClaims.map((c, i): AssignedClaim => ({
+      ...c,
+      lastEvent: c.lastEvent ?? {
+        id: `ev-extra-${i}`,
+        at: `2026-09-${String(20 + (i % 8)).padStart(2, '0')}T10:00:00`,
+        kind: 'document-received',
+        text: 'Document received',
+        isNew: i % 3 === 0,
+      },
+    })),
   },
 }

@@ -1,9 +1,9 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
-@import "@fontsource-variable/geist-mono";
-@import "./tokens.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+@import './tokens.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -180,8 +180,12 @@
   --ease-exit: var(--ds-motion-easing-exit);
   --default-transition-duration: var(--ds-motion-duration-fast);
   --default-transition-timing-function: var(--ds-motion-easing-standard);
-  --animate-in: enter var(--tw-animation-duration, var(--tw-duration, var(--ds-motion-duration-base))) var(--tw-ease, var(--ds-motion-easing-enter)) var(--tw-animation-delay, 0s) var(--tw-animation-iteration-count, 1) var(--tw-animation-direction, normal) var(--tw-animation-fill-mode, none);
-  --animate-out: exit var(--tw-animation-duration, var(--tw-duration, var(--ds-motion-duration-base))) var(--tw-ease, var(--ds-motion-easing-exit)) var(--tw-animation-delay, 0s) var(--tw-animation-iteration-count, 1) var(--tw-animation-direction, normal) var(--tw-animation-fill-mode, none);
+  --animate-in: enter var(--tw-animation-duration, var(--tw-duration, var(--ds-motion-duration-base)))
+    var(--tw-ease, var(--ds-motion-easing-enter)) var(--tw-animation-delay, 0s) var(--tw-animation-iteration-count, 1)
+    var(--tw-animation-direction, normal) var(--tw-animation-fill-mode, none);
+  --animate-out: exit var(--tw-animation-duration, var(--tw-duration, var(--ds-motion-duration-base)))
+    var(--tw-ease, var(--ds-motion-easing-exit)) var(--tw-animation-delay, 0s) var(--tw-animation-iteration-count, 1)
+    var(--tw-animation-direction, normal) var(--tw-animation-fill-mode, none);
 }
 
 /* Token durations (Tailwind's numeric duration-* still exists; ui-review flags it). */
@@ -206,7 +210,7 @@
     --ds-motion-duration-slow: 0s;
   }
 }
-[data-motion="reduced"] {
+[data-motion='reduced'] {
   --ds-motion-duration-fast: 0s;
   --ds-motion-duration-base: 0s;
   --ds-motion-duration-slow: 0s;

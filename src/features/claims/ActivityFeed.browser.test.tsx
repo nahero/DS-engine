@@ -29,10 +29,21 @@ describe('ActivityFeed', () => {
   })
 
   it('keeps long text reachable: truncated text carries the full value', async () => {
-    const long = 'Requested additional information from the policyholder: signed discharge letter, itemised hospital invoice and proof of payment'
+    const long =
+      'Requested additional information from the policyholder: signed discharge letter, itemised hospital invoice and proof of payment'
     const { container } = await render(
       <div className="max-w-xl">
-        <ActivityFeed events={[{ id: 'l1', time: '10:42', actor: { kind: 'person', name: 'Alexandra Montgomery-Whitfield-Featherstonehaugh' }, event: long, claimId: 'CLM-2026-004812' }]} />
+        <ActivityFeed
+          events={[
+            {
+              id: 'l1',
+              time: '10:42',
+              actor: { kind: 'person', name: 'Alexandra Montgomery-Whitfield-Featherstonehaugh' },
+              event: long,
+              claimId: 'CLM-2026-004812',
+            },
+          ]}
+        />
       </div>,
     )
     expect(container.textContent).toContain(long)

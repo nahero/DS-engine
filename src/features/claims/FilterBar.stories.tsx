@@ -8,7 +8,15 @@ import { applyFilters, emptyFilters, type ClaimFilters } from './queue-utils'
 
 const handlers = [...new Set(claims.map((c) => c.handler).filter((h): h is string => h !== null))].sort()
 
-function Harness({ initial = emptyFilters, disabled = false, withSort = false }: { initial?: ClaimFilters; disabled?: boolean; withSort?: boolean }) {
+function Harness({
+  initial = emptyFilters,
+  disabled = false,
+  withSort = false,
+}: {
+  initial?: ClaimFilters
+  disabled?: boolean
+  withSort?: boolean
+}) {
   const [filters, setFilters] = useState(initial)
   return (
     <FilterBar
@@ -64,9 +72,7 @@ export const WithFilters: Story = {
 }
 
 export const AllFilters: Story = {
-  render: () => (
-    <Harness initial={{ query: 'Smith', status: 'New', lob: 'Motor', confidence: 'High', handler: 'Emily Carter' }} withSort />
-  ),
+  render: () => <Harness initial={{ query: 'Smith', status: 'New', lob: 'Motor', confidence: 'High', handler: 'Emily Carter' }} withSort />,
   play: async ({ canvasElement }) => {
     await expect(within(canvasElement).getAllByRole('button', { name: /^Remove filter/ })).toHaveLength(5)
   },
@@ -98,7 +104,12 @@ export const SingleResult: Story = {
 
 export const LongSearch: Story = {
   render: () => (
-    <Harness initial={{ ...emptyFilters, query: 'Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC' }} />
+    <Harness
+      initial={{
+        ...emptyFilters,
+        query: 'Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC',
+      }}
+    />
   ),
 }
 

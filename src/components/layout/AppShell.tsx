@@ -1,9 +1,9 @@
-import * as React from "react"
+import * as React from 'react'
 
-import { AppHeader, type BreadcrumbEntry } from "@/components/layout/AppHeader"
-import { AppSidebar } from "@/components/layout/AppSidebar"
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
-import { useDisplaySettings, type DisplaySettings } from "@/lib/use-display-settings"
+import { AppHeader, type BreadcrumbEntry } from '@/components/layout/AppHeader'
+import { AppSidebar } from '@/components/layout/AppSidebar'
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import { useDisplaySettings, type DisplaySettings } from '@/lib/use-display-settings'
 
 type AppShellProps = {
   /** Id of the current sidebar item, see AppSidebar. */
@@ -16,24 +16,15 @@ type AppShellProps = {
 }
 
 export function AppShell({ displaySettings, ...props }: AppShellProps) {
-  return displaySettings ? (
-    <Shell displaySettings={displaySettings} {...props} />
-  ) : (
-    <ConnectedShell {...props} />
-  )
+  return displaySettings ? <Shell displaySettings={displaySettings} {...props} /> : <ConnectedShell {...props} />
 }
 
-function ConnectedShell(props: Omit<AppShellProps, "displaySettings">) {
+function ConnectedShell(props: Omit<AppShellProps, 'displaySettings'>) {
   const displaySettings = useDisplaySettings()
   return <Shell displaySettings={displaySettings} {...props} />
 }
 
-function Shell({
-  activeItem,
-  breadcrumb,
-  children,
-  displaySettings,
-}: AppShellProps & { displaySettings: DisplaySettings }) {
+function Shell({ activeItem, breadcrumb, children, displaySettings }: AppShellProps & { displaySettings: DisplaySettings }) {
   return (
     <SidebarProvider>
       <nav aria-label="Skip links">

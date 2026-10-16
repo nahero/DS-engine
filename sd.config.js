@@ -29,9 +29,7 @@ StyleDictionary.registerTransform({
 })
 
 const transforms = [
-  ...StyleDictionary.hooks.transformGroups[transformGroups.css].map((t) =>
-    t === 'size/rem' ? 'size/pxToRem' : t,
-  ),
+  ...StyleDictionary.hooks.transformGroups[transformGroups.css].map((t) => (t === 'size/rem' ? 'size/pxToRem' : t)),
   'duration/css',
 ]
 
@@ -62,16 +60,14 @@ async function buildBlock({ selector, include, source, filter }) {
   return { output: output.trim(), tokens }
 }
 
-const originalValues = (tokens) =>
-  new Map(tokens.map((t) => [t.name, JSON.stringify(t.original.$value)]))
+const originalValues = (tokens) => new Map(tokens.map((t) => [t.name, JSON.stringify(t.original.$value)]))
 
 const base = await buildBlock({
   selector: ':root',
   source: [PRIMITIVES, SEMANTIC, COMPONENT, MOTION, BRAND_DEFAULT, 'tokens/semantic.light.json', 'tokens/density.comfortable.json'],
 })
 const baseValues = originalValues(base.tokens)
-const differsFromBase = (token) =>
-  token.isSource && baseValues.get(token.name) !== JSON.stringify(token.original.$value)
+const differsFromBase = (token) => token.isSource && baseValues.get(token.name) !== JSON.stringify(token.original.$value)
 
 const dark = await buildBlock({
   selector: '.dark',
@@ -110,7 +106,9 @@ for (const t of base.tokens.filter((t) => t.path[0] === 'motion')) {
   motion[group][key] = group === 'duration' ? toSeconds(t.original.$value) : t.original.$value
 }
 // Keep easing arrays on one line.
-const motionSource = JSON.stringify(motion, null, 2).replace(/\[[^\]]*\]/g, (a) => a.replace(/\s+/g, ' ').replace('[ ', '[').replace(' ]', ']'))
+const motionSource = JSON.stringify(motion, null, 2).replace(/\[[^\]]*\]/g, (a) =>
+  a.replace(/\s+/g, ' ').replace('[ ', '[').replace(' ]', ']'),
+)
 const ts = `${header}
 
 /** Durations in seconds, easings as cubic-bezier control points (Motion format). */

@@ -91,7 +91,9 @@ for (const [mode, files] of Object.entries(MODES)) {
     const best = Math.max(ratio(fill, surface), ratio(line, surface))
     if (best < NON_TEXT) {
       failures++
-      console.error(`✗ ${mode}: chart.${n} fill (${fill}) and outline (${line}) on bg.surface (${surface}) = ${best.toFixed(2)}:1, needs ${NON_TEXT}:1`)
+      console.error(
+        `✗ ${mode}: chart.${n} fill (${fill}) and outline (${line}) on bg.surface (${surface}) = ${best.toFixed(2)}:1, needs ${NON_TEXT}:1`,
+      )
     }
   }
 }

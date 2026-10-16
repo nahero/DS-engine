@@ -20,7 +20,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'The agent\'s recommendation and the reasons behind it. Always labelled as AI-generated; the handler decides. Loading shows a skeleton at final layout size.',
+          "The agent's recommendation and the reasons behind it. Always labelled as AI-generated; the handler decides. Loading shows a skeleton at final layout size.",
       },
     },
   },

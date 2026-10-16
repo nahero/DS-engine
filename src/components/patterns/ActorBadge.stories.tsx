@@ -2,12 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { Actor } from '@/data/types'
 import { ActorBadge } from './ActorBadge'
 
-const actors: Actor[] = [
-  { kind: 'agent' },
-  { kind: 'person', name: 'Emily Carter' },
-  { kind: 'system' },
-  { kind: 'policyholder' },
-]
+const actors: Actor[] = [{ kind: 'agent' }, { kind: 'person', name: 'Emily Carter' }, { kind: 'system' }, { kind: 'policyholder' }]
 
 const meta = {
   title: 'Patterns/ActorBadge',

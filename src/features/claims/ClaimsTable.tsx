@@ -16,12 +16,7 @@ import {
 import { ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight, SearchX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-} from '@/components/ui/pagination'
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } from '@/components/ui/pagination'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -152,12 +147,7 @@ const columns: ClaimColumn[] = [
     id: 'handler',
     header: 'Handler',
     enableSorting: false,
-    cell: ({ row }) =>
-      row.original.handler ?? (
-        <span className="text-fg-muted">
-          Unassigned
-        </span>
-      ),
+    cell: ({ row }) => row.original.handler ?? <span className="text-fg-muted">Unassigned</span>,
   },
 ]
 
@@ -195,8 +185,7 @@ export function SortStatus({ sorting, onReset }: { sorting: SortingState; onRese
     <p className="flex items-center gap-2 text-body text-fg-muted">
       <ArrowUpDown aria-hidden="true" className="size-4 shrink-0" />
       <span>
-        Sort:{' '}
-        <span className="font-medium text-fg">{sortLabel(sorting)}</span>
+        Sort: <span className="font-medium text-fg">{sortLabel(sorting)}</span>
       </span>
       {active && (
         <Button variant="link" size="sm" onClick={onReset}>
@@ -385,7 +374,11 @@ export function ClaimsTable({
         aria-busy={loading || undefined}
         className="max-h-svh scroll-pt-control overflow-auto rounded-surface border bg-surface outline-none focus-visible:ring-3 focus-visible:ring-ring"
       >
-        {loading && <p role="status" className="sr-only">Loading claims</p>}
+        {loading && (
+          <p role="status" className="sr-only">
+            Loading claims
+          </p>
+        )}
         <Table containerClassName="overflow-visible" className="border-separate border-spacing-0" aria-hidden={loading || undefined}>
           <TableCaption className="sr-only">
             Claims, page {pageIndex + 1} of {pageCount}
@@ -405,11 +398,11 @@ export function ClaimsTable({
                       scope="col"
                       aria-sort={sortable ? (dir === 'asc' ? 'ascending' : dir === 'desc' ? 'descending' : 'none') : undefined}
                       className={cn(
-                          'sticky top-0 z-10 border-b border-border bg-subtle',
-                          align === 'right' && 'text-right',
-                          // Room between the 16px checkbox and the next sort button (WCAG 2.5.8 target spacing).
-                          column.id === 'select' && '[&:has([role=checkbox])]:pr-2',
-                        )}
+                        'sticky top-0 z-10 border-b border-border bg-subtle',
+                        align === 'right' && 'text-right',
+                        // Room between the 16px checkbox and the next sort button (WCAG 2.5.8 target spacing).
+                        column.id === 'select' && '[&:has([role=checkbox])]:pr-2',
+                      )}
                     >
                       {sortable ? (
                         <button
@@ -446,10 +439,14 @@ export function ClaimsTable({
               ))}
             </TableBody>
           ) : (
-            <TableBody onKeyDown={onBodyKeyDown} onFocus={(e) => {
-              const idx = (e.target as HTMLElement).closest<HTMLElement>('tr[data-row-index]')?.dataset.rowIndex
-              if (idx !== undefined) setActiveIndex(Number(idx))
-            }} className="[&_tr:last-child>td]:border-b-0">
+            <TableBody
+              onKeyDown={onBodyKeyDown}
+              onFocus={(e) => {
+                const idx = (e.target as HTMLElement).closest<HTMLElement>('tr[data-row-index]')?.dataset.rowIndex
+                if (idx !== undefined) setActiveIndex(Number(idx))
+              }}
+              className="[&_tr:last-child>td]:border-b-0"
+            >
               {rows.map((row, i) => (
                 <TableRow
                   key={row.id}
@@ -459,7 +456,7 @@ export function ClaimsTable({
                   data-row-index={i}
                   data-state={row.getIsSelected() ? 'selected' : undefined}
                   tabIndex={i === active ? 0 : -1}
-                  className="h-row border-0 outline-none focus-visible:outline-3 focus-visible:outline-solid focus-visible:-outline-offset-3"
+                  className="h-row border-0 outline-none focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-solid"
                 >
                   {row.getAllCells().map((cell) => (
                     <TableCell
@@ -534,7 +531,12 @@ export function ClaimsTable({
                   ),
                 )}
                 <PaginationItem>
-                  <Button variant="ghost" aria-label="Next page" disabled={pageIndex >= pageCount - 1} onClick={() => goToPage(pageIndex + 1)}>
+                  <Button
+                    variant="ghost"
+                    aria-label="Next page"
+                    disabled={pageIndex >= pageCount - 1}
+                    onClick={() => goToPage(pageIndex + 1)}
+                  >
                     <span className="hidden sm:inline">Next</span>
                     <ChevronRight aria-hidden="true" />
                   </Button>

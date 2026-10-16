@@ -7,7 +7,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Hairline divider. Decorative by default (hidden from assistive tech); set `decorative={false}` only when it separates regions that need announcing.',
+        component:
+          'Hairline divider. Decorative by default (hidden from assistive tech); set `decorative={false}` only when it separates regions that need announcing.',
       },
     },
   },

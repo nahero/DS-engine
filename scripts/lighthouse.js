@@ -26,11 +26,9 @@ const runs = [
 let failed = false
 for (const { name, config, args } of runs) {
   console.log(`\n== Lighthouse CI: ${name} ==`)
-  const result = spawnSync(
-    'npx',
-    ['lhci', 'autorun', `--config=${config}`, `--upload.outputDir=.lighthouseci/${name}`, ...args],
-    { stdio: 'inherit' },
-  )
+  const result = spawnSync('npx', ['lhci', 'autorun', `--config=${config}`, `--upload.outputDir=.lighthouseci/${name}`, ...args], {
+    stdio: 'inherit',
+  })
   if (result.status !== 0) failed = true
 }
 process.exit(failed ? 1 : 0)

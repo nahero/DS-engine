@@ -16,11 +16,15 @@ const git = (...args) => spawnSync('git', args, { cwd: root, encoding: 'utf8' })
 const files = (out) => out.split('\0').filter(Boolean)
 
 const base = git('merge-base', 'HEAD', 'origin/main').trim() || 'HEAD'
-const changed = [...new Set([...files(git('diff', '-z', '--name-only', base)), ...files(git('ls-files', '-z', '--others', '--exclude-standard'))])]
+const changed = [
+  ...new Set([...files(git('diff', '-z', '--name-only', base)), ...files(git('ls-files', '-z', '--others', '--exclude-standard'))]),
+]
 const deleted = files(git('diff', '-z', '--name-only', '--diff-filter=D', base))
 
 const CONFIG = /^(package(-lock)?\.json|tsconfig.*\.json|\.oxlintrc\.json|sd\.config\.js|(vite|vitest|playwright)\.config\.ts|index\.html)$/
-const relevant = changed.filter((f) => /^(src|tokens|scripts|e2e|public|\.storybook)\//.test(f) || CONFIG.test(f))
+// Repo meta (formatter, agent, CI config) triggers the fast checks, not the full test run.
+const META = /^(\.prettier|\.claude\/|\.github\/|lighthouserc|components\.json)/
+const relevant = changed.filter((f) => /^(src|tokens|scripts|e2e|public|\.storybook)\//.test(f) || CONFIG.test(f) || META.test(f))
 if (!relevant.length) process.exit(0)
 
 // Skip when nothing changed since the last green run (the hook fires on every stop, not only after edits).
@@ -54,6 +58,7 @@ const bin = (name) => path.join(root, 'node_modules', '.bin', name)
 // Own Vite cache, so a hook run never writes the same optimised deps as a test run started by hand.
 const env = { ...process.env, HARNESS: '1' }
 const steps = [
+  ['Format', bin('prettier'), ['--check', '--log-level', 'warn', '.']],
   ['Lint', bin('oxlint'), ['--deny-warnings', '--report-unused-disable-directives']],
   ['Typecheck', bin('tsc'), ['-b']],
   ['Token usage', 'node', ['scripts/check-token-usage.js']],
@@ -68,13 +73,14 @@ if (relevant.some((f) => f.startsWith('tokens/') || GENERATED.includes(f))) {
 }
 
 // Config or token changes can affect every test; otherwise only the tests that import a changed file.
-const broad = relevant.some((f) => !/^(src|e2e)\//.test(f) || GENERATED.includes(f))
+const broad = relevant.some((f) => (!/^(src|e2e)\//.test(f) && !META.test(f)) || GENERATED.includes(f))
 const projects = ['unit', 'components', 'components-dark', 'storybook', 'storybook-dark'].flatMap((p) => ['--project', p])
 const srcFiles = relevant.filter((f) => f.startsWith('src/') && fs.existsSync(path.join(root, f)))
 const report = path.join(root, 'node_modules', '.cache', 'harness-vitest.json')
 const reporter = ['--reporter=json', `--outputFile=${report}`]
 if (broad) steps.push(['Tests (all)', bin('vitest'), ['run', ...projects, ...reporter]])
-else if (srcFiles.length) steps.push(['Tests (related)', bin('vitest'), ['related', '--run', '--passWithNoTests', ...srcFiles, ...projects, ...reporter]])
+else if (srcFiles.length)
+  steps.push(['Tests (related)', bin('vitest'), ['related', '--run', '--passWithNoTests', ...srcFiles, ...projects, ...reporter]])
 
 // Failing tests as `file › test: first line of the error`, instead of a tail full of DOM dumps.
 function summariseTests() {
@@ -93,13 +99,20 @@ for (const [label, cmd, args] of steps) {
   if (fs.existsSync(report)) fs.rmSync(report)
   const before = label === 'Token build + contrast' ? GENERATED.map((f) => git('diff', 'HEAD', '--', f)).join('') : ''
   const r = spawnSync(cmd, args, { cwd: root, encoding: 'utf8', env })
-  if (r.error) block(`${label} could not run`, `${r.error.message}\nIs node_modules installed (npm ci) and Chromium (npx playwright install chromium)?`)
+  if (r.error)
+    block(
+      `${label} could not run`,
+      `${r.error.message}\nIs node_modules installed (npm ci) and Chromium (npx playwright install chromium)?`,
+    )
   if (r.status !== 0) {
     const out = (label.startsWith('Tests') && summariseTests()) || (r.stdout + r.stderr).trim().split('\n').slice(-60).join('\n')
-    block(`${label} is red for the current changes`, out)
+    block(`${label} is red for the current changes`, label === 'Format' ? `${out}\n\nRun npm run format.` : out)
   }
   if (label === 'Token build + contrast' && GENERATED.map((f) => git('diff', 'HEAD', '--', f)).join('') !== before) {
-    block('generated token files differed from a fresh build', `${GENERATED.join(', ')} were regenerated from tokens/*.json. Review the diff; never edit them by hand.`)
+    block(
+      'generated token files differed from a fresh build',
+      `${GENERATED.join(', ')} were regenerated from tokens/*.json. Review the diff; never edit them by hand.`,
+    )
   }
 }
 

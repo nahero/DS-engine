@@ -66,7 +66,11 @@ test('review a claim end to end: find, open, correct a field, send for senior ap
   await expect(page.getByText('Waiting for a senior handler to decide')).toBeVisible()
   await expect(page.getByRole('tabpanel').getByText('Sent for senior approval', { exact: true })).toBeVisible()
   await expect(
-    page.getByRole('tabpanel').getByRole('listitem').filter({ hasText: 'Sent for senior approval' }).getByText(/exceeds/),
+    page
+      .getByRole('tabpanel')
+      .getByRole('listitem')
+      .filter({ hasText: 'Sent for senior approval' })
+      .getByText(/exceeds/),
   ).toBeVisible()
 })
 

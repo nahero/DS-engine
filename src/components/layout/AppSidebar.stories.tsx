@@ -72,7 +72,11 @@ export const KeyboardFocus: Story = {
 export const Mobile: Story = {
   globals: { viewport: { value: 'mobile2', isRotated: false } },
   parameters: {
-    docs: { description: { story: 'Below 768px the sidebar is a sheet opened by the header trigger. Focus is trapped while open; Esc closes it.' } },
+    docs: {
+      description: {
+        story: 'Below 768px the sidebar is a sheet opened by the header trigger. Focus is trapped while open; Esc closes it.',
+      },
+    },
   },
   play: async ({ canvasElement }) => {
     const trigger = await within(canvasElement).findByRole('button', { name: 'Toggle sidebar' })

@@ -47,9 +47,12 @@ function routeFromHash(current: Route): Route {
 }
 
 // Start fetching the first route's chunk while the shell is still booting, instead of after its first render.
-const initialLoad = { overview: loadOverview, 'claims-queue': loadClaimsQueue, 'my-assigned': loadMyAssigned, 'claim-detail': loadClaimDetail }[
-  routeFromHash({ page: 'overview' }).page
-]
+const initialLoad = {
+  overview: loadOverview,
+  'claims-queue': loadClaimsQueue,
+  'my-assigned': loadMyAssigned,
+  'claim-detail': loadClaimDetail,
+}[routeFromHash({ page: 'overview' }).page]
 void initialLoad?.()
 
 function useRoute() {

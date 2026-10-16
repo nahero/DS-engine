@@ -106,7 +106,11 @@ describe('Overview', () => {
         await expect.element(getByRole('region', { name })).toHaveAttribute('aria-busy', 'true')
       }
       expect(container.querySelectorAll('[aria-busy="true"]').length).toBeGreaterThan(kpis.length)
-      expect(getByRole('link').elements().map((l) => l.getAttribute('href'))).not.toContain(routes.claim(needsAttention[0].id))
+      expect(
+        getByRole('link')
+          .elements()
+          .map((l) => l.getAttribute('href')),
+      ).not.toContain(routes.claim(needsAttention[0].id))
       await expectNoA11yViolations(container)
     })
 

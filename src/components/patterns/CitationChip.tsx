@@ -23,7 +23,14 @@ export function CitationChip({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Badge asChild variant="outline" className={cn('cursor-pointer font-semibold outline-none hover:bg-subtle focus-visible:ring-3 focus-visible:ring-ring', className)}>
+        <Badge
+          asChild
+          variant="outline"
+          className={cn(
+            'cursor-pointer font-semibold outline-none hover:bg-subtle focus-visible:ring-3 focus-visible:ring-ring',
+            className,
+          )}
+        >
           <button type="button" aria-label={name} onClick={() => onOpen?.(source)}>
             <FileText aria-hidden="true" />
             {label}
