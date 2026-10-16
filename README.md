@@ -181,12 +181,12 @@ src/components/ui/        shadcn primitives, restyled to tokens          (Storyb
 src/components/patterns/  design-system composites, mirrored in Figma   (Storybook: Patterns)
 src/components/layout/    app shell: sidebar, header, display menu      (Storybook: Layout)
 src/features/claims/      claims feature components + their tests       (Storybook: Claims)
-src/screens/              Overview, Claims queue, Claim detail (tested, not storied)
+src/screens/              Overview, Claims queue, Claim detail, My assigned (tested, not storied)
 src/lib/                  formatting, claim logic, routes
 src/test/                 component-test helpers (render, axe)
 e2e/                      Playwright end-to-end, accessibility and visual specs
 src/foundations/      token documentation stories
-docs/                 design-system docs, decision records, AI log
+docs/                 design-system docs, decision records, AI log; STATUS.md = current state and open work
 ```
 
 ## Run locally

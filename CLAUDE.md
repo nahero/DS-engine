@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Project context, status and decisions live in the Obsidian vault: `/Users/igor/Documents/OBSIDIAN/MinDian/Projects/DS-Engine/overview.md`. Read it at the start of a new task and update it as work lands.
+Current state, known differences and open work: `docs/STATUS.md`. Read it at the start of a new task and update it as work lands. On Igor's main machine the Obsidian vault (`/Users/igor/Documents/OBSIDIAN/MinDian/Projects/DS-Engine/`) holds the build log and private notes; keep both in step.
 
 ## Communication
 - Report only the bare minimum of what was done. No explanations of code unless asked.
