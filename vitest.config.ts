@@ -64,6 +64,9 @@ function componentsProject(name: string, mode: 'light-comfortable' | 'dark-compa
 export default mergeConfig(
   viteConfig,
   defineConfig({
+    // Agent hook runs (.claude/hooks/before-done.mjs) get their own Vite cache, so they never write the same
+    // optimised deps as a test run started by hand at the same time.
+    cacheDir: process.env.HARNESS ? 'node_modules/.vite-harness' : undefined,
     test: {
       projects: [
         {

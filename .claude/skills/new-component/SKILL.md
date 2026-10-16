@@ -8,6 +8,9 @@ description: Build or rework a UI component in DS-Engine (shadcn/Radix base, sem
 Follow in order. Stop and ask if a step reveals a decision that is the user's (API shape, a new dependency, deviating from the kit).
 Read `docs/design-system/figma.md` first for file keys, kit component names and pages; add the component there when it's done.
 
+## 0. Agree the states first (test-first)
+Before any code: list the stories (states) and the `play` checks, and for a feature component the behaviours its `*.browser.test.tsx` will cover (see the `write-stories` skill). Get the user's OK. The component is done when that list passes, not when it looks done.
+
 ## 1. Check what exists
 - Read `docs/design-system/components.md` (inventory + Figma mapping) and list `src/components/ui/`.
 - If the component or a close one exists, extend it instead of creating a new one.
@@ -45,5 +48,6 @@ Read `docs/design-system/figma.md` first for file keys, kit component names and 
 ## 7. Document and verify
 - Update `docs/design-system/components.md`: inventory row (status, stories) and the Figma → code mapping table for the component.
 - `npm run lint`, `npm run build`, `npm run build-storybook`.
-- Run the `ui-review` skill on the diff and fix findings.
+- Ask the `ui-reviewer` subagent (fresh context) to review the diff, and fix its findings.
+- The Stop hook runs lint, typecheck, coverage checks and the related tests; you are not done while it is red.
 - Log notable AI mistakes in `docs/ai-log.md`.

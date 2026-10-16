@@ -27,6 +27,10 @@ Current state, known differences and open work: `docs/STATUS.md`. Read it at the
 - **Stories document, tests test.** Every component in ui / patterns / layout / features gets stories for its states (default, focus, disabled, loading, empty, error, long content, missing data); no multi-step flows in stories. Feature components and screens get `*.browser.test.tsx` for behaviour and flows; cross-screen journeys go in `e2e/`.
 - **Accessibility:** semantic elements, full keyboard support, visible focus, labels on all inputs, status never communicated by color alone. Stories must pass addon-a11y.
 - **Data-heavy UI:** right-align numbers, tabular figures, truncate with full value available, design for 1,000 rows and missing fields.
+- **Checks decide done** (ADR 0014). Hooks in `.claude/settings.json`: editing a generated file is blocked; every code edit runs lint + typecheck (token edits: build + contrast); stopping runs lint, typecheck, coverage checks, the token build and the tests related to everything changed since `origin/main`, and blocks removed or skipped tests. Never report done while they are red, and never work around a hook (no hand-written stamp, no edits through the shell to dodge the guard).
+- **Test-first.** A new component starts with an agreed list of stories (states), `play` checks and browser-test behaviours (`write-stories` skill). It is done when that list passes.
+- **Protected tests.** Never weaken, skip or delete a test, story assertion or visual baseline to make it pass. Any change to `*.test.*`, `*.stories.tsx`, `e2e/**` or snapshots goes in its own section of the summary, with the reason.
+- **Independent review.** Before a PR is opened, the `ui-reviewer` subagent (fresh context) reviews the diff; fix or answer every finding.
 - After adding or changing a component, update `docs/design-system/components.md`.
 - Log notable AI mistakes (yours included) in `docs/ai-log.md`: what went wrong, how it was caught, fix.
 - Notable decisions get a record in `docs/decisions/` (context, decision, consequences); never edit an old one, supersede it.
@@ -38,4 +42,5 @@ Current state, known differences and open work: `docs/STATUS.md`. Read it at the
 - Figma files, collections, mode switching, kit components: `docs/design-system/figma.md` (read before Figma work, update after)
 - Patterns: `docs/design-system/patterns.md`
 - Accessibility: `docs/design-system/accessibility.md`
-- Skills: `.claude/skills/` (new-component, sync-tokens, ui-review)
+- Skills: `.claude/skills/` (new-component, write-stories, sync-tokens, ui-review, a11y-audit). Reviewer subagent: `.claude/agents/ui-reviewer.md`. Hooks: `.claude/hooks/`
+- Browser for the agent: the desktop app's built-in browser, or the Playwright MCP server in `.mcp.json` from a CLI session
