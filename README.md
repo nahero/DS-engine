@@ -91,6 +91,7 @@ Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.y
 | Token validation | DTCG files: known types, valid values, every reference resolves in every mode, mode files define the same tokens |
 | Token drift | Generated `tokens.css` / `tokens.ts` match the JSON source |
 | Contrast | 52 text and non-text colour pairs plus chart marks × 2 brands × light/dark meet WCAG AA |
+| Format | Prettier, Tailwind classes sorted |
 | Lint | oxlint with the `jsx-a11y` rules, warnings are errors; every exception is an inline comment with its reason |
 | Tokens only | No arbitrary values, colour literals or literal inline styles in components, features and screens |
 | Typecheck | `tsc -b`, strict |
@@ -171,7 +172,7 @@ Four screens, built with shadcn/ui on Radix and 1,000 deliberately messy mock cl
 
 ## Stack
 
-Vite · React 19 · TypeScript · Vitest (browser mode) + Playwright (Chromium) · axe-core · Tailwind CSS v4 · shadcn/ui (Radix) · TanStack Table · Recharts · Style Dictionary (DTCG) · Storybook 10 (a11y, themes) · Geist · oxlint · GitHub Actions → GitHub Pages · Claude Code hooks + Playwright MCP (agent harness)
+Vite · React 19 · TypeScript · Vitest (browser mode) + Playwright (Chromium) · axe-core · Tailwind CSS v4 · shadcn/ui (Radix) · TanStack Table · Recharts · Style Dictionary (DTCG) · Storybook 10 (a11y, themes) · Geist · oxlint · Prettier · GitHub Actions → GitHub Pages · Claude Code hooks + Playwright MCP (agent harness)
 
 ## Repo map
 
