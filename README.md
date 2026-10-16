@@ -195,7 +195,7 @@ docs/                 design-system docs, decision records, AI log; STATUS.md = 
 ## Run locally
 
 ```bash
-npm ci
+npm ci                 # also installs the pre-commit hook (lint-staged)
 npm run dev            # app at http://localhost:5173/DS-engine/
 npm run storybook      # Storybook at http://localhost:6006
 npm run build:tokens   # rebuild tokens + contrast check

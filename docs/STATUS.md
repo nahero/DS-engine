@@ -2,7 +2,7 @@
 
 The current state of DS-Engine: what is built, what is in sync, the known differences and the open work. Read this first when picking the project up on another machine. Update it when work lands.
 
-Last updated: 2026-10-16 · harness PR 4 in progress
+Last updated: 2026-10-16 · harness PR 5 in progress
 
 ## Built and live
 
@@ -85,12 +85,12 @@ Demo to support at the end: a component change that fails the a11y gate and pass
 
 ```bash
 git clone https://github.com/nahero/DS-engine.git && cd DS-engine
-npm ci
+npm ci                       # also installs the pre-commit hook
 npx playwright install chromium
 npm run dev
 ```
 
-- Node 22 (as in CI).
+- Node ≥ 22.22.1 (`engines`; CI uses the latest 22).
 - Visual baselines are Linux-only; locally `npm run e2e` skips them. Regenerate them with the `Update screenshots` workflow.
 - Figma: use the claude.ai Figma connector (`use_figma`). Token scripts in `scripts/` (`figma-export.js`, `figma-push.js`, `figma-verify.js`) run through it. Node ids and frames are in [figma.md](design-system/figma.md).
 - The Obsidian vault (project notes, build log) is on Igor's main machine only. This file is the portable summary.

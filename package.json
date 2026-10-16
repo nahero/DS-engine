@@ -75,6 +75,9 @@
     "vitest-browser-react": "^2.3.0"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged --concurrent false"
+    "pre-commit": "npx --no-install lint-staged --concurrent false"
+  },
+  "engines": {
+    "node": ">=22.22.1"
   }
 }
