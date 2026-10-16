@@ -15,8 +15,9 @@ Current state, known differences and open work: `docs/STATUS.md`. Read it at the
 - `npm test`: all Vitest projects. `npm run test:unit`: logic (`src/**/*.test.ts`). `npm run test:components`: feature components and screens (`*.browser.test.tsx`, Chromium, light + dark/compact, axe). `npm run test:stories`: every story in Chromium (axe), light + dark/compact
 - `npm run e2e`: Playwright against the built app: flows, routing, keyboard, axe per screen, visual regression (Linux baselines; `update-screenshots` workflow regenerates them)
 - `npm run check:stories` / `npm run check:tests`: fail if a component has no stories / a feature component or screen has no `*.browser.test.tsx`
+- `npm run check:token-usage [files]`: fail on arbitrary values, colour literals or literal inline styles in components, features and screens
 - `npm run storybook` / `npm run build-storybook`: CI builds Storybook into `dist/storybook`
-- `npm run build:tokens`: `tokens/**/*.json` → `src/styles/tokens.css` + `tokens.ts`, then WCAG contrast check (commit the result; CI fails if it drifts or contrast fails)
+- `npm run build:tokens`: DTCG validation, then `tokens/**/*.json` → `src/styles/tokens.css` + `tokens.ts`, then WCAG contrast check (commit the result; CI fails if it drifts or contrast fails)
 - Add shadcn components: `npx shadcn@latest add <name>`
 
 ## Hard rules

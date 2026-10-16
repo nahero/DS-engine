@@ -54,8 +54,9 @@ const bin = (name) => path.join(root, 'node_modules', '.bin', name)
 // Own Vite cache, so a hook run never writes the same optimised deps as a test run started by hand.
 const env = { ...process.env, HARNESS: '1' }
 const steps = [
-  ['Lint', bin('oxlint'), ['--deny-warnings']],
+  ['Lint', bin('oxlint'), ['--deny-warnings', '--report-unused-disable-directives']],
   ['Typecheck', bin('tsc'), ['-b']],
+  ['Token usage', 'node', ['scripts/check-token-usage.js']],
   ['Story coverage', 'node', ['scripts/check-stories.js']],
   ['Test coverage', 'node', ['scripts/check-tests.js']],
 ]

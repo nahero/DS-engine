@@ -1,9 +1,16 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
+  "plugins": ["react", "typescript", "oxc", "jsx-a11y"],
   "rules": {
     "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+    "react/only-export-components": ["warn", { "allowConstantExport": true }],
+    // Not in jsx-a11y's recommended set. Its swaps (role="status" → <output>, role="img" on text initials → <img>)
+    // have weaker assistive-technology support than the ARIA roles we use on purpose.
+    "jsx-a11y/prefer-tag-over-role": "off",
+    // Off in jsx-a11y's recommended set too: it can't see text rendered through components (<Code>{value}</Code>).
+    "jsx-a11y/control-has-associated-label": "off",
+    // A scrollable region must be focusable so keyboard users can scroll it (axe: scrollable-region-focusable).
+    "jsx-a11y/no-noninteractive-tabindex": ["warn", { "roles": ["tabpanel", "region"], "tags": [] }]
   },
   "overrides": [
     {

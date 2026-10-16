@@ -77,6 +77,7 @@ export const Focus: Story = {
 export const Disabled: Story = {
   render: () => (
     <Badge asChild variant="outline" className="opacity-50">
+      {/* oxlint-disable-next-line jsx-a11y/anchor-is-valid -- a link with its href removed is the disabled-link pattern. */}
       <a aria-disabled="true">Escalate</a>
     </Badge>
   ),

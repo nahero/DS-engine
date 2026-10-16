@@ -277,6 +277,7 @@ export function Worklist({
   return (
     <TooltipProvider>
       {/* Keyboard shortcuts bubble up from the row links; the container itself is not interactive. */}
+      {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions -- delegated key handler, see above. */}
       <div ref={rootRef} className="@container flex flex-col gap-inset" onKeyDown={onKeyDown}>
         {caughtUp && (
           <div className="flex items-center gap-2 rounded-surface border bg-surface px-inset py-3 text-body">
