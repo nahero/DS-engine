@@ -4,13 +4,14 @@ import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 
-const root = process.env.CLAUDE_PROJECT_DIR ?? process.cwd()
 const input = JSON.parse(fs.readFileSync(0, 'utf8') || '{}')
 const file = input.tool_input?.file_path
-if (!file) process.exit(0)
+if (!file || !fs.existsSync(file)) process.exit(0)
 
-const rel = path.relative(root, file)
-if (rel.startsWith('..') || path.isAbsolute(rel)) process.exit(0)
+// The repo that holds the file (a worktree has its own), so worktree edits are checked too.
+const root = spawnSync('git', ['rev-parse', '--show-toplevel'], { cwd: path.dirname(file), encoding: 'utf8' }).stdout.trim()
+if (!root || !fs.existsSync(path.join(root, 'node_modules'))) process.exit(0)
+const rel = path.relative(root, file).split(path.sep).join('/')
 
 const bin = (name) => path.join(root, 'node_modules', '.bin', name)
 const failures = []
