@@ -103,8 +103,7 @@ export const LongContent: Story = {
         id: 'long-2',
         at: '2026-09-24T09:05:00',
         actor: { kind: 'person', name: 'Maximilian Alexander von Hohenzollern-Sigmaringen' },
-        event:
-          'Corrected “Provider” to Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC',
+        event: 'Corrected “Provider” to Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC',
         detail:
           'Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC (agent value: St. Luke’s Medical Center, Zagreb, Republic of Croatia)',
       },

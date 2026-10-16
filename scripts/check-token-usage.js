@@ -16,11 +16,54 @@ export const SCOPE = ['src/components', 'src/features', 'src/screens']
 const SKIP = /\.test\.[jt]sx?$/
 
 const VISUAL = [
-  'bg', 'text', 'border(?:-[trblxyse])?', 'ring', 'ring-offset', 'outline', 'outline-offset', 'fill', 'stroke', 'shadow', 'drop-shadow',
-  'rounded(?:-[trblse]{1,2})?', 'p[trblxyse]?', 'm[trblxyse]?', 'gap(?:-[xy])?', 'space-[xy]', 'w', 'h', 'size', 'min-w', 'min-h',
-  'max-w', 'max-h', 'inset(?:-[xy])?', 'top', 'right', 'bottom', 'left', 'leading', 'tracking', 'font', 'opacity', 'duration', 'delay',
-  'ease', 'animate', 'blur', 'backdrop-blur', 'decoration', 'underline-offset', 'from', 'via', 'to', 'accent', 'caret',
-  'divide(?:-[xy])?', 'scroll-[mp][trblxy]?', 'basis',
+  'bg',
+  'text',
+  'border(?:-[trblxyse])?',
+  'ring',
+  'ring-offset',
+  'outline',
+  'outline-offset',
+  'fill',
+  'stroke',
+  'shadow',
+  'drop-shadow',
+  'rounded(?:-[trblse]{1,2})?',
+  'p[trblxyse]?',
+  'm[trblxyse]?',
+  'gap(?:-[xy])?',
+  'space-[xy]',
+  'w',
+  'h',
+  'size',
+  'min-w',
+  'min-h',
+  'max-w',
+  'max-h',
+  'inset(?:-[xy])?',
+  'top',
+  'right',
+  'bottom',
+  'left',
+  'leading',
+  'tracking',
+  'font',
+  'opacity',
+  'duration',
+  'delay',
+  'ease',
+  'animate',
+  'blur',
+  'backdrop-blur',
+  'decoration',
+  'underline-offset',
+  'from',
+  'via',
+  'to',
+  'accent',
+  'caret',
+  'divide(?:-[xy])?',
+  'scroll-[mp][trblxy]?',
+  'basis',
 ]
 const ARBITRARY = new RegExp(`(?<![\\w\\[])-?(?:[\\w-]+:)*(${VISUAL.join('|')})-\\[([^\\]\\s]+)\\]`, 'g')
 const ARBITRARY_PROPERTY = /(?<![\w&-])\[([a-z][a-z-]*):([^\]\s]+)\]/g
@@ -28,7 +71,8 @@ const LAYOUT_UNIT = /^-?[\d.]+(ch|dvh|svh|lvh|vh|vw|%)$/
 const HEX = /(?<=['"`[(:,]\s?)#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g
 const HEX_CSS = /#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g
 const COLOUR_FN = /\b(?:rgba?|hsla?|oklch|oklab|lab|lch|hwb)\(/g
-const NAMED = /:\s*['"`](?:red|blue|green|black|white|gray|grey|yellow|orange|purple|pink|silver|navy|teal|maroon|olive|lime|aqua|fuchsia)['"`]/
+const NAMED =
+  /:\s*['"`](?:red|blue|green|black|white|gray|grey|yellow|orange|purple|pink|silver|navy|teal|maroon|olive|lime|aqua|fuchsia)['"`]/
 const STYLE_LITERAL = [
   /:\s*-?(?:\d*\.\d+|[2-9]|\d{2,})\s*(?:,|}|$)/, // numbers other than 0 and 1 (React adds px)
   /:\s*['"`][^'"`]*\d(?:px|rem|em|ms|s)\b/, // '12px', '0.5rem', '200ms'
@@ -108,7 +152,7 @@ export function scan(source, file = 'x.tsx') {
       if (!body.includes('var(--') && (NAMED.test(body) || STYLE_LITERAL.some((r) => r.test(body)))) {
         add(i, 'literal value in inline style → use var(--token)')
       }
-      if (/\}\s*(\}|as\b)/.test(line) || /^\s*\}\s*$/.test(line) && start < 0) inStyle = false
+      if (/\}\s*(\}|as\b)/.test(line) || (/^\s*\}\s*$/.test(line) && start < 0)) inStyle = false
     }
   })
   for (const [i, used] of ignored) if (!used) hits.push({ line: i, message: 'unused token-usage-ignore-next-line' })

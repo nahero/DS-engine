@@ -42,10 +42,7 @@ export function ClaimsQueue({ state = 'default', onRetry }: { state?: ClaimsQueu
   const noClaims = view === 'empty'
   const showData = view === 'default'
 
-  const handlers = React.useMemo(
-    () => [...new Set(seedClaims.map((c) => c.handler).filter((h): h is string => h !== null))].sort(),
-    [],
-  )
+  const handlers = React.useMemo(() => [...new Set(seedClaims.map((c) => c.handler).filter((h): h is string => h !== null))].sort(), [])
   const awaitingReview = React.useMemo(() => data.filter((c) => AWAITING_REVIEW.includes(c.status)).length, [data])
   const filtered = React.useMemo(() => applyFilters(data, filters), [data, filters])
   const selected = React.useMemo(() => filtered.filter((c) => rowSelection[c.id]), [filtered, rowSelection])

@@ -30,7 +30,10 @@ test('open the first Act now claim, then browser back returns to My assigned', a
   await page.goto('#my-assigned')
   await expect(page.getByRole('heading', { level: 1, name: 'My assigned' })).toBeVisible()
 
-  const first = page.getByRole('region', { name: /^Act now/ }).getByRole('link').first()
+  const first = page
+    .getByRole('region', { name: /^Act now/ })
+    .getByRole('link')
+    .first()
   const id = (await first.getAttribute('href'))!.replace('#claim-', '')
   await first.click()
   await expect(page).toHaveURL(new RegExp(`#claim-${id}$`))

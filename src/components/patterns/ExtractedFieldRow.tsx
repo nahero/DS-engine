@@ -151,7 +151,10 @@ export function ExtractedFieldRow({
       <th
         scope="row"
         title={field.label}
-        className={cn('w-28 max-w-44 truncate px-2 py-1 text-left text-body align-middle text-fg', emphasised ? 'font-medium' : 'font-normal')}
+        className={cn(
+          'w-28 max-w-44 truncate px-2 py-1 text-left align-middle text-body text-fg',
+          emphasised ? 'font-medium' : 'font-normal',
+        )}
       >
         {field.label}
       </th>
@@ -197,7 +200,10 @@ export function ExtractedFieldRow({
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <span className={cn('max-w-80 min-w-0 truncate text-body text-fg', kindStyle, emphasised && 'font-medium')} title={shown ?? undefined}>
+            <span
+              className={cn('max-w-80 min-w-0 truncate text-body text-fg', kindStyle, emphasised && 'font-medium')}
+              title={shown ?? undefined}
+            >
               {shown}
             </span>
             {revealButton}

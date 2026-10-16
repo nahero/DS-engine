@@ -1,9 +1,9 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils"
-import { Slot } from "radix-ui"
+import * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
+import { Slot } from 'radix-ui'
 
-import { Spinner } from "@/components/ui/spinner"
+import { Spinner } from '@/components/ui/spinner'
 
 // Matches the Obra kit's "Button - Nova". Default size follows density: comfortable = kit Large (36px),
 // compact = kit Default (32px). See docs/design-system/components.md for the Figma → code mapping.
@@ -12,51 +12,48 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-action-primary-hover",
-        destructive:
-          "bg-action-danger-soft text-action-danger-soft-fg hover:bg-action-danger-soft-hover",
-        outline:
-          "border border-border bg-surface text-fg hover:bg-subtle dark:bg-transparent dark:hover:bg-subtle",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-action-secondary-hover",
-        ghost: "text-fg hover:bg-subtle",
-        link: "text-fg underline-offset-4 hover:underline",
+        default: 'bg-primary text-primary-foreground hover:bg-action-primary-hover',
+        destructive: 'bg-action-danger-soft text-action-danger-soft-fg hover:bg-action-danger-soft-hover',
+        outline: 'border border-border bg-surface text-fg hover:bg-subtle dark:bg-transparent dark:hover:bg-subtle',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-action-secondary-hover',
+        ghost: 'text-fg hover:bg-subtle',
+        link: 'text-fg underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-control px-2.5",
-        sm: "h-7 px-2.5",
+        default: 'h-control px-2.5',
+        sm: 'h-7 px-2.5',
         xs: "h-5.5 px-2 text-xs [&_svg:not([class*='size-'])]:size-3",
-        icon: "size-control",
-        "icon-sm": "size-7",
-        "icon-xs": "size-5.5 [&_svg:not([class*='size-'])]:size-3",
+        icon: 'size-control',
+        'icon-sm': 'size-7',
+        'icon-xs': "size-5.5 [&_svg:not([class*='size-'])]:size-3",
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
-  }
+  },
 )
 
 function Button({
   className,
-  variant = "default",
-  size = "default",
+  variant = 'default',
+  size = 'default',
   asChild = false,
   loading = false,
   disabled,
   children,
   ...props
-}: React.ComponentProps<"button"> &
+}: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
     /** Shows a spinner before the label and disables the button. Ignored with asChild. */
     loading?: boolean
   }) {
   const shared = {
-    "data-slot": "button",
-    "data-variant": variant,
-    "data-size": size,
+    'data-slot': 'button',
+    'data-variant': variant,
+    'data-size': size,
     className: cn(buttonVariants({ variant, size, className })),
   }
 

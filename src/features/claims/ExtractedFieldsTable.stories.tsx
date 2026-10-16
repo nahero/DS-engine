@@ -28,7 +28,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Extracted fields, missing and low-confidence first. A labelled, focusable scroll region on narrow screens. When an edit ends, focus returns to that row\'s edit button.',
+          "Extracted fields, missing and low-confidence first. A labelled, focusable scroll region on narrow screens. When an edit ends, focus returns to that row's edit button.",
       },
     },
   },
@@ -98,7 +98,11 @@ export const LongContent: Story = { args: { fields: longFields, values: initialV
 /** 60 fields: the table grows, the header row stays one line. */
 export const ManyFields: Story = {
   args: {
-    fields: Array.from({ length: 60 }, (_, i) => ({ ...fields[(i % (fields.length - 1)) + 1], id: `f-${i}`, label: `${fields[(i % (fields.length - 1)) + 1].label} ${i + 1}` })),
+    fields: Array.from({ length: 60 }, (_, i) => ({
+      ...fields[(i % (fields.length - 1)) + 1],
+      id: `f-${i}`,
+      label: `${fields[(i % (fields.length - 1)) + 1].label} ${i + 1}`,
+    })),
     values: {},
   },
   render: (args) => <ExtractedFieldsTable {...args} values={initialValues(args.fields)} />,

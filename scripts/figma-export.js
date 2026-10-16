@@ -26,7 +26,13 @@ const px = (value) => ({ value, unit: 'px' })
 const round = (n, d = 4) => Math.round(n * 10 ** d) / 10 ** d
 const hex = ({ r, g, b }, alpha = 1) =>
   '#' +
-  [r, g, b, ...(alpha < 1 ? [alpha] : [])].map((x) => Math.round(x * 255).toString(16).padStart(2, '0')).join('')
+  [r, g, b, ...(alpha < 1 ? [alpha] : [])]
+    .map((x) =>
+      Math.round(x * 255)
+        .toString(16)
+        .padStart(2, '0'),
+    )
+    .join('')
 const set = (obj, path, leaf) => {
   const keys = path.split('.')
   let node = obj
@@ -131,9 +137,15 @@ for (const v of inCol('typography').filter((v) => v.resolvedType === 'STRING' &&
 set(primitive, 'font.size.$type', 'dimension')
 set(primitive, 'font.line-height.$type', 'number')
 const styles = {
-  'heading-1': 'heading 1', 'heading-2': 'heading 2', 'heading-3': 'heading 3', 'heading-4': 'heading 4',
-  'paragraph-large': 'paragraph/large', 'paragraph-regular': 'paragraph/regular',
-  'paragraph-small': 'paragraph/small', 'paragraph-mini': 'paragraph/mini', caption: 'caption',
+  'heading-1': 'heading 1',
+  'heading-2': 'heading 2',
+  'heading-3': 'heading 3',
+  'heading-4': 'heading 4',
+  'paragraph-large': 'paragraph/large',
+  'paragraph-regular': 'paragraph/regular',
+  'paragraph-small': 'paragraph/small',
+  'paragraph-mini': 'paragraph/mini',
+  caption: 'caption',
 }
 for (const [key, prefix] of Object.entries(styles)) {
   const size = typoValue(`${prefix}/font-size`)

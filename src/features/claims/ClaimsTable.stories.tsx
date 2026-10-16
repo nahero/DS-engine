@@ -44,7 +44,15 @@ const meta = {
     onClearFilters: fn(),
     onRetry: fn(),
   },
-  render: (args) => <Harness data={args.data} state={args.state} emptyReason={args.emptyReason} onRetry={args.onRetry} onClearFilters={args.onClearFilters} />,
+  render: (args) => (
+    <Harness
+      data={args.data}
+      state={args.state}
+      emptyReason={args.emptyReason}
+      onRetry={args.onRetry}
+      onClearFilters={args.onClearFilters}
+    />
+  ),
   parameters: {
     layout: 'fullscreen',
     docs: {

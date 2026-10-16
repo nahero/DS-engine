@@ -145,7 +145,9 @@ export const SeniorApprovalConfirmationOpen: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     await userEvent.click(canvas.getByRole('button', { name: 'Send for senior approval' }))
-    await expect(canvas.getByRole('group', { name: 'Send for senior approval?' })).toHaveTextContent('Payable €11,980.00 is above your authority limit (€10,000.00)')
+    await expect(canvas.getByRole('group', { name: 'Send for senior approval?' })).toHaveTextContent(
+      'Payable €11,980.00 is above your authority limit (€10,000.00)',
+    )
   },
 }
 

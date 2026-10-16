@@ -1,21 +1,10 @@
-import * as React from "react"
-import {
-  ChartBar,
-  FileText,
-  Forward,
-  Inbox,
-  LayoutDashboard,
-  Settings,
-  Shield,
-  UserCheck,
-  Users,
-  type LucideIcon,
-} from "lucide-react"
+import * as React from 'react'
+import { ChartBar, FileText, Forward, Inbox, LayoutDashboard, Settings, Shield, UserCheck, Users, type LucideIcon } from 'lucide-react'
 
-import { UserAvatar } from "@/components/patterns/UserAvatar"
-import { currentUser } from "@/data/current-user"
-import { navCounts } from "@/data/nav-counts"
-import { routes } from "@/lib/routes"
+import { UserAvatar } from '@/components/patterns/UserAvatar'
+import { currentUser } from '@/data/current-user'
+import { navCounts } from '@/data/nav-counts'
+import { routes } from '@/lib/routes'
 import {
   Sidebar,
   SidebarContent,
@@ -28,7 +17,7 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar'
 
 type NavItem = {
   id: string
@@ -44,26 +33,33 @@ type NavGroup = { label: string; items: NavItem[] }
 
 const navGroups: NavGroup[] = [
   {
-    label: "Claims",
+    label: 'Claims',
     items: [
-      { id: "overview", href: routes.overview, label: "Overview", icon: LayoutDashboard },
-      { id: "claims-queue", href: routes.queue, label: "Claims queue", icon: Inbox, count: navCounts.queue, countLabel: "awaiting" },
-      { id: "my-assigned", href: routes.myAssigned, label: "My assigned", icon: UserCheck, count: navCounts.myAssigned, countLabel: "open" },
-      { id: "referred", href: routes.page("referred"), label: "Referred", icon: Forward, count: navCounts.referred, countLabel: "pending" },
+      { id: 'overview', href: routes.overview, label: 'Overview', icon: LayoutDashboard },
+      { id: 'claims-queue', href: routes.queue, label: 'Claims queue', icon: Inbox, count: navCounts.queue, countLabel: 'awaiting' },
+      {
+        id: 'my-assigned',
+        href: routes.myAssigned,
+        label: 'My assigned',
+        icon: UserCheck,
+        count: navCounts.myAssigned,
+        countLabel: 'open',
+      },
+      { id: 'referred', href: routes.page('referred'), label: 'Referred', icon: Forward, count: navCounts.referred, countLabel: 'pending' },
     ],
   },
   {
-    label: "Policies",
+    label: 'Policies',
     items: [
-      { id: "policies", href: routes.page("policies"), label: "Policies", icon: FileText },
-      { id: "policyholders", href: routes.page("policyholders"), label: "Policyholders", icon: Users },
+      { id: 'policies', href: routes.page('policies'), label: 'Policies', icon: FileText },
+      { id: 'policyholders', href: routes.page('policyholders'), label: 'Policyholders', icon: Users },
     ],
   },
   {
-    label: "Admin",
+    label: 'Admin',
     items: [
-      { id: "reports", href: routes.page("reports"), label: "Reports", icon: ChartBar },
-      { id: "settings", href: routes.page("settings"), label: "Settings", icon: Settings },
+      { id: 'reports', href: routes.page('reports'), label: 'Reports', icon: ChartBar },
+      { id: 'settings', href: routes.page('settings'), label: 'Settings', icon: Settings },
     ],
   },
 ]
@@ -74,7 +70,7 @@ export type AppSidebarUser = {
   initials?: string
 }
 
-type AppSidebarProps = Omit<React.ComponentProps<typeof Sidebar>, "children"> & {
+type AppSidebarProps = Omit<React.ComponentProps<typeof Sidebar>, 'children'> & {
   /** Id of the current page: `overview`, `claims-queue`, `my-assigned`, `referred`, `policies`, `policyholders`, `reports`, `settings`. */
   activeItem?: string
   user?: AppSidebarUser
@@ -82,14 +78,10 @@ type AppSidebarProps = Omit<React.ComponentProps<typeof Sidebar>, "children"> & 
 
 function initialsOf(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean)
-  return parts.length === 0 ? "?" : (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase()
+  return parts.length === 0 ? '?' : (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase()
 }
 
-export function AppSidebar({
-  activeItem,
-  user = currentUser,
-  ...props
-}: AppSidebarProps) {
+export function AppSidebar({ activeItem, user = currentUser, ...props }: AppSidebarProps) {
   return (
     <Sidebar {...props}>
       <SidebarHeader role="region" aria-label="ClaimDesk">
@@ -124,7 +116,7 @@ export function AppSidebar({
                           <SidebarMenuButton asChild isActive={isActive}>
                             <a
                               href={item.href}
-                              aria-current={isActive ? "page" : undefined}
+                              aria-current={isActive ? 'page' : undefined}
                               aria-label={hasCount ? `${item.label}, ${item.count} ${item.countLabel}` : undefined}
                             >
                               <item.icon aria-hidden="true" className="text-icon-accent" />

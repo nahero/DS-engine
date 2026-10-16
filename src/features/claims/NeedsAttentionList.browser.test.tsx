@@ -42,7 +42,9 @@ describe('NeedsAttentionList', () => {
     const long = 'Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC'
     const { getByRole } = await render(
       <div className="max-w-xs">
-        <NeedsAttentionList items={[{ id: 'CLM-2026-004819', policyholder: long, flag: 'Loss date outside policy period', slaDays: -128 }]} />
+        <NeedsAttentionList
+          items={[{ id: 'CLM-2026-004819', policyholder: long, flag: 'Loss date outside policy period', slaDays: -128 }]}
+        />
       </div>,
     )
     await userEvent.tab()
@@ -51,7 +53,9 @@ describe('NeedsAttentionList', () => {
 
   it('SLA not applicable is read as text', async () => {
     const { getByRole } = await render(
-      <NeedsAttentionList items={[{ id: 'CLM-2026-004817', policyholder: 'Sarah Mitchell', flag: 'Above authority limit', slaDays: null }]} />,
+      <NeedsAttentionList
+        items={[{ id: 'CLM-2026-004817', policyholder: 'Sarah Mitchell', flag: 'Above authority limit', slaDays: null }]}
+      />,
     )
     expect(getByRole('listitem').element().textContent).toContain('Not applicable')
   })

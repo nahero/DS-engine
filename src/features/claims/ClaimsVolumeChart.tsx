@@ -111,7 +111,8 @@ function summarise(data: WeeklyVolume[]) {
   const from = total(first)
   const to = total(last)
   const verb = to > from ? 'rose from' : to < from ? 'fell from' : 'stayed at'
-  const range = to === from ? `${fmt(from)} from ${first.week} to ${last.week}` : `${fmt(from)} in ${first.week} to ${fmt(to)} in ${last.week}`
+  const range =
+    to === from ? `${fmt(from)} from ${first.week} to ${last.week}` : `${fmt(from)} in ${first.week} to ${fmt(to)} in ${last.week}`
   return `Weekly claims ${verb} ${range}; ${largest.key} is the largest line.`
 }
 
@@ -133,7 +134,11 @@ function VolumeTooltip({
       <ul className="grid gap-1.5">
         {rows.map((p) => (
           <li key={p.dataKey} className="flex items-center gap-2">
-            <span aria-hidden="true" className="size-2.5 shrink-0 rounded-inner outline-1 outline-solid" style={{ backgroundColor: chartConfig[p.dataKey].color, outlineColor: chartLine[p.dataKey] }} />
+            <span
+              aria-hidden="true"
+              className="size-2.5 shrink-0 rounded-inner outline-1 outline-solid"
+              style={{ backgroundColor: chartConfig[p.dataKey].color, outlineColor: chartLine[p.dataKey] }}
+            />
             <span className="flex-1 text-muted-foreground">{chartConfig[p.dataKey].label}</span>
             <span className="font-medium text-foreground tabular-nums">{fmt(p.value)}</span>
           </li>
@@ -152,7 +157,11 @@ function Legend() {
     <ul aria-label="Lines of business" className="flex flex-wrap items-center gap-x-4 gap-y-1">
       {SERIES.map((key) => (
         <li key={key} className="flex items-center gap-1 text-caption text-fg-muted">
-          <span aria-hidden="true" className="size-2 shrink-0 rounded-inner outline-1 outline-solid" style={{ backgroundColor: chartConfig[key].color, outlineColor: chartLine[key] }} />
+          <span
+            aria-hidden="true"
+            className="size-2 shrink-0 rounded-inner outline-1 outline-solid"
+            style={{ backgroundColor: chartConfig[key].color, outlineColor: chartLine[key] }}
+          />
           {chartConfig[key].label}
         </li>
       ))}
@@ -186,7 +195,10 @@ export function ClaimsVolumeChart({
   const view = state === 'default' && (data.length === 0 || data.every((r) => total(r) === 0)) ? 'empty' : state
   const rows = data.map((row) => ({ ...row, total: total(row) }))
 
-  const shapes = useMemo(() => Object.fromEntries(SERIES.map((key) => [key, segmentShape(key, radius)])) as Record<LineOfBusiness, SegmentShape>, [radius])
+  const shapes = useMemo(
+    () => Object.fromEntries(SERIES.map((key) => [key, segmentShape(key, radius)])) as Record<LineOfBusiness, SegmentShape>,
+    [radius],
+  )
 
   return (
     <Card role="region" aria-labelledby={titleId} aria-busy={view === 'loading' || undefined}>
@@ -243,7 +255,14 @@ export function ClaimsVolumeChart({
                 <BarChart data={rows} accessibilityLayer={false} margin={CHART_GEOMETRY.margin}>
                   <CartesianGrid vertical={false} />
                   <XAxis dataKey="week" tickLine={false} axisLine={false} tickMargin={CHART_GEOMETRY.tickMargin} />
-                  <YAxis width="auto" tickLine={false} axisLine={false} tickMargin={CHART_GEOMETRY.tickMargin} allowDecimals={false} tickFormatter={fmt} />
+                  <YAxis
+                    width="auto"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={CHART_GEOMETRY.tickMargin}
+                    allowDecimals={false}
+                    tickFormatter={fmt}
+                  />
                   <Tooltip content={<VolumeTooltip />} />
                   {SERIES.map((key) => (
                     <Bar
@@ -276,13 +295,7 @@ export function ClaimsVolumeChart({
               {summarise(data)}
             </p>
             <div>
-              <Button
-                variant="ghost"
-                size="sm"
-                aria-expanded={showTable}
-                aria-controls={tableId}
-                onClick={() => setShowTable((v) => !v)}
-              >
+              <Button variant="ghost" size="sm" aria-expanded={showTable} aria-controls={tableId} onClick={() => setShowTable((v) => !v)}>
                 <Table2 aria-hidden="true" />
                 {showTable ? 'Hide data table' : 'Show data table'}
               </Button>
@@ -292,10 +305,14 @@ export function ClaimsVolumeChart({
               id={tableId}
               // Visible: a keyboard-scrollable region, for narrow screens.
               {...(showTable ? { role: 'region', 'aria-label': 'Claims volume data table', tabIndex: 0 } : {})}
-              className={cn(showTable ? 'overflow-x-auto rounded-inner outline-none focus-visible:ring-3 focus-visible:ring-ring' : 'sr-only')}
+              className={cn(
+                showTable ? 'overflow-x-auto rounded-inner outline-none focus-visible:ring-3 focus-visible:ring-ring' : 'sr-only',
+              )}
             >
               <Table containerClassName="overflow-visible" className="border-separate border-spacing-0">
-                <TableCaption className="mt-0 pb-2 text-left text-caption caption-top">Claims reported per week by line of business</TableCaption>
+                <TableCaption className="mt-0 caption-top pb-2 text-left text-caption">
+                  Claims reported per week by line of business
+                </TableCaption>
                 <TableHeader>
                   <TableRow className="border-0 hover:bg-transparent">
                     <TableHead scope="col" className="border-b border-border bg-subtle">

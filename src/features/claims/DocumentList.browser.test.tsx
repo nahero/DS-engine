@@ -23,7 +23,9 @@ describe('DocumentList', () => {
   })
 
   it('highlights, labels and focuses the cited document', async () => {
-    const { container, getByRole } = await render(<DocumentList documents={documents} highlight={{ docId: 'doc-invoice', page: 1, nonce: 1 }} />)
+    const { container, getByRole } = await render(
+      <DocumentList documents={documents} highlight={{ docId: 'doc-invoice', page: 1, nonce: 1 }} />,
+    )
     const row = getByRole('listitem').nth(1)
     await expect.element(row).toHaveAttribute('aria-current', 'true')
     await expect.element(row).toMatchTextContent('Cited on p.1')
@@ -34,7 +36,9 @@ describe('DocumentList', () => {
   })
 
   it('moves focus again when the same document is cited again (new nonce)', async () => {
-    const { rerender, getByRole } = await render(<DocumentList documents={documents} highlight={{ docId: 'doc-invoice', page: 1, nonce: 1 }} />)
+    const { rerender, getByRole } = await render(
+      <DocumentList documents={documents} highlight={{ docId: 'doc-invoice', page: 1, nonce: 1 }} />,
+    )
     const row = getByRole('listitem').nth(1)
     await expect.element(row).toHaveFocus()
     row.element().blur()

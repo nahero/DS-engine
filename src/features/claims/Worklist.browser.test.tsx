@@ -20,7 +20,8 @@ const focusRow = (id: string) => rowEl(id).focus()
 const section = (name: string) => page.getByRole('region', { name })
 /** Text of a row with non-breaking spaces read as spaces. */
 const textOf = (id: string) => rowEl(id).textContent!.replaceAll('\u00a0', ' ')
-const idsOfLinks = (root: Element) => Array.from(root.querySelectorAll('a[data-worklist-row]')).map((a) => a.getAttribute('href')!.replace('#claim-', ''))
+const idsOfLinks = (root: Element) =>
+  Array.from(root.querySelectorAll('a[data-worklist-row]')).map((a) => a.getAttribute('href')!.replace('#claim-', ''))
 
 const originalHash = window.location.hash
 afterEach(() => {
@@ -65,7 +66,9 @@ describe('Worklist', () => {
   describe('rows', () => {
     it('is one link per claim to routes.claim(id), named with person, number, next action and deadline', async () => {
       await render(<Worklist claims={assignedClaims} today={ASSIGNED_TODAY} />)
-      const link = page.getByRole('link', { name: 'Sarah Mitchell, CLM-2026-004817: Verify 1 low-confidence field, 1 missing, Decision due in 1 d' })
+      const link = page.getByRole('link', {
+        name: 'Sarah Mitchell, CLM-2026-004817: Verify 1 low-confidence field, 1 missing, Decision due in 1 d',
+      })
       await expect.element(link).toHaveAttribute('href', routes.claim('CLM-2026-004817'))
       expect(page.getByRole('link').elements()).toHaveLength(14)
     })
@@ -277,7 +280,9 @@ describe('Worklist', () => {
     })
 
     it('empty: the action can be replaced', async () => {
-      const { getByRole } = await render(<Worklist claims={[]} today={ASSIGNED_TODAY} emptyAction={<button type="button">Refresh</button>} />)
+      const { getByRole } = await render(
+        <Worklist claims={[]} today={ASSIGNED_TODAY} emptyAction={<button type="button">Refresh</button>} />,
+      )
       await expect.element(getByRole('button', { name: 'Refresh' })).toBeVisible()
       expect(getByRole('link', { name: 'Go to claims queue' }).query()).toBeNull()
     })

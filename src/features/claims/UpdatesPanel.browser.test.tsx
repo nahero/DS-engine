@@ -8,12 +8,16 @@ import { render } from '@/test/render'
 import { UpdatesPanel } from './UpdatesPanel'
 
 const items = () => page.getByRole('listitem').elements()
-const manyEvents = assignedClaims.map(
-  (c, i): AssignedClaim => ({
-    ...c,
-    lastEvent: c.lastEvent ?? { id: `ev-extra-${i}`, at: `2026-09-2${i % 8}T10:00:00`, kind: 'document-received', text: `Extra document ${i}`, isNew: false },
-  }),
-)
+const manyEvents = assignedClaims.map((c, i): AssignedClaim => ({
+  ...c,
+  lastEvent: c.lastEvent ?? {
+    id: `ev-extra-${i}`,
+    at: `2026-09-2${i % 8}T10:00:00`,
+    kind: 'document-received',
+    text: `Extra document ${i}`,
+    isNew: false,
+  },
+}))
 
 describe('UpdatesPanel', () => {
   it('lists the events of the caseload in a region titled "Since you were last here", without axe violations', async () => {

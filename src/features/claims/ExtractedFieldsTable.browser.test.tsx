@@ -124,9 +124,7 @@ describe('ExtractedFieldsTable', () => {
 
   it('refuses an empty save: error text, aria-invalid, focus stays, onSave not called', async () => {
     const onSave = vi.fn()
-    const { getByRole, getByText } = await render(
-      <ExtractedFieldsTable {...baseProps(fields)} editingId="provider" onSave={onSave} />,
-    )
+    const { getByRole, getByText } = await render(<ExtractedFieldsTable {...baseProps(fields)} editingId="provider" onSave={onSave} />)
     const input = getByRole('textbox', { name: 'Edit Provider' })
     await input.fill('')
     await userEvent.keyboard('{Enter}')

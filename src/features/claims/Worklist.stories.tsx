@@ -72,7 +72,11 @@ export const LongContent: Story = {
       {
         ...assignedClaims[0],
         policyholder: 'Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC',
-        waiting: { on: 'policyholder', since: '2026-09-20', what: 'itemised repair invoice and signed statement of loss for every affected unit' },
+        waiting: {
+          on: 'policyholder',
+          since: '2026-09-20',
+          what: 'itemised repair invoice and signed statement of loss for every affected unit',
+        },
         followUp: undefined,
         lastEvent: { id: 'ev-long', at: '2026-09-29T07:30:00', kind: 'policyholder-replied', text: 'Replied', isNew: true },
       },

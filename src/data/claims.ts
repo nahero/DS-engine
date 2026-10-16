@@ -12,11 +12,7 @@ export function needsAttentionRank(claim: Claim): number {
 
 /** Rank first, then oldest reported date first, then id for a stable order. */
 export function compareNeedsAttention(a: Claim, b: Claim): number {
-  return (
-    needsAttentionRank(a) - needsAttentionRank(b) ||
-    a.reportedDate.localeCompare(b.reportedDate) ||
-    a.id.localeCompare(b.id)
-  )
+  return needsAttentionRank(a) - needsAttentionRank(b) || a.reportedDate.localeCompare(b.reportedDate) || a.id.localeCompare(b.id)
 }
 
 // ---------------------------------------------------------------------------
@@ -37,17 +33,89 @@ function mulberry32(seed: number) {
 const HANDLERS = ['Emily Carter', 'Rachel Morgan', 'Daniel Brooks', 'Jessica Turner', 'Andrew Sullivan', 'Megan Foster']
 
 const FIRST_NAMES = [
-  'James', 'Mary', 'Robert', 'Patricia', 'John', 'Jennifer', 'Michael', 'Linda', 'David', 'Elizabeth',
-  'William', 'Barbara', 'Richard', 'Susan', 'Joseph', 'Jessica', 'Thomas', 'Karen', 'Daniel', 'Nancy',
-  'Matthew', 'Lisa', 'Anthony', 'Betty', 'Mark', 'Margaret', 'Steven', 'Sandra', 'Andrew', 'Ashley',
-  'Joshua', 'Kimberly', 'Brian', 'Donna', 'Nathan', 'Carol', 'Tyler', 'Amanda', 'Jacob', 'Melissa',
+  'James',
+  'Mary',
+  'Robert',
+  'Patricia',
+  'John',
+  'Jennifer',
+  'Michael',
+  'Linda',
+  'David',
+  'Elizabeth',
+  'William',
+  'Barbara',
+  'Richard',
+  'Susan',
+  'Joseph',
+  'Jessica',
+  'Thomas',
+  'Karen',
+  'Daniel',
+  'Nancy',
+  'Matthew',
+  'Lisa',
+  'Anthony',
+  'Betty',
+  'Mark',
+  'Margaret',
+  'Steven',
+  'Sandra',
+  'Andrew',
+  'Ashley',
+  'Joshua',
+  'Kimberly',
+  'Brian',
+  'Donna',
+  'Nathan',
+  'Carol',
+  'Tyler',
+  'Amanda',
+  'Jacob',
+  'Melissa',
 ]
 
 const LAST_NAMES = [
-  'Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Miller', 'Davis', 'Garcia', 'Wilson', 'Anderson',
-  'Taylor', 'Thomas', 'Moore', 'Martin', 'Jackson', 'Thompson', 'White', 'Harris', 'Clark', 'Lewis',
-  'Robinson', 'Walker', 'Young', 'Allen', 'King', 'Wright', 'Scott', 'Green', 'Baker', 'Adams',
-  'Nelson', 'Hill', 'Ramirez', 'Campbell', 'Mitchell', 'Roberts', 'Carter', 'Phillips', 'Evans', 'Turner',
+  'Smith',
+  'Johnson',
+  'Williams',
+  'Brown',
+  'Jones',
+  'Miller',
+  'Davis',
+  'Garcia',
+  'Wilson',
+  'Anderson',
+  'Taylor',
+  'Thomas',
+  'Moore',
+  'Martin',
+  'Jackson',
+  'Thompson',
+  'White',
+  'Harris',
+  'Clark',
+  'Lewis',
+  'Robinson',
+  'Walker',
+  'Young',
+  'Allen',
+  'King',
+  'Wright',
+  'Scott',
+  'Green',
+  'Baker',
+  'Adams',
+  'Nelson',
+  'Hill',
+  'Ramirez',
+  'Campbell',
+  'Mitchell',
+  'Roberts',
+  'Carter',
+  'Phillips',
+  'Evans',
+  'Turner',
 ]
 
 const COMPANY_SUFFIXES = [
@@ -104,25 +172,181 @@ const OLDEST_REPORTED = Date.UTC(2026, 0, 2)
 
 /** The 12 rows designed in Figma (02 Claims queue). `slaDays` from the SLA text; reported dates are 1–3 days after the loss. */
 const figmaClaims: Claim[] = [
-  { id: 'CLM-2026-004821', policyholder: 'Michael Johnson', lob: 'Motor', lossDate: '2026-09-21', reportedDate: '2026-09-23', slaDays: -1, status: 'In review', confidence: 52, flag: 'Loss date outside policy period', claimed: 8920, handler: 'Emily Carter', policyNo: 'POL-MTRX-3305' },
-  { id: 'CLM-2026-004819', policyholder: 'Montgomery-Whitfield Property Holdings LLC', lob: 'Property', lossDate: '2026-09-18', reportedDate: '2026-09-21', slaDays: 0, status: 'New', confidence: null, flag: 'Agent failed', claimed: 48300, handler: null, policyNo: 'POL-PRPW-7712' },
-  { id: 'CLM-2026-004817', policyholder: 'Sarah Mitchell', lob: 'Health', lossDate: '2026-09-20', reportedDate: '2026-09-22', slaDays: 1, status: 'In review', confidence: 71, flag: 'Above authority limit', claimed: 12480, handler: 'Emily Carter', policyNo: 'POL-HRTN-4821' },
-  { id: 'CLM-2026-004812', policyholder: 'James Wilson', lob: 'Motor', lossDate: '2026-09-19', reportedDate: '2026-09-21', slaDays: 2, status: 'Info requested', confidence: 88, flag: 'Awaiting document', claimed: 3150, handler: 'Rachel Morgan', policyNo: 'POL-MTRK-2094' },
-  { id: 'CLM-2026-004809', policyholder: 'Olivia Bennett', lob: 'Travel', lossDate: '2026-09-14', reportedDate: '2026-09-16', slaDays: 2, status: 'In review', confidence: 64, flag: 'Duplicate suspected', claimed: 1240, handler: 'Emily Carter', policyNo: 'POL-TRVL-5568' },
-  { id: 'CLM-2026-004806', policyholder: 'Christopher Hayes', lob: 'Property', lossDate: '2026-09-11', reportedDate: '2026-09-14', slaDays: 3, status: 'In review', confidence: 91, flag: null, claimed: 6700, handler: 'Rachel Morgan', policyNo: 'POL-PRPH-8843' },
-  { id: 'CLM-2026-004803', policyholder: 'Ashley Turner', lob: 'Motor', lossDate: '2026-09-16', reportedDate: '2026-09-18', slaDays: 3, status: 'New', confidence: 96, flag: null, claimed: 2140, handler: null, policyNo: 'POL-MTRT-1170' },
-  { id: 'CLM-2026-004799', policyholder: 'Ryan Cooper', lob: 'Health', lossDate: '2026-09-09', reportedDate: '2026-09-11', slaDays: 4, status: 'In review', confidence: 93, flag: null, claimed: 870.5, handler: 'Daniel Brooks', policyNo: 'POL-HRTC-6029' },
-  { id: 'CLM-2026-004795', policyholder: 'Emma Collins', lob: 'Travel', lossDate: '2026-09-07', reportedDate: '2026-09-10', slaDays: 5, status: 'Approved', confidence: 97, flag: null, claimed: 460, handler: 'Emily Carter', policyNo: 'POL-TRVC-3917' },
-  { id: 'CLM-2026-004790', policyholder: 'Matthew Reed', lob: 'Motor', lossDate: '2026-09-02', reportedDate: '2026-09-04', slaDays: null, status: 'Paid', confidence: 95, flag: null, claimed: 2140, handler: 'Emily Carter', policyNo: 'POL-MTRR-4486' },
-  { id: 'CLM-2026-004788', policyholder: 'Lauren Price', lob: 'Property', lossDate: '2026-08-30', reportedDate: '2026-09-02', slaDays: null, status: 'Denied', confidence: 83, flag: 'Referred for review', claimed: 19900, handler: 'Daniel Brooks', policyNo: 'POL-PRPL-2751' },
-  { id: 'CLM-2026-004781', policyholder: 'Kevin Parker', lob: 'Health', lossDate: '2026-08-28', reportedDate: '2026-08-31', slaDays: 6, status: 'In review', confidence: 89, flag: null, claimed: 1015.2, handler: 'Rachel Morgan', policyNo: 'POL-HRTP-9304' },
+  {
+    id: 'CLM-2026-004821',
+    policyholder: 'Michael Johnson',
+    lob: 'Motor',
+    lossDate: '2026-09-21',
+    reportedDate: '2026-09-23',
+    slaDays: -1,
+    status: 'In review',
+    confidence: 52,
+    flag: 'Loss date outside policy period',
+    claimed: 8920,
+    handler: 'Emily Carter',
+    policyNo: 'POL-MTRX-3305',
+  },
+  {
+    id: 'CLM-2026-004819',
+    policyholder: 'Montgomery-Whitfield Property Holdings LLC',
+    lob: 'Property',
+    lossDate: '2026-09-18',
+    reportedDate: '2026-09-21',
+    slaDays: 0,
+    status: 'New',
+    confidence: null,
+    flag: 'Agent failed',
+    claimed: 48300,
+    handler: null,
+    policyNo: 'POL-PRPW-7712',
+  },
+  {
+    id: 'CLM-2026-004817',
+    policyholder: 'Sarah Mitchell',
+    lob: 'Health',
+    lossDate: '2026-09-20',
+    reportedDate: '2026-09-22',
+    slaDays: 1,
+    status: 'In review',
+    confidence: 71,
+    flag: 'Above authority limit',
+    claimed: 12480,
+    handler: 'Emily Carter',
+    policyNo: 'POL-HRTN-4821',
+  },
+  {
+    id: 'CLM-2026-004812',
+    policyholder: 'James Wilson',
+    lob: 'Motor',
+    lossDate: '2026-09-19',
+    reportedDate: '2026-09-21',
+    slaDays: 2,
+    status: 'Info requested',
+    confidence: 88,
+    flag: 'Awaiting document',
+    claimed: 3150,
+    handler: 'Rachel Morgan',
+    policyNo: 'POL-MTRK-2094',
+  },
+  {
+    id: 'CLM-2026-004809',
+    policyholder: 'Olivia Bennett',
+    lob: 'Travel',
+    lossDate: '2026-09-14',
+    reportedDate: '2026-09-16',
+    slaDays: 2,
+    status: 'In review',
+    confidence: 64,
+    flag: 'Duplicate suspected',
+    claimed: 1240,
+    handler: 'Emily Carter',
+    policyNo: 'POL-TRVL-5568',
+  },
+  {
+    id: 'CLM-2026-004806',
+    policyholder: 'Christopher Hayes',
+    lob: 'Property',
+    lossDate: '2026-09-11',
+    reportedDate: '2026-09-14',
+    slaDays: 3,
+    status: 'In review',
+    confidence: 91,
+    flag: null,
+    claimed: 6700,
+    handler: 'Rachel Morgan',
+    policyNo: 'POL-PRPH-8843',
+  },
+  {
+    id: 'CLM-2026-004803',
+    policyholder: 'Ashley Turner',
+    lob: 'Motor',
+    lossDate: '2026-09-16',
+    reportedDate: '2026-09-18',
+    slaDays: 3,
+    status: 'New',
+    confidence: 96,
+    flag: null,
+    claimed: 2140,
+    handler: null,
+    policyNo: 'POL-MTRT-1170',
+  },
+  {
+    id: 'CLM-2026-004799',
+    policyholder: 'Ryan Cooper',
+    lob: 'Health',
+    lossDate: '2026-09-09',
+    reportedDate: '2026-09-11',
+    slaDays: 4,
+    status: 'In review',
+    confidence: 93,
+    flag: null,
+    claimed: 870.5,
+    handler: 'Daniel Brooks',
+    policyNo: 'POL-HRTC-6029',
+  },
+  {
+    id: 'CLM-2026-004795',
+    policyholder: 'Emma Collins',
+    lob: 'Travel',
+    lossDate: '2026-09-07',
+    reportedDate: '2026-09-10',
+    slaDays: 5,
+    status: 'Approved',
+    confidence: 97,
+    flag: null,
+    claimed: 460,
+    handler: 'Emily Carter',
+    policyNo: 'POL-TRVC-3917',
+  },
+  {
+    id: 'CLM-2026-004790',
+    policyholder: 'Matthew Reed',
+    lob: 'Motor',
+    lossDate: '2026-09-02',
+    reportedDate: '2026-09-04',
+    slaDays: null,
+    status: 'Paid',
+    confidence: 95,
+    flag: null,
+    claimed: 2140,
+    handler: 'Emily Carter',
+    policyNo: 'POL-MTRR-4486',
+  },
+  {
+    id: 'CLM-2026-004788',
+    policyholder: 'Lauren Price',
+    lob: 'Property',
+    lossDate: '2026-08-30',
+    reportedDate: '2026-09-02',
+    slaDays: null,
+    status: 'Denied',
+    confidence: 83,
+    flag: 'Referred for review',
+    claimed: 19900,
+    handler: 'Daniel Brooks',
+    policyNo: 'POL-PRPL-2751',
+  },
+  {
+    id: 'CLM-2026-004781',
+    policyholder: 'Kevin Parker',
+    lob: 'Health',
+    lossDate: '2026-08-28',
+    reportedDate: '2026-08-31',
+    slaDays: 6,
+    status: 'In review',
+    confidence: 89,
+    flag: null,
+    claimed: 1015.2,
+    handler: 'Rachel Morgan',
+    policyNo: 'POL-HRTP-9304',
+  },
 ]
 
 function generateClaims(): Claim[] {
   const rnd = mulberry32(20260929)
   const int = (min: number, max: number) => min + Math.floor(rnd() * (max - min + 1))
-  const pick = <T,>(list: readonly T[]): T => list[Math.floor(rnd() * list.length)]
-  const weighted = <T,>(list: readonly [T, number][]): T => {
+  const pick = <T>(list: readonly T[]): T => list[Math.floor(rnd() * list.length)]
+  const weighted = <T>(list: readonly [T, number][]): T => {
     const total = list.reduce((sum, [, w]) => sum + w, 0)
     let r = rnd() * total
     for (const [value, w] of list) {
@@ -150,16 +374,13 @@ function generateClaims(): Claim[] {
     const status = weighted(STATUS_WEIGHTS)
 
     const reportedMs =
-      NEWEST_REPORTED -
-      Math.floor((i * (NEWEST_REPORTED - OLDEST_REPORTED)) / DAY / GENERATED_COUNT) * DAY -
-      int(0, 1) * DAY
+      NEWEST_REPORTED - Math.floor((i * (NEWEST_REPORTED - OLDEST_REPORTED)) / DAY / GENERATED_COUNT) * DAY - int(0, 1) * DAY
     const reportedDate = isoDate(Math.max(reportedMs, OLDEST_REPORTED))
     const lossMs = Math.max(Date.parse(reportedDate) - int(1, 14) * DAY, YEAR_START)
     const lossDate = isoDate(Math.min(lossMs, Date.parse(reportedDate) - DAY))
 
     const conf = rnd()
-    let confidence: number | null =
-      rnd() < 0.08 ? null : conf < 0.55 ? int(90, 99) : conf < 0.8 ? int(70, 89) : int(38, 69)
+    let confidence: number | null = rnd() < 0.08 ? null : conf < 0.55 ? int(90, 99) : conf < 0.8 ? int(70, 89) : int(38, 69)
 
     let flag: ClaimFlag | null = null
     if (rnd() < 0.1) {

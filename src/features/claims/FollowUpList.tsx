@@ -85,7 +85,14 @@ export function FollowUpList({
   }
 
   return (
-    <Card ref={regionRef} role="region" aria-labelledby={titleId} aria-busy={view === 'loading' || undefined} tabIndex={-1} className="outline-none">
+    <Card
+      ref={regionRef}
+      role="region"
+      aria-labelledby={titleId}
+      aria-busy={view === 'loading' || undefined}
+      tabIndex={-1}
+      className="outline-none"
+    >
       <CardHeader>
         <CardTitle as="h2" id={titleId}>
           Follow-ups
@@ -109,7 +116,9 @@ export function FollowUpList({
           </div>
         )}
 
-        {view === 'empty' && <StateBlock kind="empty" size="sm" title="No follow-ups scheduled" description="Set one when you start waiting on someone" />}
+        {view === 'empty' && (
+          <StateBlock kind="empty" size="sm" title="No follow-ups scheduled" description="Set one when you start waiting on someone" />
+        )}
 
         {view === 'error' && (
           <StateBlock
@@ -135,7 +144,12 @@ export function FollowUpList({
                 <li key={claim.id} className="flex flex-col gap-1 border-b border-border py-2 last:border-b-0">
                   <div className="flex items-start justify-between gap-2">
                     <TruncatedText text={note} className="text-body font-medium text-fg" />
-                    <span className={cn('inline-flex shrink-0 items-center gap-1 text-caption font-medium whitespace-nowrap tabular-nums', due.className)}>
+                    <span
+                      className={cn(
+                        'inline-flex shrink-0 items-center gap-1 text-caption font-medium whitespace-nowrap tabular-nums',
+                        due.className,
+                      )}
+                    >
                       <due.Icon aria-hidden="true" className="size-3.5 shrink-0" />
                       {due.text}
                     </span>

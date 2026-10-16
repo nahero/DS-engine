@@ -65,7 +65,9 @@ describe('check-token-usage', () => {
 
   it('honours an ignore with a reason and reports one without, or unused', () => {
     expect(scan(`// token-usage-ignore-next-line: matches the kit's 13px label\n<b className="text-[13px]" />`)).toEqual([])
-    expect(messages(`// token-usage-ignore-next-line\n<b className="text-[13px]" />`)).toEqual(['1: token-usage-ignore-next-line needs a reason after a colon'])
+    expect(messages(`// token-usage-ignore-next-line\n<b className="text-[13px]" />`)).toEqual([
+      '1: token-usage-ignore-next-line needs a reason after a colon',
+    ])
     expect(messages(`// token-usage-ignore-next-line: nothing here\n<b />`)).toEqual(['1: unused token-usage-ignore-next-line'])
   })
 })

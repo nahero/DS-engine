@@ -10,7 +10,15 @@ import { render } from '@/test/render'
 import { FollowUpList } from './FollowUpList'
 
 /** Owns the claims like the screen does: done removes the follow-up, snooze moves it on from today (or from its date when later). */
-function Harness({ initial = assignedClaims, onDone = () => {}, onSnooze = () => {} }: { initial?: AssignedClaim[]; onDone?: (id: string) => void; onSnooze?: (id: string, days: number) => void }) {
+function Harness({
+  initial = assignedClaims,
+  onDone = () => {},
+  onSnooze = () => {},
+}: {
+  initial?: AssignedClaim[]
+  onDone?: (id: string) => void
+  onSnooze?: (id: string, days: number) => void
+}) {
   const [claims, setClaims] = useState(initial)
   return (
     <FollowUpList
@@ -23,7 +31,11 @@ function Harness({ initial = assignedClaims, onDone = () => {}, onSnooze = () =>
       onSnooze={(id, days) => {
         onSnooze(id, days)
         setClaims((rows) =>
-          rows.map((c) => (c.id === id && c.followUp ? { ...c, followUp: { ...c.followUp, due: addDays(c.followUp.due > ASSIGNED_TODAY ? c.followUp.due : ASSIGNED_TODAY, days) } } : c)),
+          rows.map((c) =>
+            c.id === id && c.followUp
+              ? { ...c, followUp: { ...c.followUp, due: addDays(c.followUp.due > ASSIGNED_TODAY ? c.followUp.due : ASSIGNED_TODAY, days) } }
+              : c,
+          ),
         )
       }}
     />
@@ -49,7 +61,12 @@ describe('FollowUpList', () => {
 
   it('sorts overdue, then today, then upcoming by date', async () => {
     await render(<Harness />)
-    expect(noteOrder()).toEqual(['Chase signed statement', 'Chase police report', 'Chase signed payment authorisation', 'Chase itemised hospital invoice'])
+    expect(noteOrder()).toEqual([
+      'Chase signed statement',
+      'Chase police report',
+      'Chase signed payment authorisation',
+      'Chase itemised hospital invoice',
+    ])
   })
 
   it('states each due date in words with an icon: Overdue 2 d, Today, 2 Oct, 6 Oct', async () => {
@@ -115,7 +132,12 @@ describe('FollowUpList', () => {
     it('moves the date on and re-sorts: today becomes 1 Oct, ahead of 2 Oct', async () => {
       await render(<Harness />)
       await snooze('Chase police report', GARCIA).click()
-      expect(noteOrder()).toEqual(['Chase signed statement', 'Chase police report', 'Chase signed payment authorisation', 'Chase itemised hospital invoice'])
+      expect(noteOrder()).toEqual([
+        'Chase signed statement',
+        'Chase police report',
+        'Chase signed payment authorisation',
+        'Chase itemised hospital invoice',
+      ])
       expect(items()[1].textContent).toContain('1 Oct')
       expect(items()[1].textContent).not.toContain('Today')
     })
@@ -168,7 +190,9 @@ describe('FollowUpList', () => {
     })
 
     it('loading: one status and a busy region', async () => {
-      const { container, getByRole } = await render(<FollowUpList claims={assignedClaims} today={ASSIGNED_TODAY} state="loading" onDone={() => {}} onSnooze={() => {}} />)
+      const { container, getByRole } = await render(
+        <FollowUpList claims={assignedClaims} today={ASSIGNED_TODAY} state="loading" onDone={() => {}} onSnooze={() => {}} />,
+      )
       expect(getByRole('status').elements()).toHaveLength(1)
       await expect.element(getByRole('status')).toMatchTextContent('Loading follow-ups')
       await expect.element(getByRole('region', { name: 'Follow-ups' })).toHaveAttribute('aria-busy', 'true')
@@ -176,13 +200,31 @@ describe('FollowUpList', () => {
     })
 
     it('loading with announce off renders no status', async () => {
-      const { getByRole } = await render(<FollowUpList claims={assignedClaims} today={ASSIGNED_TODAY} state="loading" announce={false} onDone={() => {}} onSnooze={() => {}} />)
+      const { getByRole } = await render(
+        <FollowUpList
+          claims={assignedClaims}
+          today={ASSIGNED_TODAY}
+          state="loading"
+          announce={false}
+          onDone={() => {}}
+          onSnooze={() => {}}
+        />,
+      )
       expect(getByRole('status').query()).toBeNull()
     })
 
     it('error: an alert with a Retry button that calls back', async () => {
       const onRetry = vi.fn()
-      const { container, getByRole } = await render(<FollowUpList claims={assignedClaims} today={ASSIGNED_TODAY} state="error" onRetry={onRetry} onDone={() => {}} onSnooze={() => {}} />)
+      const { container, getByRole } = await render(
+        <FollowUpList
+          claims={assignedClaims}
+          today={ASSIGNED_TODAY}
+          state="error"
+          onRetry={onRetry}
+          onDone={() => {}}
+          onSnooze={() => {}}
+        />,
+      )
       await expect.element(getByRole('alert')).toMatchTextContent('Couldn’t load follow-ups')
       await expectNoA11yViolations(container)
       await getByRole('button', { name: 'Retry' }).click()
@@ -192,7 +234,11 @@ describe('FollowUpList', () => {
     it('a long note and name are cut off in one line, with the full text available', async () => {
       const long = 'Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC'
       const note = 'Chase the signed statement of loss and the itemised repair invoice for every affected unit'
-      const claim = { ...assignedClaims.find((c) => c.id === 'CLM-2026-004416')!, policyholder: long, followUp: { id: 'fu-long', due: '2026-09-20', note } }
+      const claim = {
+        ...assignedClaims.find((c) => c.id === 'CLM-2026-004416')!,
+        policyholder: long,
+        followUp: { id: 'fu-long', due: '2026-09-20', note },
+      }
       const { container } = await render(
         <div className="w-72">
           <Harness initial={[claim]} />

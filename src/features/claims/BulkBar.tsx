@@ -27,9 +27,7 @@ export function BulkBar({
 
   const blocked = countNotHighConfidence(selected)
   const note =
-    blocked === 0
-      ? 'Bulk approve only for High confidence'
-      : `${blocked} selected ${blocked === 1 ? 'isn’t' : 'aren’t'} High confidence`
+    blocked === 0 ? 'Bulk approve only for High confidence' : `${blocked} selected ${blocked === 1 ? 'isn’t' : 'aren’t'} High confidence`
 
   return (
     <div

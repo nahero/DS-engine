@@ -51,7 +51,9 @@ describe('ClaimDetail', () => {
 
     it('tabs work from the keyboard', async () => {
       await renderClaim()
-      tab(/Extracted fields/).element().focus()
+      tab(/Extracted fields/)
+        .element()
+        .focus()
       await userEvent.keyboard('{ArrowRight}')
       await expect.element(tab(/Documents/)).toHaveAttribute('aria-selected', 'true')
       await expect.element(tab(/Documents/)).toHaveFocus()
@@ -193,7 +195,11 @@ describe('ClaimDetail', () => {
       expect(container.textContent).not.toContain('X99.9')
       await expect.element(getByRole('button', { name: 'Correct Diagnosis code' })).toHaveFocus()
       await expect.element(auditCard().getByRole('listitem')).toHaveLength(5)
-      expect(auditCard().getByRole('button', { name: /View all/ }).query()).toBeNull()
+      expect(
+        auditCard()
+          .getByRole('button', { name: /View all/ })
+          .query(),
+      ).toBeNull()
     })
 
     it('saving an empty value shows an error and keeps editing', async () => {
@@ -296,7 +302,11 @@ describe('ClaimDetail', () => {
       await button('Approve').click()
       await userEvent.keyboard('{Escape}')
       await expect.element(button('Approve')).toHaveFocus()
-      expect(auditCard().getByText(/Approved payout/).query()).toBeNull()
+      expect(
+        auditCard()
+          .getByText(/Approved payout/)
+          .query(),
+      ).toBeNull()
     })
 
     it('refer needs a reason, then records it in the audit trail and flags the claim', async () => {

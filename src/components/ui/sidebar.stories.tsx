@@ -47,7 +47,9 @@ function Nav({ activeId = 'queue', longLabel }: { activeId?: string; longLabel?:
                         aria-label={item.count !== undefined ? `${item.label}, ${item.count} ${item.countLabel}` : undefined}
                       >
                         <item.icon aria-hidden="true" />
-                        <span>{longLabel && item.id === 'assigned' ? 'Claims assigned to me and my team for second review' : item.label}</span>
+                        <span>
+                          {longLabel && item.id === 'assigned' ? 'Claims assigned to me and my team for second review' : item.label}
+                        </span>
                       </a>
                     </SidebarMenuButton>
                     {item.count !== undefined && <SidebarMenuBadge aria-hidden="true">{item.count}</SidebarMenuBadge>}

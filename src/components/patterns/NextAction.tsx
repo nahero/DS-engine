@@ -20,7 +20,17 @@ const icons: Record<NextActionKind, LucideIcon> = {
  * One line; when cut off, the full text shows in a tooltip and on focus. With `wrap` the text breaks onto more lines
  * instead and is plain text with no focus stop of its own, for use inside a link or a row that is one control.
  */
-export function NextAction({ kind, text, wrap = false, className }: { kind: NextActionKind; text: string; wrap?: boolean; className?: string }) {
+export function NextAction({
+  kind,
+  text,
+  wrap = false,
+  className,
+}: {
+  kind: NextActionKind
+  text: string
+  wrap?: boolean
+  className?: string
+}) {
   const Icon = icons[kind]
   return (
     <span

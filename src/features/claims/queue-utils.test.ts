@@ -22,9 +22,23 @@ function claim(overrides: Partial<Claim>): Claim {
 }
 
 const sample: Claim[] = [
-  claim({ id: 'CLM-2026-000001', policyholder: 'Sarah Mitchell', lob: 'Health', status: 'In review', confidence: 71, handler: 'Emily Carter' }),
+  claim({
+    id: 'CLM-2026-000001',
+    policyholder: 'Sarah Mitchell',
+    lob: 'Health',
+    status: 'In review',
+    confidence: 71,
+    handler: 'Emily Carter',
+  }),
   claim({ id: 'CLM-2026-000002', policyholder: 'James Wilson', lob: 'Motor', status: 'New', confidence: 95, handler: null }),
-  claim({ id: 'CLM-2026-000003', policyholder: 'Montgomery-Whitfield Property Holdings LLC', lob: 'Property', status: 'New', confidence: null, handler: null }),
+  claim({
+    id: 'CLM-2026-000003',
+    policyholder: 'Montgomery-Whitfield Property Holdings LLC',
+    lob: 'Property',
+    status: 'New',
+    confidence: null,
+    handler: null,
+  }),
   claim({ id: 'CLM-2026-000004', policyholder: 'Olivia Bennett', lob: 'Travel', status: 'Paid', confidence: 52, handler: 'Rachel Morgan' }),
 ]
 
@@ -76,7 +90,9 @@ describe('applyFilters', () => {
   })
 
   it('combines filters with AND', () => {
-    expect(ids(applyFilters(sample, { ...emptyFilters, status: 'New', handler: UNASSIGNED, confidence: 'No score' }))).toEqual(['CLM-2026-000003'])
+    expect(ids(applyFilters(sample, { ...emptyFilters, status: 'New', handler: UNASSIGNED, confidence: 'No score' }))).toEqual([
+      'CLM-2026-000003',
+    ])
     expect(applyFilters(sample, { ...emptyFilters, status: 'Paid', lob: 'Motor' })).toEqual([])
     expect(ids(applyFilters(sample, { ...emptyFilters, query: 'wilson', status: 'New' }))).toEqual(['CLM-2026-000002'])
   })

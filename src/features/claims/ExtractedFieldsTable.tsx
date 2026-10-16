@@ -90,43 +90,41 @@ export function ExtractedFieldsTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {loading ? (
-            Array.from({ length: SKELETON_ROWS }, (_, i) => (
-              <TableRow key={i} aria-hidden="true" className="h-row hover:bg-transparent">
-                <td className="px-2 py-1">
-                  <Skeleton className="w-24 text-body">{NBSP}</Skeleton>
-                </td>
-                <td className="px-2 py-1">
-                  <Skeleton className="w-40 text-body">{NBSP}</Skeleton>
-                </td>
-                <td className="px-2 py-1">
-                  <Skeleton className="ml-auto w-24 text-caption">{NBSP}</Skeleton>
-                </td>
-                <td className="px-2 py-1">
-                  <Skeleton className="w-24 text-caption">{NBSP}</Skeleton>
-                </td>
-                <td className="px-2 py-1">
-                  <Skeleton className="mx-auto size-7" />
-                </td>
-              </TableRow>
-            ))
-          ) : (
-            sorted.map((field) => (
-              <ExtractedFieldRow
-                key={field.id}
-                field={field}
-                value={values[field.id] ?? null}
-                correction={corrections[field.id]}
-                editing={editingId === field.id}
-                revealed={revealedIds.includes(field.id)}
-                onEdit={() => onEdit(field.id)}
-                onSave={(v) => onSave(field.id, v)}
-                onCancel={onCancel}
-                onToggleReveal={() => onToggleReveal(field.id)}
-                onOpenCitation={onOpenCitation}
-              />
-            ))
-          )}
+          {loading
+            ? Array.from({ length: SKELETON_ROWS }, (_, i) => (
+                <TableRow key={i} aria-hidden="true" className="h-row hover:bg-transparent">
+                  <td className="px-2 py-1">
+                    <Skeleton className="w-24 text-body">{NBSP}</Skeleton>
+                  </td>
+                  <td className="px-2 py-1">
+                    <Skeleton className="w-40 text-body">{NBSP}</Skeleton>
+                  </td>
+                  <td className="px-2 py-1">
+                    <Skeleton className="ml-auto w-24 text-caption">{NBSP}</Skeleton>
+                  </td>
+                  <td className="px-2 py-1">
+                    <Skeleton className="w-24 text-caption">{NBSP}</Skeleton>
+                  </td>
+                  <td className="px-2 py-1">
+                    <Skeleton className="mx-auto size-7" />
+                  </td>
+                </TableRow>
+              ))
+            : sorted.map((field) => (
+                <ExtractedFieldRow
+                  key={field.id}
+                  field={field}
+                  value={values[field.id] ?? null}
+                  correction={corrections[field.id]}
+                  editing={editingId === field.id}
+                  revealed={revealedIds.includes(field.id)}
+                  onEdit={() => onEdit(field.id)}
+                  onSave={(v) => onSave(field.id, v)}
+                  onCancel={onCancel}
+                  onToggleReveal={() => onToggleReveal(field.id)}
+                  onOpenCitation={onOpenCitation}
+                />
+              ))}
         </TableBody>
       </table>
       {!loading && fields.length === 0 && (

@@ -41,7 +41,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Modal panel that slides from an edge (Radix Dialog). Title and description are required for assistive tech; Esc closes and focus returns to the trigger.',
+        component:
+          'Modal panel that slides from an edge (Radix Dialog). Title and description are required for assistive tech; Esc closes and focus returns to the trigger.',
       },
     },
   },
@@ -117,15 +118,20 @@ export const LongContent: Story = {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Audit trail for Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC</SheetTitle>
+          <SheetTitle>
+            Audit trail for Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC
+          </SheetTitle>
           <SheetDescription>Every change to CLM-2026-004819, newest first.</SheetDescription>
         </SheetHeader>
-        <div role="region" aria-label="Audit events" tabIndex={0} className="flex-1 overflow-y-auto px-inset focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none">
+        <div
+          role="region"
+          aria-label="Audit events"
+          tabIndex={0}
+          className="flex-1 overflow-y-auto px-inset focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none"
+        >
           <ul className="flex flex-col gap-3 text-body text-fg">
             {Array.from({ length: 30 }, (_, i) => (
-              <li key={i}>
-                Event {30 - i}: Emily Carter changed the loss date and the agent re-ran the coverage checks.
-              </li>
+              <li key={i}>Event {30 - i}: Emily Carter changed the loss date and the agent re-ran the coverage checks.</li>
             ))}
           </ul>
         </div>

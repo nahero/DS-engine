@@ -12,14 +12,24 @@ const rowLinks = () => Array.from(document.querySelectorAll<HTMLAnchorElement>('
 const rowIds = () => rowLinks().map((a) => a.getAttribute('href')!.replace('#claim-', ''))
 const rowEl = (id: string) => rowLinks().find((a) => a.getAttribute('href') === routes.claim(id))!
 const heading = (name: string) => page.getByRole('heading', { level: 2, name })
-const announcements = () => page.getByRole('status').elements().map((e) => e.textContent ?? '')
+const announcements = () =>
+  page
+    .getByRole('status')
+    .elements()
+    .map((e) => e.textContent ?? '')
 const done = (note: string) => page.getByRole('button', { name: new RegExp(`^Mark follow-up done: ${note},`) })
 const snooze = (note: string) => page.getByRole('button', { name: new RegExp(`^Snooze 2 d: ${note},`) })
 
 const overdue = assignedClaims.filter((c) => c.slaDays !== null && c.slaDays < 0).map((c) => c.id)
 const dueToday = assignedClaims.filter((c) => c.slaDays === 0).map((c) => c.id)
-const ready = assignedClaims.filter((c) => worklistGroup(c, ASSIGNED_TODAY) === 'ready').sort(compareWorklist).map((c) => c.id)
-const waiting = assignedClaims.filter((c) => worklistGroup(c, ASSIGNED_TODAY) === 'waiting').sort(compareWorklist).map((c) => c.id)
+const ready = assignedClaims
+  .filter((c) => worklistGroup(c, ASSIGNED_TODAY) === 'ready')
+  .sort(compareWorklist)
+  .map((c) => c.id)
+const waiting = assignedClaims
+  .filter((c) => worklistGroup(c, ASSIGNED_TODAY) === 'waiting')
+  .sort(compareWorklist)
+  .map((c) => c.id)
 
 const originalHash = window.location.hash
 afterEach(() => {
@@ -52,7 +62,12 @@ describe('MyAssigned', () => {
 
     it('shows the four counts of the Today strip and the workload line', async () => {
       const { container } = await render(<MyAssigned />)
-      for (const [label, n] of [['Overdue', 3], ['Due today', 2], ['Ready for you', 6], ['Waiting on others', 3]] as const) {
+      for (const [label, n] of [
+        ['Overdue', 3],
+        ['Due today', 2],
+        ['Ready for you', 6],
+        ['Waiting on others', 3],
+      ] as const) {
         await expect.element(strip(label)).toBeVisible()
         expect(strip(label).element().textContent).toContain(String(n))
         await expect.element(strip(label)).toHaveAttribute('aria-pressed', 'false')

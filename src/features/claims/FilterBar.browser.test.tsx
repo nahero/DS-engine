@@ -12,7 +12,15 @@ const handlers = [...new Set(claims.map((c) => c.handler).filter((h): h is strin
 const count = (filters: ClaimFilters) => applyFilters(claims, filters).length
 const results = (n: number) => `${n.toLocaleString('en-US')} ${n === 1 ? 'result' : 'results'}`
 
-function Harness({ initial = emptyFilters, disabled = false, withSort = false }: { initial?: ClaimFilters; disabled?: boolean; withSort?: boolean }) {
+function Harness({
+  initial = emptyFilters,
+  disabled = false,
+  withSort = false,
+}: {
+  initial?: ClaimFilters
+  disabled?: boolean
+  withSort?: boolean
+}) {
   const [filters, setFilters] = useState(initial)
   return (
     <FilterBar filters={filters} onChange={setFilters} handlers={handlers} resultCount={count(filters)} disabled={disabled}>
@@ -27,7 +35,8 @@ describe('FilterBar', () => {
     await expect.element(getByLabelText('Filter claims')).toBeVisible()
     await expect.element(getByRole('status')).toMatchTextContent('1,000 results')
     await expect.element(getByRole('textbox', { name: 'Search claims' })).toBeVisible()
-    for (const name of ['Status', 'Line of business', 'Confidence', 'Handler']) await expect.element(getByRole('combobox', { name })).toBeVisible()
+    for (const name of ['Status', 'Line of business', 'Confidence', 'Handler'])
+      await expect.element(getByRole('combobox', { name })).toBeVisible()
     expect(getByRole('button', { name: 'Clear all' }).query()).toBeNull()
     await expectNoA11yViolations(container)
   })
@@ -101,7 +110,9 @@ describe('FilterBar', () => {
   })
 
   it('renders initial filters as chips together with the children (sort status)', async () => {
-    const { container, getByText } = await render(<Harness initial={{ ...emptyFilters, status: 'In review', confidence: 'Low', query: 'mi' }} withSort />)
+    const { container, getByText } = await render(
+      <Harness initial={{ ...emptyFilters, status: 'In review', confidence: 'Low', query: 'mi' }} withSort />,
+    )
     await expect.element(getByText('Status: In review')).toBeVisible()
     await expect.element(getByText('Confidence: Low')).toBeVisible()
     await expect.element(getByText('Search: mi')).toBeVisible()
@@ -112,7 +123,8 @@ describe('FilterBar', () => {
   it('disabled (loading): every control is disabled and no count is announced', async () => {
     const { container, getByRole } = await render(<Harness disabled />)
     await expect.element(getByRole('textbox', { name: 'Search claims' })).toBeDisabled()
-    for (const name of ['Status', 'Line of business', 'Confidence', 'Handler']) await expect.element(getByRole('combobox', { name })).toBeDisabled()
+    for (const name of ['Status', 'Line of business', 'Confidence', 'Handler'])
+      await expect.element(getByRole('combobox', { name })).toBeDisabled()
     expect(getByRole('status').element().textContent).toBe('')
     await expectNoA11yViolations(container)
   })

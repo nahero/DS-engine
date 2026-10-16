@@ -84,9 +84,7 @@ export function ClaimSummary({
           <Item label="SLA">
             <SlaIndicator days={claim.slaDays} className="text-body" />
           </Item>
-          <Item label="Handler">
-            {claim.handler ?? <span className="font-normal text-fg-muted">Unassigned</span>}
-          </Item>
+          <Item label="Handler">{claim.handler ?? <span className="font-normal text-fg-muted">Unassigned</span>}</Item>
         </dl>
       </CardContent>
     </Card>

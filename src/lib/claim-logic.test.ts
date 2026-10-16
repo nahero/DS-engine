@@ -16,7 +16,15 @@ function field(overrides: Partial<ExtractedField> = {}): ExtractedField {
 describe('derivePayout', () => {
   it('pays claimed minus deductible when within the limit', () => {
     const r = derivePayout({ claimed: 3000, deductible: 500, limit: 50000 })
-    expect(r).toMatchObject({ missing: null, denied: false, covered: 2500, payable: 2500, capped: false, notCovered: 0, overAuthority: false })
+    expect(r).toMatchObject({
+      missing: null,
+      denied: false,
+      covered: 2500,
+      payable: 2500,
+      capped: false,
+      notCovered: 0,
+      overAuthority: false,
+    })
   })
 
   it('flags payouts above the authority limit', () => {

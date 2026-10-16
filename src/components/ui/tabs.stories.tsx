@@ -17,7 +17,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Radix tabs in two looks: `default` (pill on a subtle track) and `line` (underline). Arrow keys move between tabs, Home/End jump, Tab moves into the panel.',
+        component:
+          'Radix tabs in two looks: `default` (pill on a subtle track) and `line` (underline). Arrow keys move between tabs, Home/End jump, Tab moves into the panel.',
       },
     },
   },

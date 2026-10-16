@@ -16,7 +16,11 @@ export interface FieldCorrection {
 export type ExtractedFieldState = 'default' | 'low-confidence' | 'missing' | 'agent-failed' | 'editing' | 'corrected'
 
 /** Row state from the field and its current edit/correction status. Editing wins, then corrected. */
-export function fieldState(field: ExtractedField, value: string | null, opts: { editing?: boolean; corrected?: boolean } = {}): ExtractedFieldState {
+export function fieldState(
+  field: ExtractedField,
+  value: string | null,
+  opts: { editing?: boolean; corrected?: boolean } = {},
+): ExtractedFieldState {
   if (opts.editing) return 'editing'
   if (opts.corrected) return 'corrected'
   if (field.agentFailed) return 'agent-failed'

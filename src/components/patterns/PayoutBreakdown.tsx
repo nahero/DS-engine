@@ -121,7 +121,9 @@ export function PayoutBreakdown({ payout, loading = false }: { payout?: Payout; 
             Denied · Reason code {payout.denied.reasonCode}: {payout.denied.reason}
           </Note>
         ) : d.missing ? (
-          <Note icon={CircleAlert}>Can’t calculate until {d.missing === 'deductible' ? 'deductible' : 'the claimed amount'} is confirmed</Note>
+          <Note icon={CircleAlert}>
+            Can’t calculate until {d.missing === 'deductible' ? 'deductible' : 'the claimed amount'} is confirmed
+          </Note>
         ) : d.overAuthority ? (
           <Alert role="status">
             <TriangleAlert aria-hidden="true" />

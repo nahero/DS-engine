@@ -9,13 +9,16 @@ export type DisplayOptions = {
 
 /** Writes display settings to localStorage before the app loads (index.html applies them before first paint). */
 export async function setDisplay(page: Page, { theme = 'light', density = 'comfortable', brand = 'default' }: DisplayOptions = {}) {
-  await page.addInitScript((settings) => {
-    try {
-      localStorage.setItem('ds-display-settings', JSON.stringify(settings))
-    } catch {
-      /* storage unavailable */
-    }
-  }, { theme, brand, density })
+  await page.addInitScript(
+    (settings) => {
+      try {
+        localStorage.setItem('ds-display-settings', JSON.stringify(settings))
+      } catch {
+        /* storage unavailable */
+      }
+    },
+    { theme, brand, density },
+  )
 }
 
 /** Kills transitions and animations (CSS) and asks for reduced motion. Call before `goto`. */
@@ -35,9 +38,7 @@ export async function disableAnimations(page: Page) {
 
 /** Runs axe (WCAG 2.0/2.1/2.2 A and AA) on the current page and fails with a readable list of violations. */
 export async function expectNoA11yViolations(page: Page) {
-  const { violations } = await new AxeBuilder({ page })
-    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
-    .analyze()
+  const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
 
   const report = violations
     .map((v) => {

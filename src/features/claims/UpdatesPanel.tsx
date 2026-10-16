@@ -32,7 +32,9 @@ interface Update {
 function collect(claims: AssignedClaim[]): Update[] {
   return claims
     .flatMap((c) => (c.lastEvent ? [{ event: c.lastEvent, claimId: c.id, policyholder: c.policyholder }] : []))
-    .sort((a, b) => Number(b.event.isNew) - Number(a.event.isNew) || b.event.at.localeCompare(a.event.at) || a.claimId.localeCompare(b.claimId))
+    .sort(
+      (a, b) => Number(b.event.isNew) - Number(a.event.isNew) || b.event.at.localeCompare(a.event.at) || a.claimId.localeCompare(b.claimId),
+    )
 }
 
 function UpdateItem({ update, now }: { update: Update; now: string }) {
@@ -122,7 +124,14 @@ export function UpdatesPanel({
           </div>
         )}
 
-        {view === 'empty' && <StateBlock kind="empty" size="sm" title="Nothing new since your last visit" description="Document replies, approvals and SLA warnings appear here" />}
+        {view === 'empty' && (
+          <StateBlock
+            kind="empty"
+            size="sm"
+            title="Nothing new since your last visit"
+            description="Document replies, approvals and SLA warnings appear here"
+          />
+        )}
 
         {view === 'error' && (
           <StateBlock

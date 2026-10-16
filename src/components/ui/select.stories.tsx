@@ -28,7 +28,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Radix select at control height. Always paired with a visible `<label>` (`htmlFor` = trigger `id`). Arrow keys, Home/End and typeahead come from Radix.',
+        component:
+          'Radix select at control height. Always paired with a visible `<label>` (`htmlFor` = trigger `id`). Arrow keys, Home/End and typeahead come from Radix.',
       },
     },
   },
@@ -196,7 +197,9 @@ export const LongOption: Story = {
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="long">Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC</SelectItem>
+          <SelectItem value="long">
+            Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC
+          </SelectItem>
           <SelectItem value="short">Sarah Mitchell</SelectItem>
         </SelectContent>
       </Select>

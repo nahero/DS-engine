@@ -1,12 +1,4 @@
-import {
-  CircleAlert,
-  Inbox,
-  Percent,
-  Target,
-  TrendingDown,
-  TrendingUp,
-  type LucideIcon,
-} from 'lucide-react'
+import { CircleAlert, Inbox, Percent, Target, TrendingDown, TrendingUp, type LucideIcon } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'

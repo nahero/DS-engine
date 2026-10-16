@@ -64,7 +64,8 @@ function colorScopes(path) {
   const last = path.at(-1)
   if (path[0] === 'bg') return COLOR_SCOPES.bg
   if (path[0] === 'fg' || last === 'fg') return COLOR_SCOPES.fg
-  if (path[0] === 'border' || last === 'border') return path.at(-1) === 'focus' ? [...COLOR_SCOPES.border, 'EFFECT_COLOR'] : COLOR_SCOPES.border
+  if (path[0] === 'border' || last === 'border')
+    return path.at(-1) === 'focus' ? [...COLOR_SCOPES.border, 'EFFECT_COLOR'] : COLOR_SCOPES.border
   if (path[0] === 'confidence') return COLOR_SCOPES.mark
   return COLOR_SCOPES.fill
 }
@@ -95,8 +96,7 @@ const semanticCollection = {
   })),
 }
 
-const densityScopes = (path) =>
-  path[0] === 'space' ? ['GAP'] : path[0] === 'font' ? ['FONT_SIZE'] : ['WIDTH_HEIGHT']
+const densityScopes = (path) => (path[0] === 'space' ? ['GAP'] : path[0] === 'font' ? ['FONT_SIZE'] : ['WIDTH_HEIGHT'])
 const densityCollection = {
   name: 'DS Density',
   modes: ['Comfortable', 'Compact'],
@@ -130,14 +130,16 @@ const componentCollection = {
         return []
       }
       const prop = path.at(-1)
-      return [{
-        name: `${name}/${path.join('/')}`,
-        type: type === 'color' ? 'COLOR' : 'FLOAT',
-        scopes: prop === 'border' ? ['STROKE_COLOR'] : COMPONENT_SCOPES[type === 'color' ? 'color' : prop] ?? ['WIDTH_HEIGHT'],
-        web: `var(--ds-${name}-${path.join('-')})`,
-        description: group.$description ?? '',
-        values: [componentValue(token.$value, type)],
-      }]
+      return [
+        {
+          name: `${name}/${path.join('/')}`,
+          type: type === 'color' ? 'COLOR' : 'FLOAT',
+          scopes: prop === 'border' ? ['STROKE_COLOR'] : (COMPONENT_SCOPES[type === 'color' ? 'color' : prop] ?? ['WIDTH_HEIGHT']),
+          web: `var(--ds-${name}-${path.join('-')})`,
+          description: group.$description ?? '',
+          values: [componentValue(token.$value, type)],
+        },
+      ]
     }),
   ),
 }

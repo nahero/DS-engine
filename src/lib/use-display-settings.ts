@@ -1,8 +1,8 @@
-import * as React from "react"
+import * as React from 'react'
 
-export type Theme = "light" | "dark" | "system"
-export type Brand = "default" | "purple"
-export type Density = "comfortable" | "compact"
+export type Theme = 'light' | 'dark' | 'system'
+export type Brand = 'default' | 'purple'
+export type Density = 'comfortable' | 'compact'
 
 export type DisplaySettings = {
   theme: Theme
@@ -13,15 +13,15 @@ export type DisplaySettings = {
   setDensity: (density: Density) => void
 }
 
-const STORAGE_KEY = "ds-display-settings"
-const DARK_QUERY = "(prefers-color-scheme: dark)"
+const STORAGE_KEY = 'ds-display-settings'
+const DARK_QUERY = '(prefers-color-scheme: dark)'
 
 type Stored = { theme: Theme; brand: Brand; density: Density }
-const DEFAULTS: Stored = { theme: "system", brand: "default", density: "comfortable" }
+const DEFAULTS: Stored = { theme: 'system', brand: 'default', density: 'comfortable' }
 
-const THEMES: readonly Theme[] = ["light", "dark", "system"]
-const BRANDS: readonly Brand[] = ["default", "purple"]
-const DENSITIES: readonly Density[] = ["comfortable", "compact"]
+const THEMES: readonly Theme[] = ['light', 'dark', 'system']
+const BRANDS: readonly Brand[] = ['default', 'purple']
+const DENSITIES: readonly Density[] = ['comfortable', 'compact']
 
 function pick<T extends string>(value: unknown, allowed: readonly T[], fallback: T): T {
   return allowed.includes(value as T) ? (value as T) : fallback
@@ -61,9 +61,9 @@ function systemPrefersDark(): boolean {
 // Same attributes `.storybook/preview.tsx` sets: `.dark` class, data-theme (brand), data-density.
 function applyBrandAndDensity(brand: Brand, density: Density) {
   const root = document.documentElement
-  if (brand === "default") delete root.dataset.theme
+  if (brand === 'default') delete root.dataset.theme
   else root.dataset.theme = brand
-  if (density === "comfortable") delete root.dataset.density
+  if (density === 'comfortable') delete root.dataset.density
   else root.dataset.density = density
 }
 
@@ -74,20 +74,20 @@ export function useDisplaySettings(): DisplaySettings {
   // Light/dark. "system" follows prefers-color-scheme and reacts to changes.
   React.useEffect(() => {
     const root = document.documentElement
-    if (theme !== "system") {
-      root.classList.toggle("dark", theme === "dark")
+    if (theme !== 'system') {
+      root.classList.toggle('dark', theme === 'dark')
       return
     }
-    root.classList.toggle("dark", systemPrefersDark())
+    root.classList.toggle('dark', systemPrefersDark())
     let mql: MediaQueryList
     try {
       mql = window.matchMedia(DARK_QUERY)
     } catch {
       return
     }
-    const onChange = (event: MediaQueryListEvent) => root.classList.toggle("dark", event.matches)
-    mql.addEventListener("change", onChange)
-    return () => mql.removeEventListener("change", onChange)
+    const onChange = (event: MediaQueryListEvent) => root.classList.toggle('dark', event.matches)
+    mql.addEventListener('change', onChange)
+    return () => mql.removeEventListener('change', onChange)
   }, [theme])
 
   React.useEffect(() => {

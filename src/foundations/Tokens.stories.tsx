@@ -47,9 +47,7 @@ function TokenTable({ headers, children }: { headers: string[]; children: ReactN
   )
 }
 
-const Code = ({ children }: { children: ReactNode }) => (
-  <code className="font-mono text-caption text-fg-muted">{children}</code>
-)
+const Code = ({ children }: { children: ReactNode }) => <code className="font-mono text-caption text-fg-muted">{children}</code>
 
 function Page({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -68,16 +66,18 @@ function Colors() {
         {flatten(light).map((t) => (
           <tr key={name(t.path)} className="h-row border-b border-border">
             <td className="px-cell">
-              <div
-                aria-hidden
-                className="size-8 rounded-inner border border-border"
-                style={{ background: `var(${cssVar(t.path)})` }}
-              />
+              <div aria-hidden className="size-8 rounded-inner border border-border" style={{ background: `var(${cssVar(t.path)})` }} />
             </td>
             <td className="px-cell">{name(t.path)}</td>
-            <td className="px-cell"><Code>{cssVar(t.path)}</Code></td>
-            <td className="px-cell"><Code>{String(t.value)}</Code></td>
-            <td className="px-cell"><Code>{darkValues.get(name(t.path))}</Code></td>
+            <td className="px-cell">
+              <Code>{cssVar(t.path)}</Code>
+            </td>
+            <td className="px-cell">
+              <Code>{String(t.value)}</Code>
+            </td>
+            <td className="px-cell">
+              <Code>{darkValues.get(name(t.path))}</Code>
+            </td>
           </tr>
         ))}
       </TokenTable>
@@ -94,9 +94,15 @@ function Density() {
         {flatten(comfortable).map((t) => (
           <tr key={name(t.path)} className="h-row border-b border-border">
             <td className="px-cell">{name(t.path)}</td>
-            <td className="px-cell"><Code>{cssVar(t.path)}</Code></td>
-            <td className="px-cell"><Code>{String(t.value)}</Code></td>
-            <td className="px-cell"><Code>{compactValues.get(name(t.path))}</Code></td>
+            <td className="px-cell">
+              <Code>{cssVar(t.path)}</Code>
+            </td>
+            <td className="px-cell">
+              <Code>{String(t.value)}</Code>
+            </td>
+            <td className="px-cell">
+              <Code>{compactValues.get(name(t.path))}</Code>
+            </td>
             <td className="px-cell">
               <div aria-hidden className="h-2 rounded-inner bg-action-primary" style={{ width: `var(${cssVar(t.path)})` }} />
             </td>
@@ -115,7 +121,9 @@ function Typography() {
         {sizes.map((t) => (
           <tr key={name(t.path)} className="border-b border-border">
             <td className="px-cell py-2">{name(t.path)}</td>
-            <td className="px-cell py-2"><Code>{cssVar(t.path)}</Code></td>
+            <td className="px-cell py-2">
+              <Code>{cssVar(t.path)}</Code>
+            </td>
             <td className="px-cell py-2" style={{ fontSize: `var(${cssVar(t.path)})` } as CSSProperties}>
               Claim #10482 · Policy holder name missing
             </td>
@@ -159,9 +167,7 @@ function Motion() {
     Array.isArray(value) ? `cubic-bezier(${value.join(', ')})` : `${(value as { value: number }).value}ms`
   return (
     <Page title="Motion">
-      <p className="text-fg-muted">
-        Hover or focus a row to play it. Set Motion to reduced in the toolbar: every duration becomes 0.
-      </p>
+      <p className="text-fg-muted">Hover or focus a row to play it. Set Motion to reduced in the toolbar: every duration becomes 0.</p>
       <TokenTable headers={['Token', 'CSS variable', 'Value', 'Preview']}>
         {tokens.map((t) => {
           const isDuration = t.path[1] === 'duration'
@@ -173,8 +179,12 @@ function Motion() {
           return (
             <tr key={name(t.path)} className="h-row border-b border-border">
               <td className="px-cell">{name(t.path)}</td>
-              <td className="px-cell"><Code>{cssVar(t.path)}</Code></td>
-              <td className="px-cell"><Code>{format(t.value)}</Code></td>
+              <td className="px-cell">
+                <Code>{cssVar(t.path)}</Code>
+              </td>
+              <td className="px-cell">
+                <Code>{format(t.value)}</Code>
+              </td>
               <td className="px-cell">
                 <button
                   type="button"
@@ -201,14 +211,15 @@ function Primitives() {
   return (
     <Page title="Primitive colors">
       <p className="text-fg-muted">
-        Exported from the Figma kit (<Code>tokens/figma/primitive.json</Code>). Components never use these directly; semantic
-        and brand tokens alias them.
+        Exported from the Figma kit (<Code>tokens/figma/primitive.json</Code>). Components never use these directly; semantic and brand
+        tokens alias them.
       </p>
       <div className="flex flex-col gap-stack">
         {hues.map(([hue, steps]) => {
-          const tokens = typeof steps === 'object' && steps !== null && '$value' in steps
-            ? [{ path: ['color', hue], value: steps.$value }]
-            : flatten(steps as object, ['color', hue])
+          const tokens =
+            typeof steps === 'object' && steps !== null && '$value' in steps
+              ? [{ path: ['color', hue], value: steps.$value }]
+              : flatten(steps as object, ['color', hue])
           return (
             <div key={hue} className="flex flex-col gap-2">
               <h2 className="text-body font-medium">{hue}</h2>
@@ -243,20 +254,26 @@ function Brand() {
   return (
     <Page title="Brand themes">
       <p className="text-fg-muted">
-        Roles that change per brand (<Code>tokens/brand.*.json</Code>), each with a light and dark value. Semantic tokens alias
-        them; switch Brand in the toolbar to apply a theme.
+        Roles that change per brand (<Code>tokens/brand.*.json</Code>), each with a light and dark value. Semantic tokens alias them; switch
+        Brand in the toolbar to apply a theme.
       </p>
       <TokenTable headers={['Token', 'CSS variable', ...themes.map((t) => t.label)]}>
         {flatten(brandDefault).map((t) => (
           <tr key={name(t.path)} className="h-row border-b border-border">
             <td className="px-cell">{name(t.path)}</td>
-            <td className="px-cell"><Code>{cssVar(t.path)}</Code></td>
+            <td className="px-cell">
+              <Code>{cssVar(t.path)}</Code>
+            </td>
             {themes.map((theme) => {
               const value = theme.tokens.get(name(t.path))
               return (
                 <td key={theme.label} className="px-cell">
                   <span className="flex items-center gap-2">
-                    <span aria-hidden className="size-6 shrink-0 rounded-inner border border-border" style={{ background: aliasVar(value) }} />
+                    <span
+                      aria-hidden
+                      className="size-6 shrink-0 rounded-inner border border-border"
+                      style={{ background: aliasVar(value) }}
+                    />
                     <Code>{value}</Code>
                   </span>
                 </td>
@@ -273,8 +290,8 @@ function Components() {
   return (
     <Page title="Component tokens">
       <p className="text-fg-muted">
-        Only where a component needs its own knob (<Code>tokens/component.json</Code>). They alias semantic tokens, so they
-        follow light/dark, brand and density.
+        Only where a component needs its own knob (<Code>tokens/component.json</Code>). They alias semantic tokens, so they follow
+        light/dark, brand and density.
       </p>
       <TokenTable headers={['', 'Token', 'CSS variable', 'Alias']}>
         {flatten(component).map((t) => {
@@ -287,8 +304,12 @@ function Components() {
                 )}
               </td>
               <td className="px-cell">{name(t.path)}</td>
-              <td className="px-cell"><Code>{cssVar(t.path)}</Code></td>
-              <td className="px-cell"><Code>{typeof t.value === 'object' ? 'shadow (see Radius and shadow)' : String(t.value)}</Code></td>
+              <td className="px-cell">
+                <Code>{cssVar(t.path)}</Code>
+              </td>
+              <td className="px-cell">
+                <Code>{typeof t.value === 'object' ? 'shadow (see Radius and shadow)' : String(t.value)}</Code>
+              </td>
             </tr>
           )
         })}

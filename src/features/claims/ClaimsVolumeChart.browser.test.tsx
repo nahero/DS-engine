@@ -14,7 +14,9 @@ describe('ClaimsVolumeChart', () => {
     await expect.element(getByText('Claims per week, W34–W39 2026')).toBeVisible()
     const first = rowTotal(weeklyVolume[0])
     const last = rowTotal(weeklyVolume[weeklyVolume.length - 1])
-    expect(container.textContent).toContain(`Weekly claims rose from ${fmt(first)} in W34 to ${fmt(last)} in W39; Motor is the largest line.`)
+    expect(container.textContent).toContain(
+      `Weekly claims rose from ${fmt(first)} in W34 to ${fmt(last)} in W39; Motor is the largest line.`,
+    )
     await expectNoA11yViolations(container)
   })
 
