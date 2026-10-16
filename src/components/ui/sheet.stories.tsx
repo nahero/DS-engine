@@ -120,7 +120,7 @@ export const LongContent: Story = {
           <SheetTitle>Audit trail for Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC</SheetTitle>
           <SheetDescription>Every change to CLM-2026-004819, newest first.</SheetDescription>
         </SheetHeader>
-        <div role="region" aria-label="Audit events" tabIndex={0} className="flex-1 overflow-y-auto px-inset">
+        <div role="region" aria-label="Audit events" tabIndex={0} className="flex-1 overflow-y-auto px-inset focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none">
           <ul className="flex flex-col gap-3 text-body text-fg">
             {Array.from({ length: 30 }, (_, i) => (
               <li key={i}>

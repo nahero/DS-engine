@@ -91,14 +91,14 @@ function summariseTests() {
 
 for (const [label, cmd, args] of steps) {
   if (fs.existsSync(report)) fs.rmSync(report)
-  const before = label.startsWith('Token') ? GENERATED.map((f) => git('diff', 'HEAD', '--', f)).join('') : ''
+  const before = label === 'Token build + contrast' ? GENERATED.map((f) => git('diff', 'HEAD', '--', f)).join('') : ''
   const r = spawnSync(cmd, args, { cwd: root, encoding: 'utf8', env })
   if (r.error) block(`${label} could not run`, `${r.error.message}\nIs node_modules installed (npm ci) and Chromium (npx playwright install chromium)?`)
   if (r.status !== 0) {
     const out = (label.startsWith('Tests') && summariseTests()) || (r.stdout + r.stderr).trim().split('\n').slice(-60).join('\n')
     block(`${label} is red for the current changes`, out)
   }
-  if (label.startsWith('Token') && GENERATED.map((f) => git('diff', 'HEAD', '--', f)).join('') !== before) {
+  if (label === 'Token build + contrast' && GENERATED.map((f) => git('diff', 'HEAD', '--', f)).join('') !== before) {
     block('generated token files differed from a fresh build', `${GENERATED.join(', ')} were regenerated from tokens/*.json. Review the diff; never edit them by hand.`)
   }
 }

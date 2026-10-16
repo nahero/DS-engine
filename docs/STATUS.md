@@ -2,7 +2,7 @@
 
 The current state of DS-Engine: what is built, what is in sync, the known differences and the open work. Read this first when picking the project up on another machine. Update it when work lands.
 
-Last updated: 2026-10-16 · last commit on `main` with green CI: `87c7254`
+Last updated: 2026-10-16 · harness PR 3 in progress
 
 ## Built and live
 
@@ -35,36 +35,38 @@ Last updated: 2026-10-16 · last commit on `main` with green CI: `87c7254`
 
 **Inside the code**
 - Overview visual baselines still show "Awaiting review 128"; the app shows 711. The tests pass (difference is under the 1% tolerance). Refresh: run the `Update screenshots` workflow, download the artifact, commit it to `e2e/visual.spec.ts-snapshots/`.
-- The first component-test run on a cold Vite cache can fail to import `src/test/setup.ts` in some files ("Unexpected token '}'"). A re-run passes. Not yet fixed.
+- Once (2026-10-14) a component-test run failed to import `src/test/setup.ts` in 12 files ("Unexpected token '}'": a cached Vite dep file cut off part-way). Not reproduced in 12 later runs (cold, stale, concurrent). Agent hook runs now use their own Vite cache; CI always starts cold.
 
 ## Open work, in order
 
-1. **Harness upgrade** (goal: checks, not the agent, decide when work is done). Phase 1 audit done, see below. Phase 2 plan needs three answers first:
-   - Small PRs, or commits on `main` (the current rule)?
-   - oxlint's built-in `jsx-a11y` plugin instead of adding ESLint?
-   - Pin exact versions only for new dependencies, or re-pin existing ones too?
+1. **Harness upgrade** (goal: checks, not the agent, decide when work is done). One PR per step; Igor's go-ahead between PRs. Decisions (2026-10-16): PRs for harness work with branch protection (admin bypass for small direct pushes), oxlint `jsx-a11y` (no ESLint), Prettier + Tailwind plugin, exact versions for new dependencies only, visual regression on every story in Default/Purple × light/dark (comfortable).
+   - [x] Step 0: ruleset on `main` (PR + green `checks`, `e2e`, `build`)
+   - [x] PR 1: deterministic tests (not reproducible; separate Vite cache for hook runs, see above)
+   - [x] PR 2: agent hooks, reviewer subagent, skills, CLAUDE.md rules (ADR 0014)
+   - [ ] PR 3: jsx-a11y lint, tokens-only check, token validation, explicit strict (ADR 0015)
+   - [ ] PR 4: Prettier · PR 5: pre-commit · PR 6: visual regression per story · PR 7: CI reporting · PR 8: docs (`docs/harness.md`) and the three demo branches
 2. Igor's review of My assigned (review page: https://claude.ai/artifact/PauGqVydaexSeuU2Gk6Xix). Open question from it: the four counts could be a slimmer strip.
 3. Igor's review of the wording in [how-i-work-with-ai.md](how-i-work-with-ai.md).
 4. Refresh the Overview visual baselines (above).
 5. CHANGELOG and a contribution guide.
 6. 3-minute walkthrough video.
 
-## Harness audit (Phase 1, 2026-10-14)
+## Harness audit (Phase 1, 2026-10-14; status updated per PR)
 
 | Layer | Status | Gap |
 |---|---|---|
-| Types | Present | `strict` comes from the TypeScript 6 default; not explicit in tsconfig |
-| Lint | Partial | oxlint without the `jsx-a11y` plugin; no formatter |
-| Token use | Partial | Tailwind default palette removed, but arbitrary values (`p-[13px]`) aren't blocked |
-| Tokens | Partial | Style Dictionary build, contrast check, drift check; no DTCG validation before the build |
+| Types | Present | `strict` explicit (PR 3) |
+| Lint | Partial | oxlint + `jsx-a11y` (PR 3); no formatter yet (PR 4) |
+| Token use | Present | `check:token-usage` blocks arbitrary values, colour literals, literal inline styles (PR 3) |
+| Tokens | Present | DTCG validation (PR 3), Style Dictionary build, contrast check, drift check |
 | Unit / component / stories | Present | `DisplayMenu` and `AppShell` have only 2 stories each |
 | Accessibility | Present | addon-a11y set to `error`, axe in component tests and per screen in e2e |
 | Visual regression | Partial | 4 screens × 2 modes; no per-story screenshots, no brand variants |
 | E2E | Present | navigation, claim review, keyboard, My assigned, a11y, visual |
 | Pre-commit | Missing | no lint-staged |
 | CI | Present | runs on push and PR; deploy waits for every job; Playwright report and Lighthouse uploaded |
-| Agent harness | Partial | CLAUDE.md rules and project skills; no hooks (edit → lint/typecheck, stop → tests), no reviewer subagent, no rule that test/story changes are listed separately |
-| Skills | Present | own: `new-component`, `sync-tokens`, `ui-review` (`.claude/skills/`) |
+| Agent harness | Present | hooks (edit → lint/typecheck/token usage, stop → checks + related tests), `ui-reviewer` subagent, protected-test and test-first rules (PR 2) |
+| Skills | Present | own: `new-component`, `write-stories`, `sync-tokens`, `ui-review`, `a11y-audit` (`.claude/skills/`) |
 
 Target harness: static checks (strict TS, a11y lint, formatter, hardcoded-value check) · token validation and contrast · unit · stories for every state with `play` interactions · axe fails the run · visual diffs per story across light/dark × densities, so a token change shows every affected component · 2–3 e2e flows · pre-commit · CI blocks deploy · agent hooks so the agent can't report done while checks are red · independent reviewer subagent · manual keyboard + VoiceOver checklist in [accessibility.md](design-system/accessibility.md).
 
@@ -72,7 +74,7 @@ Demo to support at the end: a component change that fails the a11y gate and pass
 
 ## Working rules
 
-- Commit on `main`, no branches or PRs (unless the harness decision changes this). Push only after Igor confirms.
+- Harness work: one PR per step, merged when green and Igor agrees. Other work: commit on `main`, push only after Igor confirms.
 - Plan mode for multi-file or structural changes; wait for approval.
 - Ask before adding a dependency that isn't in the Stack list in the [README](../README.md#stack).
 - Igor reviews remotely: share results as artifact pages with screenshots, not localhost.
