@@ -169,7 +169,7 @@ Four screens, built with shadcn/ui on Radix and 1,000 deliberately messy mock cl
 
 ## Stack
 
-Vite · React 19 · TypeScript · Vitest (browser mode) + Playwright (Chromium) · axe-core · Tailwind CSS v4 · shadcn/ui (Radix) · TanStack Table · Recharts · Style Dictionary (DTCG) · Storybook 10 (a11y, themes) · Geist · oxlint · GitHub Actions → GitHub Pages
+Vite · React 19 · TypeScript · Vitest (browser mode) + Playwright (Chromium) · axe-core · Tailwind CSS v4 · shadcn/ui (Radix) · TanStack Table · Recharts · Style Dictionary (DTCG) · Storybook 10 (a11y, themes) · Geist · oxlint · GitHub Actions → GitHub Pages · Claude Code hooks + Playwright MCP (agent harness)
 
 ## Repo map
 
