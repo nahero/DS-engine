@@ -18,3 +18,4 @@ Short records of decisions that shaped the system: context, what was decided, wh
 | [0012](0012-brand-layer-widened.md) | A brand can restyle surfaces, borders, navigation, icons and charts | 2026-10-09 |
 | [0013](0013-worklist-by-next-action.md) | "My assigned" is a worklist organised by next action | 2026-10-09 |
 | [0014](0014-checks-decide-done.md) | Checks decide when work is done: agent hooks, reviewer subagent, PRs with branch protection | 2026-10-16 |
+| [0015](0015-static-checks-and-token-validation.md) | Accessibility lint, tokens-only check and DTCG token validation | 2026-10-16 |

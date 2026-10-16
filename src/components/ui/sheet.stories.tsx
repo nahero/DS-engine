@@ -120,13 +120,15 @@ export const LongContent: Story = {
           <SheetTitle>Audit trail for Montgomery-Whitfield-Featherstonehaugh Property Holdings and Development Group International LLC</SheetTitle>
           <SheetDescription>Every change to CLM-2026-004819, newest first.</SheetDescription>
         </SheetHeader>
-        <ul className="flex flex-1 flex-col gap-3 overflow-y-auto px-inset text-body text-fg" tabIndex={0} aria-label="Audit events">
-          {Array.from({ length: 30 }, (_, i) => (
-            <li key={i}>
-              Event {30 - i}: Emily Carter changed the loss date and the agent re-ran the coverage checks.
-            </li>
-          ))}
-        </ul>
+        <div role="region" aria-label="Audit events" tabIndex={0} className="flex-1 overflow-y-auto px-inset focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none">
+          <ul className="flex flex-col gap-3 text-body text-fg">
+            {Array.from({ length: 30 }, (_, i) => (
+              <li key={i}>
+                Event {30 - i}: Emily Carter changed the loss date and the agent re-ran the coverage checks.
+              </li>
+            ))}
+          </ul>
+        </div>
         <SheetFooter>
           <SheetClose asChild>
             <Button variant="outline">Close</Button>

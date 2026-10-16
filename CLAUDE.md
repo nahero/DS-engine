@@ -15,8 +15,9 @@ Current state, known differences and open work: `docs/STATUS.md`. Read it at the
 - `npm test`: all Vitest projects. `npm run test:unit`: logic (`src/**/*.test.ts`). `npm run test:components`: feature components and screens (`*.browser.test.tsx`, Chromium, light + dark/compact, axe). `npm run test:stories`: every story in Chromium (axe), light + dark/compact
 - `npm run e2e`: Playwright against the built app: flows, routing, keyboard, axe per screen, visual regression (Linux baselines; `update-screenshots` workflow regenerates them)
 - `npm run check:stories` / `npm run check:tests`: fail if a component has no stories / a feature component or screen has no `*.browser.test.tsx`
+- `npm run check:token-usage [files]`: fail on arbitrary values, colour literals or literal inline styles in components, features and screens
 - `npm run storybook` / `npm run build-storybook`: CI builds Storybook into `dist/storybook`
-- `npm run build:tokens`: `tokens/**/*.json` → `src/styles/tokens.css` + `tokens.ts`, then WCAG contrast check (commit the result; CI fails if it drifts or contrast fails)
+- `npm run build:tokens`: DTCG validation, then `tokens/**/*.json` → `src/styles/tokens.css` + `tokens.ts`, then WCAG contrast check (commit the result; CI fails if it drifts or contrast fails)
 - Add shadcn components: `npx shadcn@latest add <name>`
 
 ## Hard rules
@@ -34,7 +35,7 @@ Current state, known differences and open work: `docs/STATUS.md`. Read it at the
 - After adding or changing a component, update `docs/design-system/components.md`.
 - Log notable AI mistakes (yours included) in `docs/ai-log.md`: what went wrong, how it was caught, fix.
 - Notable decisions get a record in `docs/decisions/` (context, decision, consequences); never edit an old one, supersede it.
-- CI (`.github/workflows/deploy.yml`) blocks deploy on: token drift, contrast, lint, typecheck, story coverage, test coverage, unit / component / story tests, Playwright end-to-end (axe, visual regression), bundle budget (`npm run check:bundle`) and Lighthouse (`npm run lighthouse`). Run the same locally before committing.
+- CI (`.github/workflows/deploy.yml`) blocks deploy on: token validation, token drift, contrast, lint (incl. jsx-a11y), tokens-only check, typecheck, story coverage, test coverage, unit / component / story tests, Playwright end-to-end (axe, visual regression), bundle budget (`npm run check:bundle`) and Lighthouse (`npm run lighthouse`). Run the same locally before committing.
 
 ## Pointers
 - Tokens: `docs/design-system/tokens.md`, motion: `docs/design-system/motion.md`

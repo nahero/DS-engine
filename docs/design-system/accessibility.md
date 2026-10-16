@@ -26,6 +26,7 @@ Shortcuts never fire while typing in an input.
 - Every input has a visible label; icon-only buttons have `aria-label`.
 - Tables: real `<table>` with header cells; sortable headers expose `aria-sort`.
 - Live updates (toasts, bulk results) use a polite live region.
+- Lint: oxlint's `jsx-a11y` rules run on every edit and in CI. Two rules are off in `.oxlintrc.json` with the reason there (`prefer-tag-over-role`, `control-has-associated-label`); focusable scroll regions (`role="region"` + `tabIndex={0}`) are allowed.
 
 ## Colour is never the only signal
 Status, confidence, errors and diff highlights always carry text and/or an icon. Check stories in greyscale mentally: is the meaning still there?
@@ -38,4 +39,4 @@ Status, confidence, errors and diff highlights always carry text and/or an icon.
 - Durations collapse to 0 under `prefers-reduced-motion` (see `motion.md`). No information conveyed only through animation.
 
 ## Exceptions
-If an a11y rule must be disabled in a story, disable only that rule on that story, with a comment saying why and what compensates. Log it in `docs/ai-log.md` if AI introduced it.
+If an a11y rule must be disabled, disable only that rule on that story or line, with a comment saying why and what compensates. Lint exceptions are `oxlint-disable-next-line <rule> -- <reason>`; unused ones fail the lint. Log it in `docs/ai-log.md` if AI introduced it.

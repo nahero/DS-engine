@@ -198,6 +198,7 @@ export function ClaimHeader({
       />
 
       {panel === 'decide' && (
+        // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Escape from any control inside closes the panel.
         <div
           id={panelId}
           role="group"
@@ -227,6 +228,7 @@ export function ClaimHeader({
       )}
 
       {panel === 'refer' && (
+        // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Escape from any control inside closes the form.
         <form
           id={panelId}
           aria-labelledby={`${panelId}-title`}

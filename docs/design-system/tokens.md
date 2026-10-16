@@ -1,6 +1,6 @@
 # Tokens
 
-Source of truth: DTCG JSON in `tokens/`. `npm run build:tokens` turns it into `src/styles/tokens.css` (CSS custom properties, prefix `--ds-`) and `src/styles/tokens.ts` (motion values for JS), then runs the contrast check. `globals.css` maps the result to Tailwind utilities and shadcn variables.
+Source of truth: DTCG JSON in `tokens/`. `npm run build:tokens` validates it (`scripts/validate-tokens.js`: types, values, references in every mode, mode parity), turns it into `src/styles/tokens.css` (CSS custom properties, prefix `--ds-`) and `src/styles/tokens.ts` (motion values for JS), then runs the contrast check. `globals.css` maps the result to Tailwind utilities and shadcn variables.
 
 ## Tiers
 
@@ -89,7 +89,7 @@ The Obra kit's values are the starting point; these differences live in our sema
 | shadcn `--input` | neutral-200 | `border.strong` (neutral-500) | Input boundaries need 3:1 (WCAG 1.4.11) |
 
 ## Changing tokens
-- **Hand-owned** (semantic, component, density, motion): edit the JSON, `npm run build:tokens`, commit JSON and generated files. CI fails if the generated files drift or contrast fails.
+- **Hand-owned** (semantic, component, density, motion): edit the JSON, `npm run build:tokens`, commit JSON and generated files. CI fails if validation fails, the generated files drift or contrast fails.
 - **From Figma**: `sync-tokens` skill.
 - New role: add it to both `semantic.light.json` and `semantic.dark.json`, map a utility in `globals.css`, add pairs to `scripts/check-contrast.js` if it carries text or a boundary, update this file.
 

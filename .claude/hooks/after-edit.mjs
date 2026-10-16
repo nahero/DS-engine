@@ -22,8 +22,12 @@ function run(label, cmd, args) {
 }
 
 if (/\.(ts|tsx|js|mjs)$/.test(rel) && !rel.startsWith('.claude/')) {
-  run('Lint', bin('oxlint'), ['--deny-warnings', rel])
+  run('Lint', bin('oxlint'), ['--deny-warnings', '--report-unused-disable-directives', rel])
   run('Typecheck', bin('tsc'), ['-b'])
+}
+
+if (/^src\/(components|features|screens)\/.*\.(tsx?|css)$/.test(rel)) {
+  run('Token usage', 'node', ['scripts/check-token-usage.js', rel])
 }
 
 if (/^tokens\/.*\.json$/.test(rel)) {

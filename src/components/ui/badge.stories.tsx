@@ -77,7 +77,9 @@ export const Focus: Story = {
 export const Disabled: Story = {
   render: () => (
     <Badge asChild variant="outline" className="opacity-50">
-      <a aria-disabled="true">Escalate</a>
+      <span role="link" aria-disabled="true">
+        Escalate
+      </span>
     </Badge>
   ),
 }

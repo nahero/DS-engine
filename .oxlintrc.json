@@ -1,9 +1,18 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
+  "plugins": ["react", "typescript", "oxc", "jsx-a11y"],
   "rules": {
     "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+    "react/only-export-components": ["warn", { "allowConstantExport": true }],
+    // Not in jsx-a11y's recommended set. Its swaps would make things worse here: role="status" → <output> (weaker live-region
+    // support), role="img" on text initials → <img>, role="group" → <fieldset>, and role="link" + aria-disabled (the
+    // disabled-link pattern) → <a>. role="region" → <section> is equivalent, so it isn't worth the churn.
+    "jsx-a11y/prefer-tag-over-role": "off",
+    // Off in jsx-a11y's recommended set too. Its only hits are decorative aria-hidden swatches in table cells whose row
+    // already names the token.
+    "jsx-a11y/control-has-associated-label": "off",
+    // A scrollable region must be focusable so keyboard users can scroll it (axe: scrollable-region-focusable).
+    "jsx-a11y/no-noninteractive-tabindex": ["warn", { "roles": ["tabpanel", "region"], "tags": [] }]
   },
   "overrides": [
     {

@@ -88,9 +88,11 @@ Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.y
 
 | Gate | What it enforces |
 |---|---|
+| Token validation | DTCG files: known types, valid values, every reference resolves in every mode, mode files define the same tokens |
 | Token drift | Generated `tokens.css` / `tokens.ts` match the JSON source |
 | Contrast | 52 text and non-text colour pairs plus chart marks × 2 brands × light/dark meet WCAG AA |
-| Lint | oxlint, warnings are errors |
+| Lint | oxlint with the `jsx-a11y` rules, warnings are errors; every exception is an inline comment with its reason |
+| Tokens only | No arbitrary values, colour literals or literal inline styles in components, features and screens |
 | Typecheck | `tsc -b`, strict |
 | Story coverage | Every component has stories |
 | Test coverage | Every feature component and screen has component tests |
