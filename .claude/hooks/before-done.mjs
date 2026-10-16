@@ -22,7 +22,9 @@ const changed = [
 const deleted = files(git('diff', '-z', '--name-only', '--diff-filter=D', base))
 
 const CONFIG = /^(package(-lock)?\.json|tsconfig.*\.json|\.oxlintrc\.json|sd\.config\.js|(vite|vitest|playwright)\.config\.ts|index\.html)$/
-const relevant = changed.filter((f) => /^(src|tokens|scripts|e2e|public|\.storybook)\//.test(f) || CONFIG.test(f))
+// Repo meta (formatter, agent, CI config) triggers the fast checks, not the full test run.
+const META = /^(\.prettier|\.claude\/|\.github\/|lighthouserc|components\.json)/
+const relevant = changed.filter((f) => /^(src|tokens|scripts|e2e|public|\.storybook)\//.test(f) || CONFIG.test(f) || META.test(f))
 if (!relevant.length) process.exit(0)
 
 // Skip when nothing changed since the last green run (the hook fires on every stop, not only after edits).
@@ -71,7 +73,7 @@ if (relevant.some((f) => f.startsWith('tokens/') || GENERATED.includes(f))) {
 }
 
 // Config or token changes can affect every test; otherwise only the tests that import a changed file.
-const broad = relevant.some((f) => !/^(src|e2e)\//.test(f) || GENERATED.includes(f))
+const broad = relevant.some((f) => (!/^(src|e2e)\//.test(f) && !META.test(f)) || GENERATED.includes(f))
 const projects = ['unit', 'components', 'components-dark', 'storybook', 'storybook-dark'].flatMap((p) => ['--project', p])
 const srcFiles = relevant.filter((f) => f.startsWith('src/') && fs.existsSync(path.join(root, f)))
 const report = path.join(root, 'node_modules', '.cache', 'harness-vitest.json')
@@ -104,7 +106,7 @@ for (const [label, cmd, args] of steps) {
     )
   if (r.status !== 0) {
     const out = (label.startsWith('Tests') && summariseTests()) || (r.stdout + r.stderr).trim().split('\n').slice(-60).join('\n')
-    block(`${label} is red for the current changes`, out)
+    block(`${label} is red for the current changes`, label === 'Format' ? `${out}\n\nRun npm run format.` : out)
   }
   if (label === 'Token build + contrast' && GENERATED.map((f) => git('diff', 'HEAD', '--', f)).join('') !== before) {
     block(

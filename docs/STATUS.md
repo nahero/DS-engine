@@ -35,7 +35,7 @@ Last updated: 2026-10-16 · harness PR 4 in progress
 
 **Inside the code**
 - Overview visual baselines still show "Awaiting review 128"; the app shows 711. The tests pass (difference is under the 1% tolerance). Refresh: run the `Update screenshots` workflow, download the artifact, commit it to `e2e/visual.spec.ts-snapshots/`.
-- Once (2026-10-14) a component-test run failed to import `src/test/setup.ts` in 12 files ("Unexpected token '}'": a cached Vite dep file cut off part-way). Not reproduced in 12 later runs (cold, stale, concurrent). Agent hook runs now use their own Vite cache; CI always starts cold. Seen again on 2026-10-16 right after `npm install`; the cache metadata showed two deps Vite discovered at runtime (`react/jsx-runtime`, `cn/config`), now pre-bundled (PR 4).
+- Once (2026-10-14) a component-test run failed to import `src/test/setup.ts` in 12 files ("Unexpected token '}'": a cached Vite dep file cut off part-way). Not reproduced in 12 later runs (cold, stale, concurrent). Agent hook runs now use their own Vite cache; CI always starts cold. Seen again on 2026-10-16 right after `npm install`; the cache metadata showed two deps Vite discovered at runtime (`react/jsx-runtime`, `cn/config`), now pre-bundled for the component projects (PR 4). The storybook projects have no explicit pre-bundle list; if the failure shows up there, give them one.
 
 ## Open work, in order
 
