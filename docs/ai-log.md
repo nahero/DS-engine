@@ -103,3 +103,15 @@ Notable things AI got wrong, how they were caught, and the fix.
 - **How it was caught:** The agent's report listed both as spec gaps.
 - **Fix:** One generated claim is curated as agent-failed in `claims.ts`; agent-failed claims have no deductible in `claim-detail.ts`, which gives the "Deductible missing" payout and a missing amount in the worklist. A third case surfaced in review: €0.00 payable on claims below the deductible now says "Below deductible".
 - **Lesson:** Mock data is part of the design. Check that every state in the plan is reachable with the data before building the screen.
+
+## The agent's own gates were wrong until an independent reviewer read them
+- **What went wrong:** The first versions of the harness had real holes: the Stop hook passed once the work was committed, it blocked read-only subagents, token validation never checked references inside shadows, and the tokens-only scan stopped reading a line at `//` inside a URL and flagged claim numbers as colours. 27 findings over three PRs.
+- **How it was caught:** The `ui-reviewer` subagent, with fresh context and the diff only, before each PR was opened. The author's own tests had passed.
+- **Fix:** All fixed before merge; the check scripts now have their own tests (a case that must fail and one that must pass per rule).
+- **Lesson:** A gate is code too. Review it with fresh eyes and test that it can fail.
+
+## A cleanup reset discarded uncommitted work
+- **What went wrong:** To remove a probe commit used to test the pre-commit hook, the AI ran `git reset --hard HEAD~1` with uncommitted changes in the tree (`package.json` and the lockfile for the same PR). They were lost.
+- **How it was caught:** `git status` right after showed only the new config file; the AI checked `package.json` and reported it.
+- **Fix:** Reinstalled the two dependencies and re-applied the config. Probes now run only on a clean tree, after the real work is committed.
+- **Lesson:** Commit (or stash) before any experiment that ends in a hard reset.

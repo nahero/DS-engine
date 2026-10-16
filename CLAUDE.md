@@ -10,6 +10,7 @@ Current state, known differences and open work: `docs/STATUS.md`. Read it at the
 ## Commands
 - `npm run dev`: app dev server (base `/DS-engine/`)
 - `npm run build`: typecheck + app build to `dist/`
+- Pre-commit (installed by `npm install`): Prettier, oxlint, tokens-only check, `tsc -b` and token validation + contrast on staged files (`lint-staged.config.js`). Never skip it with `--no-verify`
 - `npm run lint`: oxlint (CI runs `--deny-warnings`)
 - `npm run format` / `format:check`: Prettier (Tailwind classes sorted). The after-edit hook formats each edited file. New dependencies are saved with exact versions (`.npmrc`). For local blame: `git config blame.ignoreRevsFile .git-blame-ignore-revs`
 - `npm run typecheck`: `tsc -b`

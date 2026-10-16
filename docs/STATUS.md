@@ -45,7 +45,7 @@ Last updated: 2026-10-16 · harness PR 4 in progress
    - [x] PR 2: agent hooks, reviewer subagent, skills, CLAUDE.md rules (ADR 0014)
    - [x] PR 3: jsx-a11y lint, tokens-only check, token validation, explicit strict (ADR 0015)
    - [ ] PR 4: Prettier (ADR 0016); pre-bundle fix for the component-test flake
-   - [ ] PR 5: pre-commit · PR 6: visual regression per story · PR 7: CI reporting · PR 8: docs (`docs/harness.md`) and the three demo branches
+   - [ ] PR 5 (in progress): pre-commit · PR 6: visual regression per story · PR 7: CI reporting · PR 8: docs (`docs/harness.md`) and the three demo branches
 2. Igor's review of My assigned (review page: https://claude.ai/artifact/PauGqVydaexSeuU2Gk6Xix). Open question from it: the four counts could be a slimmer strip.
 3. Igor's review of the wording in [how-i-work-with-ai.md](how-i-work-with-ai.md).
 4. Refresh the Overview visual baselines (above).
@@ -64,7 +64,7 @@ Last updated: 2026-10-16 · harness PR 4 in progress
 | Accessibility | Present | addon-a11y set to `error`, axe in component tests and per screen in e2e |
 | Visual regression | Partial | 4 screens × 2 modes; no per-story screenshots, no brand variants |
 | E2E | Present | navigation, claim review, keyboard, My assigned, a11y, visual |
-| Pre-commit | Missing | no lint-staged |
+| Pre-commit | Present | simple-git-hooks + lint-staged on staged files (PR 5) |
 | CI | Present | runs on push and PR; deploy waits for every job; Playwright report and Lighthouse uploaded |
 | Agent harness | Present | hooks (edit → lint/typecheck/token usage, stop → checks + related tests), `ui-reviewer` subagent, protected-test and test-first rules (PR 2) |
 | Skills | Present | own: `new-component`, `write-stories`, `sync-tokens`, `ui-review`, `a11y-audit` (`.claude/skills/`) |
