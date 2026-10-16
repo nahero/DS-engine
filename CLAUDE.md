@@ -11,6 +11,7 @@ Current state, known differences and open work: `docs/STATUS.md`. Read it at the
 - `npm run dev`: app dev server (base `/DS-engine/`)
 - `npm run build`: typecheck + app build to `dist/`
 - `npm run lint`: oxlint (CI runs `--deny-warnings`)
+- `npm run format` / `format:check`: Prettier (Tailwind classes sorted). The after-edit hook formats each edited file
 - `npm run typecheck`: `tsc -b`
 - `npm test`: all Vitest projects. `npm run test:unit`: logic (`src/**/*.test.ts`). `npm run test:components`: feature components and screens (`*.browser.test.tsx`, Chromium, light + dark/compact, axe). `npm run test:stories`: every story in Chromium (axe), light + dark/compact
 - `npm run e2e`: Playwright against the built app: flows, routing, keyboard, axe per screen, visual regression (Linux baselines; `update-screenshots` workflow regenerates them)
