@@ -21,3 +21,4 @@ Short records of decisions that shaped the system: context, what was decided, wh
 | [0015](0015-static-checks-and-token-validation.md) | Accessibility lint, tokens-only check and DTCG token validation | 2026-10-16 |
 | [0016](0016-prettier.md) | Prettier formats the code; Tailwind classes are sorted | 2026-10-16 |
 | [0017](0017-pre-commit.md) | Pre-commit checks on staged files (simple-git-hooks + lint-staged) | 2026-10-16 |
+| [0018](0018-visual-regression-per-component.md) | Visual regression per component (first story, Purple light and dark) on the built Storybook | 2026-10-17 |

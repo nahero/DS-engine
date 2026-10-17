@@ -98,7 +98,7 @@ Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.y
 | Story coverage | Every component has stories |
 | Test coverage | Every feature component and screen has component tests |
 | Unit, story and component tests | All of the above, in Chromium |
-| End-to-end + visual | Playwright against the production build |
+| End-to-end + visual | Playwright against the production build; screen baselines (4 screens × light/comfortable, dark/compact) and per-component baselines (first story of 57 components × Purple light/dark) |
 | Bundle budget | First-load JS ≤ 145 kB gzip, and the chart library must stay out of it |
 | Lighthouse | 3 screens × mobile/desktop: accessibility = 1, best practices ≥ 0.95, layout shift ≤ 0.1; desktop performance ≥ 0.9; mobile LCP ≤ 4 s and blocking time ≤ 600 ms (the mobile score itself is reported, not gated) |
 
