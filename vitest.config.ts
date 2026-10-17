@@ -77,7 +77,7 @@ export default mergeConfig(
             name: 'unit',
             environment: 'node',
             // The gate scripts are tested too: a check that can't fail is worse than none.
-            include: ['src/**/*.test.ts', 'scripts/**/*.test.js'],
+            include: ['src/**/*.test.ts', 'scripts/**/*.test.js', '.claude/hooks/**/*.test.mjs'],
           },
         },
         storybookProject('storybook', 'light-comfortable'),
