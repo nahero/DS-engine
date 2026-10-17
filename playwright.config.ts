@@ -49,7 +49,7 @@ export default defineConfig({
       command: `test -d storybook-static || npm run build-storybook -- --quiet --disable-telemetry; npx vite preview --outDir storybook-static --base / --port ${STORYBOOK_PORT} --strictPort`,
       url: `http://localhost:${STORYBOOK_PORT}/iframe.html`,
       reuseExistingServer: !CI,
-      timeout: 60_000,
+      timeout: 180_000,
     },
   ],
 })

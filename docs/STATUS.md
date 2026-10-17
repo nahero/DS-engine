@@ -44,8 +44,8 @@ Last updated: 2026-10-17 · harness PR 6 in progress
    - [x] PR 1: deterministic tests (not reproducible; separate Vite cache for hook runs, see above)
    - [x] PR 2: agent hooks, reviewer subagent, skills, CLAUDE.md rules (ADR 0014)
    - [x] PR 3: jsx-a11y lint, tokens-only check, token validation, explicit strict (ADR 0015)
-   - [ ] PR 4: Prettier (ADR 0016); pre-bundle fix for the component-test flake
-   - [ ] PR 5: pre-commit (ADR 0017)
+   - [x] PR 4: Prettier (ADR 0016); pre-bundle fix for the component-test flake
+   - [x] PR 5: pre-commit (ADR 0017)
    - [ ] PR 6: visual regression per component (ADR 0018), in progress
    - [ ] PR 7: CI reporting · PR 8: docs (`docs/harness.md`) and the three demo branches
 2. Igor's review of My assigned (review page: https://claude.ai/artifact/PauGqVydaexSeuU2Gk6Xix). Open question from it: the four counts could be a slimmer strip.
@@ -64,7 +64,7 @@ Last updated: 2026-10-17 · harness PR 6 in progress
 | Tokens | Present | DTCG validation (PR 3), Style Dictionary build, contrast check, drift check |
 | Unit / component / stories | Present | `DisplayMenu` and `AppShell` have only 2 stories each |
 | Accessibility | Present | addon-a11y set to `error`, axe in component tests and per screen in e2e |
-| Visual regression | Present | 4 screens × 2 modes, plus the first story of 57 components × Purple light/dark (PR 6) |
+| Visual regression | Present | 4 screens × 2 modes, plus the first story of 56 components and the Tokens page × Purple light/dark (PR 6) |
 | E2E | Present | navigation, claim review, keyboard, My assigned, a11y, visual |
 | Pre-commit | Present | simple-git-hooks + lint-staged on staged files (PR 5) |
 | CI | Present | runs on push and PR; deploy waits for every job; Playwright report and Lighthouse uploaded |

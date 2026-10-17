@@ -23,6 +23,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build-storybook -- --quiet --disable-telemetry
       - run: npx playwright test e2e/visual.spec.ts e2e/stories.visual.spec.ts --update-snapshots=all
+      - name: Both baseline folders are filled
+        run: test -n "$(ls e2e/visual.spec.ts-snapshots)" && test -n "$(ls e2e/stories.visual.spec.ts-snapshots)"
       - uses: actions/upload-artifact@v4
         with:
           name: visual-baselines
