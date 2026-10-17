@@ -20,3 +20,4 @@ Short records of decisions that shaped the system: context, what was decided, wh
 | [0014](0014-checks-decide-done.md) | Checks decide when work is done: agent hooks, reviewer subagent, PRs with branch protection | 2026-10-16 |
 | [0015](0015-static-checks-and-token-validation.md) | Accessibility lint, tokens-only check and DTCG token validation | 2026-10-16 |
 | [0016](0016-prettier.md) | Prettier formats the code; Tailwind classes are sorted | 2026-10-16 |
+| [0017](0017-pre-commit.md) | Pre-commit checks on staged files (simple-git-hooks + lint-staged) | 2026-10-16 |
