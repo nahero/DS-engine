@@ -55,6 +55,7 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   } catch (error) {
     console.log(`ci-summary: GATES is not valid JSON (${error.message}); no table written.`)
   }
+  if (!gates.length) process.exit(0)
   const md = summarise(process.env.TITLE ?? 'Gates', gates, (p) => (fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : null))
   if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, md + '\n')
   else console.log(md)
