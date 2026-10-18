@@ -115,3 +115,9 @@ Notable things AI got wrong, how they were caught, and the fix.
 - **How it was caught:** `git status` right after showed only the new config file; the AI checked `package.json` and reported it.
 - **Fix:** Reinstalled the two dependencies and re-applied the config. Probes now run only on a clean tree, after the real work is committed.
 - **Lesson:** Commit (or stash) before any experiment that ends in a hard reset.
+
+## A flaky-test fix was presented as more certain than it was
+- **What went wrong:** The intermittent "Failed to import src/test/setup.ts" failure came back after two fixes: a separate Vite cache for hook runs, then pre-bundling two dependencies the cache metadata showed as discovered at runtime. The AI had called the second "evidence-based" after three green cold runs, but cold runs had never failed in the first place.
+- **How it was caught:** The agent's own Stop gate failed on it (13 files, 0 failing tests) and refused to let the turn end.
+- **Fix:** The pattern across all three occurrences is a reused cache after a dependency or config change; empty-cache runs never failed. The gate now starts from an empty cache every time (no extra cost). The root cause in Vite/Vitest is recorded as open in STATUS.
+- **Lesson:** Verify a flake fix under the conditions that produced the flake, not the ones that never did. Say "not reproduced" instead of "fixed" until then.

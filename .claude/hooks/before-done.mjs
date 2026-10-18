@@ -56,8 +56,11 @@ if (removedTests.length || switchedOff.length) {
 }
 
 const bin = (name) => path.join(root, 'node_modules', '.bin', name)
-// Own Vite cache, so a hook run never writes the same optimised deps as a test run started by hand.
+// Own Vite cache, started empty every time. Every "Failed to import src/test/setup.ts" seen so far came from a run that
+// reused a cache after dependencies or config changed; empty-cache runs (all of CI, every cold local run) never failed,
+// and a cold run costs the same ~60 s. A gate must not be flaky.
 const env = { ...process.env, HARNESS: '1' }
+fs.rmSync(path.join(root, 'node_modules', '.vite-harness'), { recursive: true, force: true })
 const steps = [
   ['Format', bin('prettier'), ['--check', '--log-level', 'warn', '.']],
   ['Lint', bin('oxlint'), ['--deny-warnings', '--report-unused-disable-directives']],

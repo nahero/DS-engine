@@ -34,7 +34,7 @@ Last updated: 2026-10-18 · harness PR 7 in progress
 - Text properties on DS component sets hold one default for the whole set, so the variant gallery shows the same text in every variant; instances override it.
 
 **Inside the code**
-- Once (2026-10-14) a component-test run failed to import `src/test/setup.ts` in 12 files ("Unexpected token '}'": a cached Vite dep file cut off part-way). Not reproduced in 12 later runs (cold, stale, concurrent). Agent hook runs now use their own Vite cache; CI always starts cold. Seen again on 2026-10-16 right after `npm install`; the cache metadata showed two deps Vite discovered at runtime (`react/jsx-runtime`, `cn/config`), now pre-bundled for the component projects (PR 4). The storybook projects have no explicit pre-bundle list; if the failure shows up there, give them one.
+- Intermittent: a component-test run sometimes fails to import `src/test/setup.ts` in 12–13 files ("Unexpected token '}'" from a half-written Vite dep file); seen 2026-10-14, 10-16 and 10-18. Every case reused a Vite cache after dependencies or config changed; empty-cache runs (all of CI, every cold local run) never failed. Pre-bundling two runtime deps (PR 4) did not cure it. The agent's Stop gate now always starts from an empty cache (same ~60 s). Locally, if you see it: `rm -rf node_modules/.vite` and re-run. Root cause in Vite/Vitest still open.
 
 ## Open work, in order
 
