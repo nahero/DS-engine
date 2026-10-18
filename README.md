@@ -85,7 +85,7 @@ The component catalogue. **Stories show states; tests check behaviour** ([decisi
 
 ## ✅ Quality gates (CI)
 
-Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.yml)). Pull requests run the same checks.
+Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.yml)). Pull requests run the same checks, and `main` only accepts a pull request whose checks are green. Each run writes a table of the gates, with test counts, to its summary page, and uploads the JUnit reports and the Playwright report (with expected / actual / diff images when a screenshot changes).
 
 | Gate | What it enforces |
 |---|---|

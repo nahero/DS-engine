@@ -2,7 +2,7 @@
 
 The current state of DS-Engine: what is built, what is in sync, the known differences and the open work. Read this first when picking the project up on another machine. Update it when work lands.
 
-Last updated: 2026-10-17 · harness PR 6 in progress
+Last updated: 2026-10-18 · harness PR 7 in progress
 
 ## Built and live
 
@@ -45,8 +45,9 @@ Last updated: 2026-10-17 · harness PR 6 in progress
    - [x] PR 3: jsx-a11y lint, tokens-only check, token validation, explicit strict (ADR 0015)
    - [x] PR 4: Prettier (ADR 0016); pre-bundle fix for the component-test flake
    - [x] PR 5: pre-commit (ADR 0017)
-   - [ ] PR 6: visual regression per component (ADR 0018), in progress
-   - [ ] PR 7: CI reporting · PR 8: docs (`docs/harness.md`) and the three demo branches
+   - [x] PR 6: visual regression per component (ADR 0018)
+   - [ ] PR 7: CI reporting (job summary table, JUnit and Playwright reports), in progress
+   - [ ] PR 8: docs (`docs/harness.md`) and the three demo branches
 2. Igor's review of My assigned (review page: https://claude.ai/artifact/PauGqVydaexSeuU2Gk6Xix). Open question from it: the four counts could be a slimmer strip.
 3. Igor's review of the wording in [how-i-work-with-ai.md](how-i-work-with-ai.md).
 4. CHANGELOG and a contribution guide.
@@ -65,7 +66,7 @@ Last updated: 2026-10-17 · harness PR 6 in progress
 | Visual regression | Present | 4 screens × 2 modes, plus the first story of 56 components and the Tokens page × Purple light/dark (PR 6) |
 | E2E | Present | navigation, claim review, keyboard, My assigned, a11y, visual |
 | Pre-commit | Present | simple-git-hooks + lint-staged on staged files (PR 5) |
-| CI | Present | runs on push and PR; deploy waits for every job; Playwright report and Lighthouse uploaded |
+| CI | Present | runs on push and PR; deploy waits for every job; ruleset on `main`; gate table in the job summary; JUnit, Playwright and Lighthouse reports uploaded (PR 7) |
 | Agent harness | Present | hooks (edit → lint/typecheck/token usage, stop → checks + related tests), `ui-reviewer` subagent, protected-test and test-first rules (PR 2) |
 | Skills | Present | own: `new-component`, `write-stories`, `sync-tokens`, `ui-review`, `a11y-audit` (`.claude/skills/`) |
 

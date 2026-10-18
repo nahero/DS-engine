@@ -42,3 +42,6 @@ blob-report
 playwright/.cache
 .vitest/
 .lighthouseci
+
+# CI reports (JUnit)
+reports/
