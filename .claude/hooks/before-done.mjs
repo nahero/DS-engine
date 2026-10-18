@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process'
 import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
+import { switchesOff } from './protected-tests.mjs'
 
 const input = JSON.parse(fs.readFileSync(0, 'utf8') || '{}')
 // The repo the agent is working in (a worktree has its own), not only where the session started.
@@ -45,7 +46,7 @@ const removedTests = deleted.filter((f) => TESTS.test(f))
 const addedLines = git('diff', base, '--unified=0', '--', 'src', 'e2e', '.storybook', 'playwright.config.ts', 'vitest.config.ts')
   .split('\n')
   .filter((l) => l.startsWith('+') && !l.startsWith('+++'))
-const switchedOff = addedLines.filter((l) => /\b(it|test|describe)\.(skip|only|todo)\b|\bxit\(|test:\s*['"](todo|off)['"]/.test(l))
+const switchedOff = addedLines.filter((l) => switchesOff(l.slice(1)))
 if (removedTests.length || switchedOff.length) {
   block(
     'tests, stories or baselines were removed or switched off',

@@ -76,11 +76,12 @@ The component catalogue. **Stories show states; tests check behaviour** ([decisi
 
 | Layer | Tool | What | Count |
 |---|---|---|---|
-| Unit | Vitest | Domain logic: needs-attention sort, worklist grouping and next actions, payout and authority limit, filters, PII masking, formatting, data invariants | 139 |
+| Unit | Vitest | Domain logic: needs-attention sort, worklist grouping and next actions, payout and authority limit, filters, PII masking, formatting, data invariants; the gate scripts themselves | 173 |
 | Stories | Vitest + `@storybook/addon-vitest`, Chromium | Every story renders, axe-clean, in 2 theme/density modes | 830 |
 | Component | Vitest browser mode + `vitest-browser-react`, Chromium | Feature components and screens: bulk approve rule, filters, keyboard navigation, inline correction, senior approval, refer, citations, PII reveal, period select, worklist filters and follow-ups; axe in 2 modes | 544 |
 | End-to-end | Playwright | Built app: the claim review journey, routing and focus, keyboard-only path, axe on every screen × both brands × light/dark × desktop/mobile, no sideways scroll on mobile | 95 |
 | Visual | Playwright `toHaveScreenshot` | 4 screens × 2 modes, Linux baselines from CI | 8 |
+| Visual, per component | Playwright on the built Storybook | First story of each of the 56 components and the Tokens page × Purple light/dark; fails on a missing or orphaned baseline | 114 |
 
 ## ✅ Quality gates (CI)
 
@@ -98,7 +99,7 @@ Nothing deploys unless every check passes ([workflow](.github/workflows/deploy.y
 | Story coverage | Every component has stories |
 | Test coverage | Every feature component and screen has component tests |
 | Unit, story and component tests | All of the above, in Chromium |
-| End-to-end + visual | Playwright against the production build |
+| End-to-end + visual | Playwright against the production build; screen baselines (4 screens × light/comfortable, dark/compact) and per-component baselines (first story of 56 components and the Tokens page × Purple light/dark) |
 | Bundle budget | First-load JS ≤ 145 kB gzip, and the chart library must stay out of it |
 | Lighthouse | 3 screens × mobile/desktop: accessibility = 1, best practices ≥ 0.95, layout shift ≤ 0.1; desktop performance ≥ 0.9; mobile LCP ≤ 4 s and blocking time ≤ 600 ms (the mobile score itself is reported, not gated) |
 

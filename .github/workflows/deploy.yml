@@ -82,6 +82,8 @@ jobs:
           else
             echo "No baselines in e2e/visual.spec.ts-snapshots; visual regression skipped. Run the Update screenshots workflow."
           fi
+      - name: Build Storybook (the per-component visual tests read its index)
+        run: npm run build-storybook -- --quiet --disable-telemetry
       - run: npx playwright test
       - run: npm run check:bundle
       - run: npm run lighthouse

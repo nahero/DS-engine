@@ -2,7 +2,7 @@
 
 The current state of DS-Engine: what is built, what is in sync, the known differences and the open work. Read this first when picking the project up on another machine. Update it when work lands.
 
-Last updated: 2026-10-16 · harness PR 5 in progress
+Last updated: 2026-10-17 · harness PR 6 in progress
 
 ## Built and live
 
@@ -34,23 +34,23 @@ Last updated: 2026-10-16 · harness PR 5 in progress
 - Text properties on DS component sets hold one default for the whole set, so the variant gallery shows the same text in every variant; instances override it.
 
 **Inside the code**
-- Overview visual baselines still show "Awaiting review 128"; the app shows 711. The tests pass (difference is under the 1% tolerance). Refresh: run the `Update screenshots` workflow, download the artifact, commit it to `e2e/visual.spec.ts-snapshots/`.
 - Once (2026-10-14) a component-test run failed to import `src/test/setup.ts` in 12 files ("Unexpected token '}'": a cached Vite dep file cut off part-way). Not reproduced in 12 later runs (cold, stale, concurrent). Agent hook runs now use their own Vite cache; CI always starts cold. Seen again on 2026-10-16 right after `npm install`; the cache metadata showed two deps Vite discovered at runtime (`react/jsx-runtime`, `cn/config`), now pre-bundled for the component projects (PR 4). The storybook projects have no explicit pre-bundle list; if the failure shows up there, give them one.
 
 ## Open work, in order
 
-1. **Harness upgrade** (goal: checks, not the agent, decide when work is done). One PR per step; Igor's go-ahead between PRs. Decisions (2026-10-16): PRs for harness work with branch protection (admin bypass for small direct pushes), oxlint `jsx-a11y` (no ESLint), Prettier + Tailwind plugin, exact versions for new dependencies only, visual regression on every story in Default/Purple × light/dark (comfortable).
+1. **Harness upgrade** (goal: checks, not the agent, decide when work is done). One PR per step; Igor's go-ahead between PRs. Decisions (2026-10-16/17): PRs for harness work with branch protection (admin bypass for small direct pushes), oxlint `jsx-a11y` (no ESLint), Prettier + Tailwind plugin, exact versions for new dependencies only, visual regression on the first story of each component in Purple light/dark (every story × 4 modes measured at ~50 MB).
    - [x] Step 0: ruleset on `main` (PR + green `checks`, `e2e`, `build`)
    - [x] PR 1: deterministic tests (not reproducible; separate Vite cache for hook runs, see above)
    - [x] PR 2: agent hooks, reviewer subagent, skills, CLAUDE.md rules (ADR 0014)
    - [x] PR 3: jsx-a11y lint, tokens-only check, token validation, explicit strict (ADR 0015)
-   - [ ] PR 4: Prettier (ADR 0016); pre-bundle fix for the component-test flake
-   - [ ] PR 5 (in progress): pre-commit · PR 6: visual regression per story · PR 7: CI reporting · PR 8: docs (`docs/harness.md`) and the three demo branches
+   - [x] PR 4: Prettier (ADR 0016); pre-bundle fix for the component-test flake
+   - [x] PR 5: pre-commit (ADR 0017)
+   - [ ] PR 6: visual regression per component (ADR 0018), in progress
+   - [ ] PR 7: CI reporting · PR 8: docs (`docs/harness.md`) and the three demo branches
 2. Igor's review of My assigned (review page: https://claude.ai/artifact/PauGqVydaexSeuU2Gk6Xix). Open question from it: the four counts could be a slimmer strip.
 3. Igor's review of the wording in [how-i-work-with-ai.md](how-i-work-with-ai.md).
-4. Refresh the Overview visual baselines (above).
-5. CHANGELOG and a contribution guide.
-6. 3-minute walkthrough video.
+4. CHANGELOG and a contribution guide.
+5. 3-minute walkthrough video.
 
 ## Harness audit (Phase 1, 2026-10-14; status updated per PR)
 
@@ -62,7 +62,7 @@ Last updated: 2026-10-16 · harness PR 5 in progress
 | Tokens | Present | DTCG validation (PR 3), Style Dictionary build, contrast check, drift check |
 | Unit / component / stories | Present | `DisplayMenu` and `AppShell` have only 2 stories each |
 | Accessibility | Present | addon-a11y set to `error`, axe in component tests and per screen in e2e |
-| Visual regression | Partial | 4 screens × 2 modes; no per-story screenshots, no brand variants |
+| Visual regression | Present | 4 screens × 2 modes, plus the first story of 56 components and the Tokens page × Purple light/dark (PR 6) |
 | E2E | Present | navigation, claim review, keyboard, My assigned, a11y, visual |
 | Pre-commit | Present | simple-git-hooks + lint-staged on staged files (PR 5) |
 | CI | Present | runs on push and PR; deploy waits for every job; Playwright report and Lighthouse uploaded |
