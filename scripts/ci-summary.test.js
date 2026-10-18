@@ -25,7 +25,7 @@ describe('ci-summary', () => {
     expect(md).toContain('**Blocked:** Unit tests.')
     expect(md).toContain('| Lint | ✅ passed |  |')
     expect(md).toContain('| Unit tests | ❌ failed | 2 passed, 2 failed, 1 skipped |')
-    expect(md).toContain('| Story tests | ⏭️ not run (an earlier gate failed) |  |')
+    expect(md).toContain('| Story tests | ⏭️ not run |  |')
   })
 
   it('does not call a run with gates that never ran a pass', () => {
@@ -38,7 +38,7 @@ describe('ci-summary', () => {
         ],
         () => null,
       ),
-    ).toContain('**Incomplete:** Unit tests did not run.')
+    ).toContain('**Incomplete:** Unit tests did not run')
   })
 
   it('says so when every gate passed, and tolerates a missing report', () => {

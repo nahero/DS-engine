@@ -7,7 +7,7 @@ import { pathToFileURL } from 'node:url'
 const RESULT = {
   success: '✅ passed',
   failure: '❌ failed',
-  skipped: '⏭️ not run (an earlier gate failed)',
+  skipped: '⏭️ not run',
   cancelled: '⏹️ cancelled',
 }
 
@@ -42,13 +42,19 @@ export function summarise(title, gates, read) {
   const verdict = failed.length
     ? `**Blocked:** ${failed.join(', ')}. Nothing deploys until every gate passes.`
     : notRun.length
-      ? `**Incomplete:** ${notRun.join(', ')} did not run.`
+      ? `**Incomplete:** ${notRun.join(', ')} did not run (cancelled, or a setup step failed: see the job log).`
       : '**All gates passed.**'
   return [`### ${title}`, '', verdict, '', '| Gate | Result | Tests |', '|---|---|---|', ...rows, ''].join('\n')
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const gates = JSON.parse(process.env.GATES ?? '[]')
+  // A summary must never turn a green job red: a malformed GATES prints a note instead.
+  let gates = []
+  try {
+    gates = JSON.parse(process.env.GATES ?? '[]')
+  } catch (error) {
+    console.log(`ci-summary: GATES is not valid JSON (${error.message}); no table written.`)
+  }
   const md = summarise(process.env.TITLE ?? 'Gates', gates, (p) => (fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : null))
   if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, md + '\n')
   else console.log(md)

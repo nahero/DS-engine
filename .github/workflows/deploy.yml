@@ -39,7 +39,8 @@ jobs:
       - name: Install system dependencies only (browser cached)
         run: npx playwright install-deps chromium
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-      # Each gate has an id so the job summary can report it. Test gates also write a JUnit report.
+      # Each gate has an id so the job summary can report it. Test gates also write a JUnit report; passing reporters
+      # replaces Vitest's defaults, so github-actions (inline failure annotations) is listed explicitly.
       - id: tokens
         name: Token validation, build and contrast
         run: npm run build:tokens
@@ -57,13 +58,13 @@ jobs:
       - id: story-coverage
         run: npm run check:stories
       - id: unit
-        run: npm run test:unit -- --reporter=default --reporter=junit --outputFile.junit=reports/junit-unit.xml
+        run: npm run test:unit -- --reporter=default --reporter=github-actions --reporter=junit --outputFile.junit=reports/junit-unit.xml
       - id: test-coverage
         run: npm run check:tests
       - id: components
-        run: npm run test:components -- --reporter=default --reporter=junit --outputFile.junit=reports/junit-components.xml
+        run: npm run test:components -- --reporter=default --reporter=github-actions --reporter=junit --outputFile.junit=reports/junit-components.xml
       - id: stories
-        run: npm run test:stories -- --reporter=default --reporter=junit --outputFile.junit=reports/junit-stories.xml
+        run: npm run test:stories -- --reporter=default --reporter=github-actions --reporter=junit --outputFile.junit=reports/junit-stories.xml
       - name: Job summary
         if: always()
         env:
