@@ -39,7 +39,7 @@ Status, confidence, errors and diff highlights always carry text and/or an icon.
 - Durations collapse to 0 under `prefers-reduced-motion` (see `motion.md`). No information conveyed only through animation.
 
 ## Manual checks (per release)
-Automated checks (lint, axe in every story and screen, keyboard e2e) catch roughly a third of real issues. Before a release, a person does two passes on one key flow (default: Claims queue → open a claim → correct a field → send for senior approval), in the Purple brand, light and dark. Record the date, browser and findings in the release notes.
+Automated checks (lint, axe in every story and screen, keyboard e2e) can't judge whether names make sense, reading order feels right or announcements are timely. Before a release, a person does two passes on one key flow (default: Claims queue → open a claim → correct a field → send for senior approval), in the Purple brand, light and dark. Record the date, browser and findings in the release notes.
 
 **Keyboard only** (no mouse or trackpad):
 - [ ] Every control is reachable with Tab / Shift+Tab, in reading order, with a visible focus ring.

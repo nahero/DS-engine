@@ -169,7 +169,7 @@ Four screens, built with shadcn/ui on Radix and 1,000 deliberately messy mock cl
   - [`CLAUDE.md`](CLAUDE.md): always-on hard rules (tokens only, accessibility, data display, docs updates);
   - [`docs/design-system/`](docs/design-system/): knowledge (tokens, components + Figma→code mapping, patterns, accessibility);
   - [`.claude/skills/`](.claude/skills/): repeatable procedures: `new-component`, `write-stories`, `sync-tokens`, `ui-review`, `a11y-audit`.
-- **The harness decides when work is done, not the agent** ([`docs/harness.md`](docs/harness.md)): hooks check every edit and block the agent from finishing while checks are red, a reviewer subagent with fresh context reviews each diff, pre-commit and CI repeat the checks, and `main` only accepts green pull requests.
+- **The harness decides when work is done, not the agent** ([`docs/harness.md`](docs/harness.md)): hooks check every edit and keep the agent from finishing while checks are red, a reviewer subagent with fresh context reviews each diff, pre-commit and CI repeat the checks, and `main` only accepts green pull requests.
 - **[`docs/ai-log.md`](docs/ai-log.md)** records every notable thing the AI got wrong, how it was caught, and the fix. For example: a contrast check that passed tokens used as text, generator output bypassing tokens, and page overflow from screen-reader-only text.
 - Figma work (variables, kit re-pointing, screens, components) is done through the Figma MCP. Figma → code component mapping lives in [`components.md`](docs/design-system/components.md), in place of Code Connect (not available on this plan).
 

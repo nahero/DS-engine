@@ -121,3 +121,9 @@ Notable things AI got wrong, how they were caught, and the fix.
 - **How it was caught:** The agent's own Stop gate failed on it (13 files, 0 failing tests) and refused to let the turn end.
 - **Fix:** The pattern across all three occurrences is a reused cache after a dependency or config change; empty-cache runs never failed. The gate now starts from an empty cache every time (no extra cost). The root cause in Vite/Vitest is recorded as open in STATUS.
 - **Lesson:** Verify a flake fix under the conditions that produced the flake, not the ones that never did. Say "not reproduced" instead of "fixed" until then.
+
+## The gates caught the agent while it built them
+- **What went wrong:** Two mistakes during the harness work. A new script had a lint error (a comma expression in a loop). The first Bash guard matched any command text containing the no-verify flag, so it blocked the agent's own documentation edit that only mentioned the flag.
+- **How it was caught:** The after-edit hook reported the lint error on the edit that introduced it. The guard's false positive surfaced as a blocked command.
+- **Fix:** The script was fixed one edit later. The guard now matches only real git invocations (including inside `bash -c`), with 18 committed cases (`.claude/hooks/guard-bash.test.mjs`).
+- **Lesson:** A guard that blocks too much gets switched off; test the cases it must allow, not only the ones it must block.
