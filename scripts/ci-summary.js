@@ -57,6 +57,7 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   }
   if (!gates.length) process.exit(0)
   const md = summarise(process.env.TITLE ?? 'Gates', gates, (p) => (fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : null))
+  // The summary page needs a signed-in viewer; the log copy is readable by anyone with the run link.
   if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, md + '\n')
-  else console.log(md)
+  console.log(md)
 }
