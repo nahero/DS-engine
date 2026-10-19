@@ -2,7 +2,7 @@
 
 The current state of DS-Engine: what is built, what is in sync, the known differences and the open work. Read this first when picking the project up on another machine. Update it when work lands.
 
-Last updated: 2026-10-18 · harness PR 7 in progress
+Last updated: 2026-10-19 · harness PR 8 in progress
 
 ## Built and live
 
@@ -46,8 +46,8 @@ Last updated: 2026-10-18 · harness PR 7 in progress
    - [x] PR 4: Prettier (ADR 0016); pre-bundle fix for the component-test flake
    - [x] PR 5: pre-commit (ADR 0017)
    - [x] PR 6: visual regression per component (ADR 0018)
-   - [ ] PR 7: CI reporting (job summary table, JUnit and Playwright reports), in progress
-   - [ ] PR 8: docs (`docs/harness.md`) and the three demo branches
+   - [x] PR 7: CI reporting (job summary table, JUnit and Playwright reports); runners pinned to ubuntu-24.04
+   - [ ] PR 8 (in progress): [harness.md](harness.md), manual a11y checklist, demo branches. After it the harness is complete.
 2. Igor's review of My assigned (review page: https://claude.ai/artifact/PauGqVydaexSeuU2Gk6Xix). Open question from it: the four counts could be a slimmer strip.
 3. Igor's review of the wording in [how-i-work-with-ai.md](how-i-work-with-ai.md).
 4. CHANGELOG and a contribution guide.
@@ -62,7 +62,7 @@ Last updated: 2026-10-18 · harness PR 7 in progress
 | Token use | Present | `check:token-usage` blocks arbitrary values, colour literals, literal inline styles (PR 3) |
 | Tokens | Present | DTCG validation (PR 3), Style Dictionary build, contrast check, drift check |
 | Unit / component / stories | Present | `DisplayMenu` and `AppShell` have only 2 stories each |
-| Accessibility | Present | addon-a11y set to `error`, axe in component tests and per screen in e2e |
+| Accessibility | Present | addon-a11y set to `error`, axe in component tests and per screen in e2e; manual keyboard + VoiceOver checklist per release (PR 8) |
 | Visual regression | Present | 4 screens × 2 modes, plus the first story of 56 components and the Tokens page × Purple light/dark (PR 6) |
 | E2E | Present | navigation, claim review, keyboard, My assigned, a11y, visual |
 | Pre-commit | Present | simple-git-hooks + lint-staged on staged files (PR 5) |
