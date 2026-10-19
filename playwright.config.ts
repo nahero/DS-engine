@@ -11,7 +11,11 @@ export default defineConfig({
   forbidOnly: CI,
   retries: CI ? 2 : 0,
   workers: CI ? 2 : undefined,
-  reporter: [['list'], ['html', { open: 'never' }]],
+  // CI also writes JUnit for the job summary (scripts/ci-summary.js). JUnit counts a test that passed on retry as a pass;
+  // flaky tests show in the HTML report.
+  reporter: CI
+    ? [['list'], ['html', { open: 'never' }], ['junit', { outputFile: 'reports/junit-e2e.xml' }]]
+    : [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: `http://localhost:${PORT}/DS-engine/`,
     trace: 'on-first-retry',
